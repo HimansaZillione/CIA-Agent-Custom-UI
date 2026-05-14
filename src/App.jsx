@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { marked } from 'marked'
 import useBotConnection from './hooks/useBotConnection'
 import useContextPanel, { PANEL } from './hooks/useContextPanel'
+
 import ContextPanel from './components/ContextPanel'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -26,6 +27,7 @@ export default function App() {
     else document.documentElement.classList.remove('light-mode')
     localStorage.setItem('theme', theme)
   }, [theme])
+
 
   const openHRM = useCallback(() => {
     window.open('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', '_blank', 'width=1400,height=900')
@@ -194,6 +196,7 @@ export default function App() {
             </button>
           </div>
         </div>
+
       </div>
 
       <ContextPanel panel={panel} onClose={closePanel} onSubmit={submitCard} onCta={send} />
