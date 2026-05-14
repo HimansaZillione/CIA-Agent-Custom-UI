@@ -8,10 +8,16 @@ import AdaptiveCard from './AdaptiveCard'
 function ProductView({ tag, onCta }) {
   const p = products[tag]
   const [src, setSrc] = useState(p?.image)
+
   if (!p) return <div className="ctx-empty">Product not found.</div>
   return (
     <div className="ctx-product">
-      <img src={src} alt={p.label} className="ctx-product-img" onError={() => setSrc(p.imageFallback)} />
+      <img 
+        src={src} 
+        alt={p.label} 
+        className="ctx-product-img" 
+        onError={() => setSrc(p.imageFallback)} 
+      />
       <div className="ctx-product-body">
         <h2 className="ctx-product-name">{p.label}</h2>
         <p className="ctx-product-tagline">{p.tagline}</p>
@@ -108,7 +114,7 @@ export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
         </div>
         <div className="ctx-body">
           {mode === PANEL.PRODUCT && payload?.tag && (
-            <ProductView tag={payload.tag} onCta={onCta} />
+            <ProductView key={payload.tag} tag={payload.tag} onCta={onCta} />
           )}
           {mode === PANEL.FORM && (
             <FormView cardJson={payload?.cardJson} onSubmit={onSubmit} onClose={onClose} />

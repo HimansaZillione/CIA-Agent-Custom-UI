@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react'
 import { DIRECTLINE_SECRET, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
 import { PANEL } from './useContextPanel'
 import escalateCard from '../config/escalateCard'
+import detectProduct from '../utils/detectProduct'
 
 function playSound(type) {
   try {
@@ -151,6 +152,10 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
 
             if (text.trim() || inlineCard) {
               addMsg({ role: 'bot', text, card: inlineCard, suggestedActions: r.suggestedActions ?? null })
+              const tag = detectProduct(text)
+              if (tag) {
+                setTimeout(() => onSignal('SHOW_PRODUCT', { tag }, []), 300)
+              }
             }
 
             if (r.suggestedActions?.actions?.length && !text.trim() && !inlineCard) {
