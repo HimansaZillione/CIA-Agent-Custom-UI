@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { marked } from 'marked'
 import useBotConnection from './hooks/useBotConnection'
 import useContextPanel, { PANEL } from './hooks/useContextPanel'
-import GamesPanel from './components/GamesPanel'
 import ContextPanel from './components/ContextPanel'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -12,13 +11,12 @@ function getTime() {
 }
 
 const SUGGESTED = [
-  'What is the price of a business class flight?',
-  'What is the price of an economy class flight?',
-  'What is the price of a first-class flight?',
-  'When is the best time to book a flight?',
-  'book a ticket',
-  'Show location',
-  'Apply leave',
+  "Custom Business Data Solutions from ZILLIONe?",
+  "SAGE Inventory Control Solutions by ZILLIONe?",
+  "what are zilllione's products?",
+  "Bots and Agents?",
+  "Microsoft 365 for security?",
+  "what are zilllione's services?"
 ]
 
 export default function App() {
@@ -28,8 +26,6 @@ export default function App() {
     else document.documentElement.classList.remove('light-mode')
     localStorage.setItem('theme', theme)
   }, [theme])
-
-  const [gamesVisible, setGamesVisible] = useState(true)
 
   const openHRM = useCallback(() => {
     window.open('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', '_blank', 'width=1400,height=900')
@@ -108,7 +104,7 @@ export default function App() {
       <header>
         <div className="avatar">✦</div>
         <div className="header-text">
-          <h1>AI Assistant</h1>
+          <h1>CIA Agent</h1>
           <div className="status">
             <div className={`status-dot${isConnected ? '' : ' status-dot--off'}`} />
             {isConnected ? 'Online & ready' : 'Connecting…'}
@@ -126,14 +122,15 @@ export default function App() {
 
             {allMessages.length === 0 && (
               <div className="empty-state">
-                <div className="empty-icon">✦</div>
-                <p>How can I help you today?</p>
+                <div className="bot-avatar-large">
+                   <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Bot Avatar" />
+                </div>
+                <p><strong>Hi there!</strong> How can I help you today?</p>
                 <div className="suggested-questions">
                   {SUGGESTED.map(q => (
                     <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
                   ))}
                 </div>
-                <span style={{ marginTop: 4 }}>Play a game on the right while you wait!</span>
               </div>
             )}
 
@@ -197,15 +194,6 @@ export default function App() {
             </button>
           </div>
         </div>
-
-        <button
-          className={`games-toggle${gamesVisible ? ' panel-open' : ''}`}
-          onClick={() => setGamesVisible(v => !v)}
-        >
-          {gamesVisible ? '✕' : '🎮'}
-        </button>
-
-        <GamesPanel visible={gamesVisible} />
       </div>
 
       <ContextPanel panel={panel} onClose={closePanel} onSubmit={submitCard} onCta={send} />
