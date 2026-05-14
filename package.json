@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "adaptivecards": "^3.0.1",
+    "leaflet": "^1.9.4",
     "marked": "^9.1.6",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",

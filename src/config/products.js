@@ -3,17 +3,8 @@
 // Replace imageFallback URLs with your own hosted images, or add local paths to src/assets/products/
 
 const products = {
-  dashboard: {
-    label: 'Analytics Dashboard',
-    tagline: 'Real-time business intelligence',
-    image: '/src/assets/products/dashboard.png',
-    imageFallback: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
-    description: 'Unified KPIs, revenue trends and operational metrics updated in real time with Power BI embedded reporting.',
-    specs: ['Multi-tenant architecture','Power BI embedded','Role-based access control','Mobile responsive','Custom alert thresholds'],
-    cta: 'Request a demo',
-    ctaMsg: 'I would like a demo of the Analytics Dashboard',
-  },
   jabra: {
+    keywords: ['jabra', 'headset', 'speakerphone', 'audio device'],
     label: 'Jabra Device Fleet',
     tagline: 'Enterprise audio for hybrid teams',
     image: '/src/assets/products/jabra.png',
@@ -24,6 +15,7 @@ const products = {
     ctaMsg: 'I would like a quote for Jabra devices',
   },
   cloud: {
+    keywords: ['cloud', 'azure', 'infrastructure', 'hosting'],
     label: 'Cloud Infrastructure',
     tagline: 'Azure-native, built to scale',
     image: '/src/assets/products/cloud.png',
@@ -34,6 +26,7 @@ const products = {
     ctaMsg: 'I would like to speak with a cloud architect',
   },
   cybersecurity: {
+    keywords: ['cybersecurity', 'security', 'cyberark', 'sentinel', 'kaspersky', 'endpoint'],
     label: 'Cybersecurity Services',
     tagline: 'Protect, detect and respond',
     image: '/src/assets/products/cybersecurity.png',
@@ -42,6 +35,17 @@ const products = {
     specs: ['Pen testing & vulnerability assessment','Microsoft Sentinel SIEM','EDR endpoint protection','Security awareness training','IR retainer'],
     cta: 'Book an assessment',
     ctaMsg: 'I would like to book a cybersecurity assessment',
+  },
+  dashboard: {
+    keywords: ['dashboard', 'analytics', 'insight bot', 'power bi'],
+    label: 'Analytics Dashboard',
+    tagline: 'Real-time business intelligence',
+    image: '/src/assets/products/dashboard.png',
+    imageFallback: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
+    description: 'Unified KPIs, revenue trends and operational metrics updated in real time with Power BI embedded reporting.',
+    specs: ['Multi-tenant architecture','Power BI embedded','Role-based access control','Mobile responsive','Custom alert thresholds'],
+    cta: 'Request a demo',
+    ctaMsg: 'I would like a demo of the Analytics Dashboard',
   },
 }
 
