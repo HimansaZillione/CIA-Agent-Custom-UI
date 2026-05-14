@@ -3,6 +3,7 @@ import { DIRECTLINE_SECRET, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_T
 import { PANEL } from './useContextPanel'
 import escalateCard from '../config/escalateCard'
 
+
 function playSound(type) {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)()
@@ -29,22 +30,39 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
   const [isTyping, setIsTyping]       = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
-  const tokenRef        = useRef(null)
-  const convIdRef       = useRef(null)
-  const watermark       = useRef(null)
-  const pollTimer       = useRef(null)
-  const initialised     = useRef(false)
-  // When true, the next incoming adaptive card attachment is swallowed
-  // (it belongs to the sidebar, not the chat)
+  const tokenRef         = useRef(null)
+  const convIdRef        = useRef(null)
+  const watermark        = useRef(null)
+  const pollTimer        = useRef(null)
+  const initialised      = useRef(false)
   const suppressNextCard = useRef(false)
 
+  // ── Transcript accumulator ─────────────────────────────────────────────────
+  // Mirrors Global.ChatTranscript from the old project.
+  // Format: ", User: hello, Agent: Hi how can I help you?"
+  // This is passed to AI Builder via the form submission — same format
+  // the existing AI Builder prompt model already understands.
+  const transcriptRef = useRef('')
+
+  const appendTranscript = useCallback((role, text) => {
+    if (!text?.trim()) return
+    const label = role === 'user' ? 'User' : 'Agent'
+    transcriptRef.current += `, ${label}: ${text.trim()}`
+  }, [])
+
+  // ── Add message to state + transcript ─────────────────────────────────────
   const addMsg = useCallback((msg) => {
+    // Append to running transcript (user and bot messages only, not cards)
+    if (msg.text?.trim()) {
+      appendTranscript(msg.role, msg.text)
+    }
+
     setMessages(prev => [...prev, {
       id: Date.now() + Math.random(),
       ts: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
       ...msg
     }])
-  }, [])
+  }, [appendTranscript])
 
   const stopPoll = useCallback(() => {
     clearInterval(pollTimer.current)
@@ -89,11 +107,12 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
           { headers: { Authorization: `Bearer ${tokenRef.current}` } }
         )).json()
         watermark.current = data.watermark
-        
+        const allActivities = data.activities ?? []
+        console.log('[poll] ALL activities:', JSON.stringify(allActivities, null, 2))
+
         const replies = (data.activities ?? []).filter(
           a => a.type === 'message' && a.from?.id !== 'user'
         )
-        console.log('[poll] replies:', JSON.stringify(replies, null, 2))
 
         if (replies.length > 0) {
           hasReply = true; emptyStreak = 0
@@ -104,44 +123,31 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
             let text = r.text ?? ''
 
             // ── Text signal detection ──────────────────────────────────────
-            if (text.includes('[OPEN_HRM]')) {
-              text = text.replace('[OPEN_HRM]', '').trim()
-              setTimeout(onOpenHRM, 400)
-            }
-            if (text.includes('[OPEN_MAP]')) {
-              text = text.replace('[OPEN_MAP]', '').trim()
-              setTimeout(onOpenMap, 400)
-            }
-            if (text.includes('[OPEN_PURCHASE]')) {
-              text = text.replace('[OPEN_PURCHASE]', '').trim()
-              setTimeout(onOpenPurchase, 400)
-            }
+            if (text.includes('[OPEN_HRM]'))      { text = text.replace('[OPEN_HRM]', '').trim();      setTimeout(onOpenHRM, 400) }
+            if (text.includes('[OPEN_MAP]'))      { text = text.replace('[OPEN_MAP]', '').trim();      setTimeout(onOpenMap, 400) }
+            if (text.includes('[OPEN_PURCHASE]')) { text = text.replace('[OPEN_PURCHASE]', '').trim(); setTimeout(onOpenPurchase, 400) }
 
-            // ── [SHOW_FORM] — open sidebar with local card JSON ────────────
+            // ── [SHOW_FORM] — open sidebar with local card, suppress bot card ──
             if (text.includes('[SHOW_FORM]')) {
               text = text.replace('[SHOW_FORM]', '').trim()
-              suppressNextCard.current = true   // swallow the bot's next card
+              suppressNextCard.current = true
               setTimeout(() => {
                 onSignal(PANEL.FORM, { cardJson: escalateCard }, [])
               }, 400)
-              // If nothing else left to say, skip adding a bubble
               if (!text) return
             }
 
-            // ── channelData sidebar signal (future use) ────────────────────
+            // ── channelData sidebar signal ─────────────────────────────────
             if (r.channelData?.sidebarAction) {
               onSignal(r.channelData.sidebarAction, r.channelData.payload ?? {}, r.attachments)
             }
 
-            // ── Adaptive card handling ─────────────────────────────────────
+            // ── Adaptive card suppression (belongs to sidebar) ─────────────
             const hasCard = r.attachments?.some(
               a => a.contentType === 'application/vnd.microsoft.card.adaptive'
             )
-
-            // If we're suppressing the next card (it belongs to the sidebar)
             if (hasCard && suppressNextCard.current) {
               suppressNextCard.current = false
-              // Only skip if there's no text either
               if (!text.trim()) return
             }
 
@@ -149,13 +155,17 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
               ? (r.attachments?.find(a => a.contentType === 'application/vnd.microsoft.card.adaptive')?.content ?? null)
               : null
 
-            if (text.trim() || inlineCard) {
+            const isFormOnly = r.channelData?.sidebarAction === PANEL.FORM && !text.trim()
+
+            if (!isFormOnly && (text.trim() || inlineCard)) {
               addMsg({ role: 'bot', text, card: inlineCard, suggestedActions: r.suggestedActions ?? null })
             }
 
             if (r.suggestedActions?.actions?.length && !text.trim() && !inlineCard) {
               addMsg({ role: 'bot', text: '', card: null, suggestedActions: r.suggestedActions })
             }
+
+           
           })
 
           document.getElementById('sendBtn')?.removeAttribute('disabled')
@@ -183,15 +193,33 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     } catch (e) { console.error('[bot] send', e); setIsTyping(false) }
   }, [addMsg, startPoll])
 
-  // ── Submit adaptive card (from sidebar) ───────────────────────────────────
+  // ── Submit adaptive card ───────────────────────────────────────────────────
+  // Sends form data + full chat transcript to Copilot Studio.
+  // Topic.ChatTranscript receives the transcript string — replaces
+  // Global.ChatTranscript from the old project. Downstream AI Builder
+  // calls and Power Automate flows work identically.
   const submitCard = useCallback(async (data) => {
     if (!convIdRef.current) return
     setIsTyping(true)
+
+  const payload = {
+      type:  'message',
+      from:  { id: 'user' },
+      value: {
+        actionSubmitId: 'Submit',  // ← hardcode this, Copilot Studio needs it
+        ...data,
+        chatTranscript: transcriptRef.current
+      },
+      text: ''
+    }
+
+    console.log('[submitCard] sending:', JSON.stringify(payload, null, 2))
+
     try {
       await fetch(`${DIRECTLINE_BASE}/conversations/${convIdRef.current}/activities`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${tokenRef.current}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'message', from: { id: 'user' }, value: data, text: '' })
+        body: JSON.stringify(payload)
       })
       startPoll()
     } catch (e) { console.error('[bot] submitCard', e); setIsTyping(false) }
