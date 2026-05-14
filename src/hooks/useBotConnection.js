@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { DIRECTLINE_SECRET, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
 import { PANEL } from './useContextPanel'
+import escalateCard from '../config/escalateCard'
 
 function playSound(type) {
   try {
@@ -28,11 +29,14 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
   const [isTyping, setIsTyping]       = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
-  const tokenRef    = useRef(null)
-  const convIdRef   = useRef(null)
-  const watermark   = useRef(null)
-  const pollTimer   = useRef(null)
-  const initialised = useRef(false)
+  const tokenRef        = useRef(null)
+  const convIdRef       = useRef(null)
+  const watermark       = useRef(null)
+  const pollTimer       = useRef(null)
+  const initialised     = useRef(false)
+  // When true, the next incoming adaptive card attachment is swallowed
+  // (it belongs to the sidebar, not the chat)
+  const suppressNextCard = useRef(false)
 
   const addMsg = useCallback((msg) => {
     setMessages(prev => [...prev, {
@@ -47,6 +51,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     pollTimer.current = null
   }, [])
 
+  // ── Init ──────────────────────────────────────────────────────────────────
   const init = useCallback(async () => {
     if (initialised.current) return
     initialised.current = true
@@ -70,6 +75,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     }
   }, [])
 
+  // ── Poll ──────────────────────────────────────────────────────────────────
   const startPoll = useCallback(() => {
     stopPoll()
     let emptyStreak = 0, hasReply = false
@@ -83,11 +89,11 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
           { headers: { Authorization: `Bearer ${tokenRef.current}` } }
         )).json()
         watermark.current = data.watermark
-        console.log('[poll] activities:', data.activities)
-
+        
         const replies = (data.activities ?? []).filter(
           a => a.type === 'message' && a.from?.id !== 'user'
         )
+        console.log('[poll] replies:', JSON.stringify(replies, null, 2))
 
         if (replies.length > 0) {
           hasReply = true; emptyStreak = 0
@@ -97,25 +103,57 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
           replies.forEach(r => {
             let text = r.text ?? ''
 
-            if (text.includes('[OPEN_HRM]'))      { text = text.replace('[OPEN_HRM]', '').trim();      setTimeout(onOpenHRM, 400) }
-            if (text.includes('[OPEN_MAP]'))      { text = text.replace('[OPEN_MAP]', '').trim();      setTimeout(onOpenMap, 400) }
-            if (text.includes('[OPEN_PURCHASE]')) { text = text.replace('[OPEN_PURCHASE]', '').trim(); setTimeout(onOpenPurchase, 400) }
+            // ── Text signal detection ──────────────────────────────────────
+            if (text.includes('[OPEN_HRM]')) {
+              text = text.replace('[OPEN_HRM]', '').trim()
+              setTimeout(onOpenHRM, 400)
+            }
+            if (text.includes('[OPEN_MAP]')) {
+              text = text.replace('[OPEN_MAP]', '').trim()
+              setTimeout(onOpenMap, 400)
+            }
+            if (text.includes('[OPEN_PURCHASE]')) {
+              text = text.replace('[OPEN_PURCHASE]', '').trim()
+              setTimeout(onOpenPurchase, 400)
+            }
 
+            // ── [SHOW_FORM] — open sidebar with local card JSON ────────────
+            if (text.includes('[SHOW_FORM]')) {
+              text = text.replace('[SHOW_FORM]', '').trim()
+              suppressNextCard.current = true   // swallow the bot's next card
+              setTimeout(() => {
+                onSignal(PANEL.FORM, { cardJson: escalateCard }, [])
+              }, 400)
+              // If nothing else left to say, skip adding a bubble
+              if (!text) return
+            }
+
+            // ── channelData sidebar signal (future use) ────────────────────
             if (r.channelData?.sidebarAction) {
               onSignal(r.channelData.sidebarAction, r.channelData.payload ?? {}, r.attachments)
             }
 
-            const inlineCard = !r.channelData?.sidebarAction
+            // ── Adaptive card handling ─────────────────────────────────────
+            const hasCard = r.attachments?.some(
+              a => a.contentType === 'application/vnd.microsoft.card.adaptive'
+            )
+
+            // If we're suppressing the next card (it belongs to the sidebar)
+            if (hasCard && suppressNextCard.current) {
+              suppressNextCard.current = false
+              // Only skip if there's no text either
+              if (!text.trim()) return
+            }
+
+            const inlineCard = (!r.channelData?.sidebarAction && !suppressNextCard.current)
               ? (r.attachments?.find(a => a.contentType === 'application/vnd.microsoft.card.adaptive')?.content ?? null)
               : null
 
-            const isFormOnly = r.channelData?.sidebarAction === PANEL.FORM && !text.trim()
-
-            if (!isFormOnly && (text.trim() || inlineCard)) {
+            if (text.trim() || inlineCard) {
               addMsg({ role: 'bot', text, card: inlineCard, suggestedActions: r.suggestedActions ?? null })
             }
 
-            if (r.channelData?.sidebarAction && r.suggestedActions?.actions?.length) {
+            if (r.suggestedActions?.actions?.length && !text.trim() && !inlineCard) {
               addMsg({ role: 'bot', text: '', card: null, suggestedActions: r.suggestedActions })
             }
           })
@@ -128,6 +166,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     }, POLL_INTERVAL)
   }, [addMsg, onSignal, onOpenHRM, onOpenMap, onOpenPurchase, stopPoll])
 
+  // ── Send ──────────────────────────────────────────────────────────────────
   const sendMessage = useCallback(async (text) => {
     if (!text.trim() || !convIdRef.current) return
     playSound('send')
@@ -144,6 +183,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     } catch (e) { console.error('[bot] send', e); setIsTyping(false) }
   }, [addMsg, startPoll])
 
+  // ── Submit adaptive card (from sidebar) ───────────────────────────────────
   const submitCard = useCallback(async (data) => {
     if (!convIdRef.current) return
     setIsTyping(true)

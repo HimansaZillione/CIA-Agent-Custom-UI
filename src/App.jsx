@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { marked } from 'marked'
 import useBotConnection from './hooks/useBotConnection'
 import useContextPanel, { PANEL } from './hooks/useContextPanel'
-import GamesPanel from './components/GamesPanel'
+
 import ContextPanel from './components/ContextPanel'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -29,7 +29,7 @@ export default function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  const [gamesVisible, setGamesVisible] = useState(true)
+ 
 
   const openHRM = useCallback(() => {
     window.open('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', '_blank', 'width=1400,height=900')
@@ -198,14 +198,7 @@ export default function App() {
           </div>
         </div>
 
-        <button
-          className={`games-toggle${gamesVisible ? ' panel-open' : ''}`}
-          onClick={() => setGamesVisible(v => !v)}
-        >
-          {gamesVisible ? '✕' : '🎮'}
-        </button>
-
-        <GamesPanel visible={gamesVisible} />
+        
       </div>
 
       <ContextPanel panel={panel} onClose={closePanel} onSubmit={submitCard} onCta={send} />
