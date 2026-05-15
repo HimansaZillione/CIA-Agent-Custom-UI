@@ -131,13 +131,15 @@ export default function ContextPanel({ panel, onClose, onReopen, onSubmit, onCta
             <InfoView content={payload?.content} />
           )}
 
-          <div style={{
-            marginTop: '24px',
-            padding: '16px 24px',
-            borderTop: '1px solid rgba(255,255,255,0.1)'
-          }}>
-            <JabraCatalogue onCta={onCta} />
-          </div>
+          {payload?.tag === 'jabra' && (
+            <div style={{
+              marginTop: '24px',
+              padding: '16px 24px',
+              borderTop: '1px solid rgba(255,255,255,0.1)'
+            }}>
+              <JabraCatalogue onCta={onCta} />
+            </div>
+          )}
         </div>
       </div>
     </>

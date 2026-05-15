@@ -31,24 +31,47 @@ export default function JabraCatalogue({ onCta }) {
         />
         <h3 style={{ margin: 0 }}>{selected.label}</h3>
         <p style={{ margin: 0, opacity: 0.8, fontSize: '14px', lineHeight: '1.5' }}>{selected.description}</p>
-        <button
-          onClick={() => {
-            if (onCta) onCta(`I would like a quote for the Jabra ${selected.label}`)
-          }}
-          style={{
-            marginTop: '8px',
-            padding: '10px 16px',
-            background: '#0078d4',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 600,
-          }}
-        >
-          Get a quote
-        </button>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+          <button
+            onClick={() => {
+              if (onCta) onCta(`Tell me more about the Jabra ${selected.label}`)
+            }}
+            style={{
+              flex: 1,
+              padding: '12px 10px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              color: '#F8FAFC',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 600,
+              transition: 'all 0.2s',
+            }}
+          >
+            View details
+          </button>
+          <button
+            onClick={() => {
+              if (onCta) onCta(`I would like a quote for the Jabra ${selected.label}`)
+            }}
+            style={{
+              flex: 1,
+              padding: '12px 10px',
+              background: 'linear-gradient(135deg, #6366f1, #a855f7)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 600,
+              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+              transition: 'all 0.2s',
+            }}
+          >
+            Get a quote
+          </button>
+        </div>
       </div>
     )
   }
