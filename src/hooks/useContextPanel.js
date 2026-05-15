@@ -19,6 +19,10 @@ export default function useContextPanel() {
     setPanel(p => ({ ...p, open: false }))
   }, [])
 
+  const reopenPanel = useCallback(() => {
+    setPanel(p => ({ ...p, open: true }))
+  }, [])
+
   // Called by useBotConnection when channelData or text signals arrive
   const handleSignal = useCallback((mode, payload, attachments) => {
     if (mode === PANEL.FORM) {
@@ -29,5 +33,5 @@ export default function useContextPanel() {
     }
   }, [openPanel])
 
-  return { panel, openPanel, closePanel, handleSignal }
+  return { panel, openPanel, closePanel, reopenPanel, handleSignal }
 }

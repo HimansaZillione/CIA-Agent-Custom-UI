@@ -3,6 +3,7 @@ import { marked } from 'marked'
 import { PANEL } from '../hooks/useContextPanel'
 import products from '../config/products'
 import AdaptiveCard from './AdaptiveCard'
+import JabraCatalogue from './JabraCatalogue'
 
 // ── Product view ──────────────────────────────────────────────────────────────
 function ProductView({ tag, onCta }) {
@@ -95,7 +96,7 @@ function InfoView({ content }) {
 }
 
 // ── Main panel ────────────────────────────────────────────────────────────────
-export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
+export default function ContextPanel({ panel, onClose, onReopen, onSubmit, onCta }) {
   const { open, mode, payload } = panel
 
   const title = {
@@ -107,6 +108,13 @@ export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
   return (
     <>
       <div className={`ctx-overlay ${open ? 'open' : ''}`} onClick={onClose} />
+      
+      {!open && (
+        <button className="ctx-toggle" onClick={onReopen} aria-label="Open Sidebar">
+          ◀
+        </button>
+      )}
+
       <div className={`ctx-panel ${open ? 'open' : ''}`}>
         <div className="ctx-header">
           <h3>{title}</h3>
@@ -122,6 +130,14 @@ export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
           {mode === PANEL.INFO && (
             <InfoView content={payload?.content} />
           )}
+
+          <div style={{
+            marginTop: '24px',
+            padding: '16px 24px',
+            borderTop: '1px solid rgba(255,255,255,0.1)'
+          }}>
+            <JabraCatalogue onCta={onCta} />
+          </div>
         </div>
       </div>
     </>
