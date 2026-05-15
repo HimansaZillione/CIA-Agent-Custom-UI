@@ -2,6 +2,7 @@ import { SIDEBAR_MODES } from '../hooks/useSidebar'
 import ProductPanel from './ProductPanel'
 import EscalateFormPanel from './EscalateFormPanel'
 import InfoPanel from './InfoPanel'
+import JabraCatalogue from '../components/JabraCatalogue'
 
 export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSuggestion }) {
   const { open, mode, payload } = sidebar
@@ -42,6 +43,14 @@ export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSugge
         {mode === SIDEBAR_MODES.SHOW_INFO && payload && (
           <InfoPanel content={payload.content} />
         )}
+
+        <div style={{
+          marginTop: '24px',
+          paddingTop: '16px',
+          borderTop: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          <JabraCatalogue />
+        </div>
       </div>
     </div>
   )

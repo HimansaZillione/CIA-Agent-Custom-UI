@@ -63,7 +63,7 @@ export default function App() {
     setPfSending(false)
   }
 
-  const { panel, closePanel, handleSignal } = useContextPanel()
+  const { panel, closePanel, reopenPanel, handleSignal } = useContextPanel()
 
   const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
     onSignal:       handleSignal,
@@ -73,6 +73,14 @@ export default function App() {
   })
 
   useEffect(() => { init() }, [init])
+
+  useEffect(() => {
+    if (panel.open) {
+      document.body.classList.add('sidebar-open')
+    } else {
+      document.body.classList.remove('sidebar-open')
+    }
+  }, [panel.open])
 
   const allMessages = [...messages, ...extraMsgs].sort((a, b) => a.id - b.id)
 
@@ -199,7 +207,7 @@ export default function App() {
 
       </div>
 
-      <ContextPanel panel={panel} onClose={closePanel} onSubmit={submitCard} onCta={send} />
+      <ContextPanel panel={panel} onClose={closePanel} onReopen={reopenPanel} onSubmit={submitCard} onCta={send} />
 
       <div className={`map-overlay${mapOpen ? ' open' : ''}`} onClick={closeMap} />
       <div className={`map-panel${mapOpen ? ' open' : ''}`}>

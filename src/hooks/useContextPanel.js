@@ -20,6 +20,11 @@ export default function useContextPanel() {
     setPanel(p => ({ ...p, open: false }))
   }, [])
 
+  const reopenPanel = useCallback(() => {
+    setPanel(p => ({ ...p, open: true }))
+  }, [])
+
+  // Called by useBotConnection when channelData or text signals arrive
   const handleSignal = useCallback((mode, payload, attachments) => {
     if (mode === PANEL.FORM) {
       // Always use the local escalateCard — field IDs match the Copilot Studio
@@ -34,5 +39,7 @@ export default function useContextPanel() {
     openPanel(mode, payload)
   }, [openPanel])
 
+  return { panel, openPanel, closePanel, reopenPanel, handleSignal }
+}
   return { panel, openPanel, closePanel, handleSignal }
 }
