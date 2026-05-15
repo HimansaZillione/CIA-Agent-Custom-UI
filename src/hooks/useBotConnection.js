@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
-import { DIRECTLINE_SECRET, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
+import { TOKEN_URL, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
 import { PANEL } from './useContextPanel'
 import escalateCard from '../config/escalateCard'
 import detectProduct from '../utils/detectProduct'
@@ -75,10 +75,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     if (initialised.current) return
     initialised.current = true
     try {
-      const { token } = await (await fetch(`${DIRECTLINE_BASE}/tokens/generate`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${DIRECTLINE_SECRET}` }
-      })).json()
+      const { token } = await (await fetch(TOKEN_URL)).json()
       tokenRef.current = token
 
       const { conversationId } = await (await fetch(`${DIRECTLINE_BASE}/conversations`, {
