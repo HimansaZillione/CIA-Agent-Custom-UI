@@ -46,12 +46,15 @@ const escalateCard = {
       errorMessage: "Mobile Number is required"
     }
   ],
-  actions: [
-    {
-      type: "Action.Submit",
-      title: "Submit"
-    }
-  ]
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit",
+            "data": {
+            "actionSubmitId": "Submit"
+            }
+        }
+        ]
 }
 
 export default escalateCard
