@@ -15,7 +15,7 @@ const products = {
     ctaMsg: 'I would like a quote for Jabra devices',
   },
   cloud: {
-    keywords: ['cloud', 'azure', 'infrastructure', 'hosting'],
+    keywords: ['cloud', 'azure', 'infrastructure', 'azure cloud', 'cloud infrastructure', 'cloud migration'],
     label: 'Cloud Infrastructure',
     tagline: 'Azure-native, built to scale',
     image: '/src/assets/products/cloud.png',
@@ -26,7 +26,7 @@ const products = {
     ctaMsg: 'I would like to speak with a cloud architect',
   },
   cybersecurity: {
-    keywords: ['cybersecurity', 'security', 'cyberark', 'sentinel', 'kaspersky', 'endpoint'],
+    keywords: ['cybersecurity', 'cyberark', 'sentinel', 'kaspersky', 'endpoint', 'cyber threat', 'siem', 'soar'],
     label: 'Cybersecurity Services',
     tagline: 'Protect, detect and respond',
     image: '/src/assets/products/cybersecurity.png',
@@ -37,7 +37,7 @@ const products = {
     ctaMsg: 'I would like to book a cybersecurity assessment',
   },
   dashboard: {
-    keywords: ['dashboard', 'analytics', 'insight bot', 'power bi'],
+    keywords: ['dashboard', 'insight bot', 'power BI', 'kpi', 'reporting', 'business intelligence'],
     label: 'Analytics Dashboard',
     tagline: 'Real-time business intelligence',
     image: '/src/assets/products/dashboard.png',
@@ -46,6 +46,17 @@ const products = {
     specs: ['Multi-tenant architecture','Power BI embedded','Role-based access control','Mobile responsive','Custom alert thresholds'],
     cta: 'Request a demo',
     ctaMsg: 'I would like a demo of the Analytics Dashboard',
+  },
+  location: {
+    keywords: ['location', 'office', 'address', 'where are you', 'find you', 'visit', 'directions', 'located', 'headquarters', 'colombo', 'find us'],
+    label: 'Our Office',
+    tagline: 'Come visit us in Colombo',
+    description: '2 Marys Road, Galle Road, Colombo 00400, Sri Lanka',
+    image: null,
+    imageFallback: null,
+    specs: [],
+    cta: 'Get Directions',
+    ctaMsg: 'I would like directions to your office',
   },
 }
 
