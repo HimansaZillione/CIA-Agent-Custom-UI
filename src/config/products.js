@@ -51,7 +51,7 @@ const products = {
     keywords: ['location', 'office', 'address', 'where are you', 'find you', 'visit', 'directions', 'located', 'headquarters', 'colombo', 'find us'],
     label: 'Our Office',
     tagline: 'Come visit us in Colombo',
-    description: '2 Marys Road, Galle Road, Colombo 00400, Sri Lanka',
+    description: '2 Mary’s Road, Galle Road, Colombo 04, Sri Lanka',
     image: null,
     imageFallback: null,
     specs: [],
