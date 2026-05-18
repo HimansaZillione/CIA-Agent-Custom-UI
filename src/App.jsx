@@ -65,6 +65,10 @@ export default function App() {
 
   const { panel, closePanel, reopenPanel, handleSignal } = useContextPanel()
 
+  const openEscalation = useCallback(() => {
+    handleSignal(PANEL.FORM, { tag: 'escalate' })
+  }, [handleSignal])
+
   const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
     onSignal:       handleSignal,
     onOpenHRM:      openHRM,
@@ -207,7 +211,14 @@ export default function App() {
 
       </div>
 
-      <ContextPanel panel={panel} onClose={closePanel} onReopen={reopenPanel} onSubmit={submitCard} onCta={send} />
+      <ContextPanel 
+        panel={panel} 
+        onClose={closePanel} 
+        onReopen={reopenPanel} 
+        onOpenForm={openEscalation}
+        onSubmit={submitCard} 
+        onCta={send} 
+      />
 
       <div className={`map-overlay${mapOpen ? ' open' : ''}`} onClick={closeMap} />
       <div className={`map-panel${mapOpen ? ' open' : ''}`}>

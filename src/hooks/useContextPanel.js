@@ -41,5 +41,3 @@ export default function useContextPanel() {
 
   return { panel, openPanel, closePanel, reopenPanel, handleSignal }
 }
-  return { panel, openPanel, closePanel, handleSignal }
-}

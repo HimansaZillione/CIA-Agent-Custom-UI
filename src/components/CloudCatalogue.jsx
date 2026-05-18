@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import jabraProducts from '../config/jabraProducts'
+import cloudProducts from '../config/cloudProducts'
 
-export default function JabraCatalogue({ onCta, onOpenForm }) {
+export default function CloudCatalogue({ onCta, onOpenForm }) {
   const [selected, setSelected] = useState(null)
 
   if (selected) {
@@ -21,12 +21,12 @@ export default function JabraCatalogue({ onCta, onOpenForm }) {
             marginBottom: '4px'
           }}
         >
-          ← Back to all products
+          ← Back to cloud services
         </button>
         <img
           src={selected.image}
           alt={selected.label}
-          style={{ width: '100%', borderRadius: '8px', objectFit: 'contain', maxHeight: '120px' }}
+          style={{ width: '100%', borderRadius: '8px', objectFit: 'cover', maxHeight: '160px' }}
           onError={e => { e.target.style.display = 'none' }}
         />
         <h3 style={{ margin: 0 }}>{selected.label}</h3>
@@ -34,7 +34,7 @@ export default function JabraCatalogue({ onCta, onOpenForm }) {
         <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
           <button
             onClick={() => {
-              if (onCta) onCta(`Tell me more about the Jabra ${selected.label}`)
+              if (onCta) onCta(`Tell me more about ${selected.label}`)
             }}
             style={{
               flex: 1,
@@ -49,7 +49,7 @@ export default function JabraCatalogue({ onCta, onOpenForm }) {
               transition: 'all 0.2s',
             }}
           >
-            View details
+            Details
           </button>
           <button
             onClick={() => {
@@ -78,9 +78,9 @@ export default function JabraCatalogue({ onCta, onOpenForm }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>Jabra Product Catalogue</h3>
+      <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>Cloud Solutions Catalogue</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {jabraProducts.map(product => (
+        {cloudProducts.map(product => (
           <button
             key={product.id}
             onClick={() => setSelected(product)}
@@ -133,7 +133,7 @@ export default function JabraCatalogue({ onCta, onOpenForm }) {
         onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'}
         onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
       >
-        Get a quote for Jabra devices
+        Talk to a cloud architect
       </button>
     </div>
   )
