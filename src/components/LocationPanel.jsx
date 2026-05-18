@@ -10,7 +10,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
-const OFFICE = { lat: 6.8892, lng: 79.8553 }
+const OFFICE = { lat: 6.8815788, lng: 79.8587631 }
 
 export default function LocationPanel() {
   const [userLocation, setUserLocation] = useState(null)
@@ -47,7 +47,7 @@ export default function LocationPanel() {
           ZILLIONe Technologies
         </h3>
         <p style={{ margin: '6px 0', opacity: 0.8, fontSize: '15px', color: 'var(--text-muted)' }}>
-          2 Mary's Road, Galle Road, Colombo 00400, Sri Lanka
+          2 Mary’s Road, Galle Road, Colombo 04, Sri Lanka
         </p>
         {locationError && (
           <p style={{ color: '#fb923c', fontSize: '14px', margin: '8px 0', fontWeight: 500 }}>
@@ -79,8 +79,8 @@ export default function LocationPanel() {
         <Marker position={[OFFICE.lat, OFFICE.lng]}>
           <Popup>
             <strong>ZILLIONe Technologies</strong><br />
-            2 Mary's Road, Galle Road<br />
-            Colombo 00400, Sri Lanka
+            2 Mary’s Road, Galle Road<br />
+            Colombo 04, Sri Lanka
           </Popup>
         </Marker>
         {userLocation && (

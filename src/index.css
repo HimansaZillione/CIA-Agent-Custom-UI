@@ -127,10 +127,40 @@ header {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 .avatar {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: var(--accent); color: #fff;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--surface2); color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+}
+
+.bot-avatar-holographic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: hologram-pulse 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.4));
+}
+
+@keyframes hologram-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6)); }
+}
+
+.avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.2), transparent 70%);
+  border-radius: 50%;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
 }
 .header-text h1 {
   font-family: 'DM Serif Display', serif;
@@ -201,8 +231,19 @@ header {
   flex-shrink: 0; display: flex; align-items: center;
   justify-content: center; font-size: 13px;
 }
-.msg-row.bot .msg-icon  { background: var(--surface2); }
-.msg-row.user .msg-icon { background: var(--user-bg); color: #fff; }
+.msg-row.bot .msg-icon { 
+  background: transparent; 
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.msg-row.bot .msg-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.msg-row.user .msg-icon { background: var(--user-bg); color: #fff; border-radius: 8px; }
 
 .msg-content { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 
@@ -262,15 +303,19 @@ header {
   gap: 12px; color: var(--text-muted);
 }
 .bot-avatar-large img {
-  width: 140px; height: 140px;
+  width: 180px; height: 180px;
   object-fit: contain;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-  animation: floatAvatar 4s ease-in-out infinite;
-  margin-bottom: 10px;
+  filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.4));
+  animation: floatAvatar 4s ease-in-out infinite, pulseOrb 2s ease-in-out infinite alternate;
+  margin-bottom: 20px;
+}
+@keyframes pulseOrb {
+  from { filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3)); }
+  to { filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.6)); }
 }
 @keyframes floatAvatar {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
 }
 .empty-state p { font-size: 15px; color: var(--text); }
 .empty-state p strong { font-weight: 600; margin-right: 4px; }
