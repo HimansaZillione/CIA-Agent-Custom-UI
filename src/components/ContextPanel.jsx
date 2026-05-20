@@ -3,9 +3,15 @@ import { marked } from 'marked'
 import { PANEL } from '../hooks/useContextPanel'
 import products from '../config/products'
 import AdaptiveCard from './AdaptiveCard'
+import JabraCatalogue from './JabraCatalogue'
+import LocationPanel from './LocationPanel'
+import DashboardCatalogue from './DashboardCatalogue'
 
 // ── Product view ──────────────────────────────────────────────────────────────
-function ProductView({ tag, onCta }) {
+function ProductView({ tag, onCta, onOpenForm }) {
+  if (tag === 'location') {
+    return <LocationPanel />
+  }
   const p = products[tag]
   const [src, setSrc] = useState(p?.image)
 
@@ -23,12 +29,20 @@ function ProductView({ tag, onCta }) {
         <p className="ctx-product-tagline">{p.tagline}</p>
         <p className="ctx-product-desc">{p.description}</p>
         <ul className="ctx-product-specs">
-          {p.specs.map((s, i) => (
+          {(p.specs || []).map((s, i) => (
             <li key={i}><span className="ctx-check">✓</span>{s}</li>
           ))}
         </ul>
-        {p.cta && (
-          <button className="ctx-cta-btn" onClick={() => onCta(p.ctaMsg)}>{p.cta}</button>
+
+        {/* CTA Button */}
+        {tag !== 'jabra' && tag !== 'dashboard' && (
+          <button 
+            className="ctx-cta-btn" 
+            onClick={onOpenForm}
+            style={{ width: '100%', marginTop: '20px' }}
+          >
+            {p.cta}
+          </button>
         )}
       </div>
     </div>
@@ -38,24 +52,69 @@ function ProductView({ tag, onCta }) {
 // ── Form view (adaptive card or fallback) ─────────────────────────────────────
 function FormView({ cardJson, onSubmit, onClose }) {
   const [done, setDone] = useState(false)
+  const [formData, setFormData] = useState(null)
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
   const [sending, setSending] = useState(false)
 
   const handleSubmit = async (data) => {
     setSending(true)
+    setFormData(data)
     await onSubmit(data)
     setSending(false)
     setDone(true)
-    setTimeout(onClose, 3000)
   }
 
-  if (done) return (
-    <div className="ctx-done">
-      <div style={{ fontSize: 40 }}>✅</div>
-      <p style={{ fontWeight: 600, color: '#D4AF37', marginTop: 12 }}>Enquiry received!</p>
-      <p style={{ fontSize: 13, color: '#B0B0B0', marginTop: 6 }}>Our team will be in touch shortly.</p>
-    </div>
-  )
+  if (done) {
+    const name = formData?.customerName || formData?.name || 'Customer'
+    const title = formData?.Jobtitle || 'N/A'
+    const company = formData?.companyName || formData?.company || 'N/A'
+    const email = formData?.Email || formData?.email || 'N/A'
+    const mobile = formData?.MobileNumber || 'N/A'
+
+    const waMessage = `Hi, I'm ${name}. I asked to speak with a live agent and provided my contact information for escalation:
+
+- Name: ${name}
+- Title: ${title}
+- Company: ${company}
+- Email: ${email}
+- Mobile: ${mobile}
+
+The AI Agent explained that they had set up an escalation to the WhatsApp option so that I could continue the conversation with a live agent. My query was effectively escalated.`
+    const waUrl = `https://api.whatsapp.com/send?phone=94742561609&text=${encodeURIComponent(waMessage)}`
+
+    return (
+      <div className="ctx-done">
+        <div style={{ fontSize: 40 }}>✅</div>
+        <p style={{ fontWeight: 600, color: '#D4AF37', marginTop: 12 }}>Enquiry received!</p>
+        <p style={{ fontSize: 13, color: '#B0B0B0', marginTop: 6, marginBottom: 20 }}>Our team will be in touch shortly.</p>
+        
+        <a 
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '12px 24px',
+            background: '#25D366',
+            color: 'white',
+            borderRadius: '10px',
+            textDecoration: 'none',
+            fontSize: '14px',
+            fontWeight: 600,
+            boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)',
+            transition: 'transform 0.2s'
+          }}
+          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <span style={{ fontSize: '18px' }}>💬</span>
+          Chat on WhatsApp
+        </a>
+      </div>
+    )
+  }
 
   if (cardJson) return (
     <div className="ctx-form-wrap">
@@ -95,7 +154,7 @@ function InfoView({ content }) {
 }
 
 // ── Main panel ────────────────────────────────────────────────────────────────
-export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
+export default function ContextPanel({ panel, onClose, onReopen, onOpenForm, onSubmit, onCta }) {
   const { open, mode, payload } = panel
 
   const title = {
@@ -107,6 +166,13 @@ export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
   return (
     <>
       <div className={`ctx-overlay ${open ? 'open' : ''}`} onClick={onClose} />
+      
+      {!open && (
+        <button className="ctx-toggle" onClick={onReopen} aria-label="Open Sidebar">
+          ◀
+        </button>
+      )}
+
       <div className={`ctx-panel ${open ? 'open' : ''}`}>
         <div className="ctx-header">
           <h3>{title}</h3>
@@ -114,13 +180,33 @@ export default function ContextPanel({ panel, onClose, onSubmit, onCta }) {
         </div>
         <div className="ctx-body">
           {mode === PANEL.PRODUCT && payload?.tag && (
-            <ProductView key={payload.tag} tag={payload.tag} onCta={onCta} />
+            <ProductView key={payload.tag} tag={payload.tag} onCta={onCta} onOpenForm={onOpenForm} />
           )}
           {mode === PANEL.FORM && (
             <FormView cardJson={payload?.cardJson} onSubmit={onSubmit} onClose={onClose} />
           )}
           {mode === PANEL.INFO && (
             <InfoView content={payload?.content} />
+          )}
+
+          {payload?.tag === 'jabra' && (
+            <div style={{
+              marginTop: '24px',
+              padding: '16px 24px',
+              borderTop: '1px solid rgba(255,255,255,0.1)'
+            }}>
+              <JabraCatalogue onCta={onCta} onOpenForm={onOpenForm} />
+            </div>
+          )}
+
+          {payload?.tag === 'dashboard' && (
+            <div style={{
+              marginTop: '24px',
+              padding: '16px 24px',
+              borderTop: '1px solid rgba(255,255,255,0.1)'
+            }}>
+              <DashboardCatalogue onCta={onCta} onOpenForm={onOpenForm} />
+            </div>
           )}
         </div>
       </div>

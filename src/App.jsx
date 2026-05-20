@@ -4,6 +4,7 @@ import useBotConnection from './hooks/useBotConnection'
 import useContextPanel, { PANEL } from './hooks/useContextPanel'
 
 import ContextPanel from './components/ContextPanel'
+import botAvatar from './assets/bot_avatar.png'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -63,7 +64,11 @@ export default function App() {
     setPfSending(false)
   }
 
-  const { panel, closePanel, handleSignal } = useContextPanel()
+  const { panel, closePanel, reopenPanel, handleSignal } = useContextPanel()
+
+  const openEscalation = useCallback(() => {
+    handleSignal(PANEL.FORM, { tag: 'escalate' })
+  }, [handleSignal])
 
   const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
     onSignal:       handleSignal,
@@ -73,6 +78,14 @@ export default function App() {
   })
 
   useEffect(() => { init() }, [init])
+
+  useEffect(() => {
+    if (panel.open) {
+      document.body.classList.add('sidebar-open')
+    } else {
+      document.body.classList.remove('sidebar-open')
+    }
+  }, [panel.open])
 
   const allMessages = [...messages, ...extraMsgs].sort((a, b) => a.id - b.id)
 
@@ -104,7 +117,9 @@ export default function App() {
   return (
     <>
       <header>
-        <div className="avatar">✦</div>
+        <div className="avatar">
+          <img src={botAvatar} alt="CIA Agent" className="bot-avatar-holographic" />
+        </div>
         <div className="header-text">
           <h1>CIA Agent</h1>
           <div className="status">
@@ -125,7 +140,7 @@ export default function App() {
             {allMessages.length === 0 && (
               <div className="empty-state">
                 <div className="bot-avatar-large">
-                   <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Bot Avatar" />
+                   <img src={botAvatar} alt="Bot Avatar" />
                 </div>
                 <p><strong>Hi there!</strong> How can I help you today?</p>
                 <div className="suggested-questions">
@@ -143,7 +158,7 @@ export default function App() {
                 <div key={msg.id}>
                   {msg.text?.trim() && (
                     <div className={`msg-row ${isBot ? 'bot' : 'user'}`}>
-                      <div className="msg-icon">{isBot ? '✦' : '👤'}</div>
+                      <div className="msg-icon">{isBot ? <img src={botAvatar} alt="Bot" className="bot-avatar-holographic" /> : '👤'}</div>
                       <div className="msg-content">
                         {isBot
                           ? <div className="bubble" dangerouslySetInnerHTML={{ __html: marked.parse(msg.text) }} />
@@ -199,7 +214,14 @@ export default function App() {
 
       </div>
 
-      <ContextPanel panel={panel} onClose={closePanel} onSubmit={submitCard} onCta={send} />
+      <ContextPanel 
+        panel={panel} 
+        onClose={closePanel} 
+        onReopen={reopenPanel} 
+        onOpenForm={openEscalation}
+        onSubmit={submitCard} 
+        onCta={send} 
+      />
 
       <div className={`map-overlay${mapOpen ? ' open' : ''}`} onClick={closeMap} />
       <div className={`map-panel${mapOpen ? ' open' : ''}`}>
