@@ -5,6 +5,9 @@ node_modules/
 .env.local
 .env*.local
 
+api/local.settings.json
+
+
 # Vite build output
 dist/
 dist-ssr/
