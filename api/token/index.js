@@ -6,6 +6,7 @@ const DIRECTLINE_BASE   = 'https://directline.botframework.com/v3/directline'
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:4173',
+  'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net',
   // 'https://your-production-domain.com', ← add before deploying
 ]
 
