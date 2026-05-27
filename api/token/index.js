@@ -7,7 +7,7 @@ const SECRET_NAME      = 'DIRECTLINE-SECRET'
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:4173',
-  'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net',
+  'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net'
 ]
 
 // ── Rate limiter ──────────────────────────────────────────────────────────────
