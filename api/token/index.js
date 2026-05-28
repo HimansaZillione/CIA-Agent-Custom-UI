@@ -1,8 +1,6 @@
 const fetch = require('node-fetch')
 
-const DIRECTLINE_BASE  = 'https://directline.botframework.com/v3/directline'
-const KEY_VAULT_NAME   = 'prod-cia'
-const SECRET_NAME      = 'customer-inquiry-agent-websecurity-secret-1'
+const DIRECTLINE_BASE = 'https://directline.botframework.com/v3/directline'
 
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
@@ -22,35 +20,6 @@ function isRateLimited(ip) {
   if (entry.count >= maxRequests) return true
   entry.count++
   return false
-}
-
-// ── Secret fetcher ────────────────────────────────────────────────────────────
-async function getSecret() {
-  // Local dev fallback
-  if (process.env.DIRECTLINE_SECRET) {
-    return process.env.DIRECTLINE_SECRET
-  }
-
-  // SWA Managed Identity — uses IDENTITY_ENDPOINT, not IMDS
-  const identityEndpoint = process.env.IDENTITY_ENDPOINT
-  const identityHeader   = process.env.IDENTITY_HEADER
-
-  if (!identityEndpoint) throw new Error('IDENTITY_ENDPOINT not set — Managed Identity not configured')
-
-  const tokenRes = await fetch(
-    `${identityEndpoint}?api-version=2019-08-01&resource=https://vault.azure.net`,
-    { headers: { 'X-IDENTITY-HEADER': identityHeader } }
-  )
-  if (!tokenRes.ok) throw new Error(`Managed Identity token fetch failed: ${tokenRes.status}`)
-  const { access_token } = await tokenRes.json()
-
-  const secretRes = await fetch(
-    `https://${KEY_VAULT_NAME}.vault.azure.net/secrets/${SECRET_NAME}?api-version=7.4`,
-    { headers: { Authorization: `Bearer ${access_token}` } }
-  )
-  if (!secretRes.ok) throw new Error(`Key Vault responded with ${secretRes.status}`)
-  const { value } = await secretRes.json()
-  return value
 }
 
 // ── Main handler ──────────────────────────────────────────────────────────────
@@ -78,9 +47,17 @@ module.exports = async function (context, req) {
     return
   }
 
-  try {
-    const secret = await getSecret()
+  const secret = process.env.DIRECTLINE_SECRET
+  if (!secret) {
+    context.res = {
+      status: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: 'DIRECTLINE_SECRET is not configured.' })
+    }
+    return
+  }
 
+  try {
     const response = await fetch(`${DIRECTLINE_BASE}/tokens/generate`, {
       method:  'POST',
       headers: { Authorization: `Bearer ${secret}` }
@@ -100,7 +77,7 @@ module.exports = async function (context, req) {
     context.res = {
       status:  500,
       headers: corsHeaders,
-      body:    JSON.stringify({ error: err.message })
+      body:    JSON.stringify({ error: 'Failed to generate token.' })
     }
   }
 }
