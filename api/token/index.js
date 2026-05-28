@@ -96,7 +96,7 @@ module.exports = async function (context, req) {
     context.res = {
       status:  500,
       headers: corsHeaders,
-      body:    JSON.stringify({ error: 'Failed to generate token.' })
+      body:    JSON.stringify({ error: err.message })
     }
   }
 }
