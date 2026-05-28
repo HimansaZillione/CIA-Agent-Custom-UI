@@ -1,137 +1,127 @@
 import { useState } from 'react'
 import cloudProducts from '../config/cloudProducts'
 
+const S = {
+  card: { display:'flex', alignItems:'center', gap:'14px', padding:'11px 14px', background:'rgba(233,30,140,0.04)', border:'1px solid rgba(233,30,140,0.1)', borderRadius:'14px', cursor:'pointer', color:'inherit', textAlign:'left', width:'100%', boxSizing:'border-box', transition:'all 0.22s cubic-bezier(0.4,0,0.2,1)' },
+  cta:  { width:'100%', padding:'13px', background:'linear-gradient(135deg,#E91E8C,#9333EA)', border:'none', borderRadius:'12px', color:'#fff', fontSize:'13.5px', fontWeight:600, fontFamily:'Outfit,sans-serif', letterSpacing:'0.02em', cursor:'pointer', boxShadow:'0 6px 20px rgba(233,30,140,0.35)', transition:'transform 0.2s, box-shadow 0.2s' },
+}
+
+function SpecItem({ text }) {
+  return (
+    <div style={{ display:'flex', alignItems:'flex-start', gap:'9px', padding:'8px 11px', background:'rgba(233,30,140,0.04)', border:'1px solid rgba(233,30,140,0.08)', borderRadius:'9px' }}>
+      <span style={{ color:'#4ade80', fontWeight:700, fontSize:'11px', marginTop:'1px', flexShrink:0 }}>✓</span>
+      <span style={{ fontSize:'12.5px', color:'#C8D0DC', lineHeight:1.4 }}>{text}</span>
+    </div>
+  )
+}
+
 export default function CloudCatalogue({ onCta, onOpenForm }) {
   const [selected, setSelected] = useState(null)
+  const [tab, setTab] = useState('overview')
 
   if (selected) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <button
-          onClick={() => setSelected(null)}
-          style={{
-            alignSelf: 'flex-start',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: 'inherit',
-            fontSize: '13px',
-            opacity: 0.7,
-            padding: 0,
-            marginBottom: '4px'
-          }}
-        >
-          ← Back to cloud services
-        </button>
-        <img
-          src={selected.image}
-          alt={selected.label}
-          style={{ width: '100%', borderRadius: '8px', objectFit: 'cover', maxHeight: '160px' }}
-          onError={e => { e.target.style.display = 'none' }}
-        />
-        <h3 style={{ margin: 0 }}>{selected.label}</h3>
-        <p style={{ margin: 0, opacity: 0.8, fontSize: '14px', lineHeight: '1.5' }}>{selected.description}</p>
-        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+      <div style={{ display:'flex', flexDirection:'column' }}>
+        <div style={{ background:'radial-gradient(ellipse at 50% 20%,rgba(233,30,140,0.12),#07071A 72%)', borderBottom:'1px solid rgba(233,30,140,0.08)', padding:'24px 20px', display:'flex', flexDirection:'column', alignItems:'center', gap:'14px', position:'relative' }}>
           <button
-            onClick={() => {
-              if (onCta) onCta(`Tell me more about ${selected.label}`)
-            }}
-            style={{
-              flex: 1,
-              padding: '12px 10px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              color: '#F8FAFC',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '10px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              transition: 'all 0.2s',
-            }}
+            onClick={() => { setSelected(null); setTab('overview') }}
+            style={{ position:'absolute', top:'12px', left:'14px', display:'flex', alignItems:'center', gap:'5px', background:'rgba(233,30,140,0.08)', border:'1px solid rgba(233,30,140,0.18)', borderRadius:'8px', padding:'5px 11px', cursor:'pointer', color:'#E91E8C', fontSize:'11.5px', fontFamily:'DM Sans,sans-serif' }}
           >
-            Details
+            ← Back
           </button>
-          <button
-            onClick={() => {
-              if (onOpenForm) onOpenForm()
-            }}
-            style={{
-              flex: 1,
-              padding: '12px 10px',
-              background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '10px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(233, 30, 140, 0.35)',
-              transition: 'all 0.2s',
-            }}
-          >
-            Get a quote
-          </button>
+          <img
+            src={selected.image}
+            alt={selected.label}
+            style={{ maxWidth:'100%', maxHeight:'140px', objectFit:'contain' }}
+            onError={e => { e.target.style.display='none' }}
+          />
+          <div style={{ textAlign:'center' }}>
+            <div style={{ display:'inline-flex', alignItems:'center', background:'rgba(0,188,212,0.1)', color:'#00BCD4', border:'1px solid rgba(0,188,212,0.2)', borderRadius:'20px', padding:'3px 10px', fontSize:'10px', fontWeight:600, letterSpacing:'0.05em', textTransform:'uppercase', marginBottom:'6px' }}>
+              Cloud Service
+            </div>
+            <h3 style={{ margin:0, fontFamily:'Outfit,sans-serif', fontSize:'18px', fontWeight:700, color:'#F8FAFC' }}>{selected.label}</h3>
+          </div>
+        </div>
+
+        <div style={{ padding:'14px 18px', display:'flex', flexDirection:'column', gap:'14px' }}>
+          <div style={{ display:'flex', gap:'4px', background:'rgba(255,255,255,0.04)', borderRadius:'10px', padding:'3px' }}>
+            {['overview','specs'].map(t => (
+              <button key={t} onClick={() => setTab(t)} style={{ flex:1, padding:'7px', borderRadius:'7px', border:'none', cursor:'pointer', fontSize:'12px', fontWeight:500, fontFamily:'Outfit,sans-serif', background: tab===t ? '#E91E8C' : 'transparent', color: tab===t ? '#fff' : '#8B9AB4', transition:'all 0.18s' }}>
+                {t.charAt(0).toUpperCase()+t.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'overview' && (
+            <p style={{ margin:0, fontSize:'13.5px', color:'#8B9AB4', lineHeight:1.65 }}>{selected.description}</p>
+          )}
+
+          {tab === 'specs' && (
+            <div style={{ display:'flex', flexDirection:'column', gap:'6px' }}>
+              {(selected.specs || ['Microsoft Gold Partner','24/7 support','99.9% SLA uptime','Multi-region deployment']).map((s,i) => (
+                <SpecItem key={i} text={s} />
+              ))}
+            </div>
+          )}
+
+          <div style={{ display:'flex', gap:'8px' }}>
+            <button
+              onClick={() => onCta?.(`Tell me more about ${selected.label}`)}
+              style={{ flex:1, padding:'11px', background:'rgba(255,255,255,0.04)', color:'#F8FAFC', border:'1px solid rgba(255,255,255,0.1)', borderRadius:'10px', cursor:'pointer', fontSize:'13px', fontWeight:500, fontFamily:'DM Sans,sans-serif', transition:'all 0.2s' }}
+              onMouseOver={e => { e.currentTarget.style.borderColor='rgba(233,30,140,0.35)'; e.currentTarget.style.color='#E91E8C' }}
+              onMouseOut={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.1)'; e.currentTarget.style.color='#F8FAFC' }}
+            >
+              Ask in chat
+            </button>
+            <button
+              onClick={() => onOpenForm?.()}
+              style={{ flex:1, padding:'11px', background:'linear-gradient(135deg,#E91E8C,#9333EA)', color:'#fff', border:'none', borderRadius:'10px', cursor:'pointer', fontSize:'13px', fontWeight:600, fontFamily:'Outfit,sans-serif', boxShadow:'0 4px 14px rgba(233,30,140,0.35)', transition:'all 0.2s' }}
+              onMouseOver={e => e.currentTarget.style.boxShadow='0 6px 20px rgba(233,30,140,0.55)'}
+              onMouseOut={e => e.currentTarget.style.boxShadow='0 4px 14px rgba(233,30,140,0.35)'}
+            >
+              Get a quote
+            </button>
+          </div>
         </div>
       </div>
     )
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-      <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>Cloud Solutions Catalogue</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ display:'flex', flexDirection:'column', gap:'12px', padding:'18px' }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <h3 style={{ margin:0, fontSize:'15px', fontWeight:600, fontFamily:'Outfit,sans-serif', color:'var(--text)' }}>Cloud Solutions</h3>
+        <span style={{ background:'rgba(0,188,212,0.1)', color:'#00BCD4', border:'1px solid rgba(0,188,212,0.2)', borderRadius:'12px', padding:'2px 9px', fontSize:'11px', fontWeight:600 }}>
+          {cloudProducts.length} services
+        </span>
+      </div>
+
+      <div style={{ display:'flex', flexDirection:'column', gap:'7px' }}>
         {cloudProducts.map(product => (
           <button
             key={product.id}
-            onClick={() => setSelected(product)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '10px 12px',
-              background: 'rgba(233,30,140,0.04)',
-              border: '1px solid rgba(233,30,140,0.12)',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              color: 'inherit',
-              textAlign: 'left',
-              width: '100%',
-              boxSizing: 'border-box',
-              transition: 'transform 0.2s, background 0.2s'
-            }}
-            onMouseOver={e => e.currentTarget.style.background = 'rgba(233,30,140,0.08)'}
-            onMouseOut={e => e.currentTarget.style.background = 'rgba(233,30,140,0.04)'}
+            onClick={() => { setSelected(product); setTab('overview') }}
+            style={S.card}
+            onMouseOver={e => { e.currentTarget.style.background='rgba(233,30,140,0.09)'; e.currentTarget.style.borderColor='rgba(233,30,140,0.28)'; e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 6px 20px rgba(0,0,0,0.25)' }}
+            onMouseOut={e => { e.currentTarget.style.background='rgba(233,30,140,0.04)'; e.currentTarget.style.borderColor='rgba(233,30,140,0.1)'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
           >
-            <img
-              src={product.image}
-              alt={product.label}
-              style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', flexShrink: 0 }}
-              onError={e => { e.target.style.display = 'none' }}
-            />
-            <span style={{ fontSize: '14px', fontWeight: 500 }}>{product.label}</span>
+            <div style={{ width:'52px', height:'52px', borderRadius:'10px', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, overflow:'hidden' }}>
+              <img src={product.image} alt={product.label} style={{ width:'42px', height:'42px', objectFit:'contain' }} onError={e => { e.target.style.display='none' }} />
+            </div>
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ fontSize:'13.5px', fontWeight:600, color:'var(--text)', fontFamily:'Outfit,sans-serif', marginBottom:'2px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{product.label}</div>
+              {product.tagline && <div style={{ fontSize:'11.5px', color:'var(--text-muted)', lineHeight:1.35 }}>{product.tagline}</div>}
+            </div>
+            <div style={{ color:'rgba(233,30,140,0.6)', fontSize:'18px', flexShrink:0 }}>›</div>
           </button>
         ))}
       </div>
-      
+
       <button
-        onClick={() => {
-          if (onOpenForm) onOpenForm()
-        }}
-        style={{
-          marginTop: '8px',
-          padding: '12px',
-          background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
-          color: 'white',
-          border: 'none',
-          borderRadius: '12px',
-          cursor: 'pointer',
-          fontSize: '14px',
-          fontWeight: 600,
-          boxShadow: '0 4px 12px rgba(233, 30, 140, 0.35)',
-          transition: 'transform 0.2s'
-        }}
-        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'}
-        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+        onClick={() => onOpenForm?.()}
+        style={S.cta}
+        onMouseOver={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 28px rgba(233,30,140,0.5)' }}
+        onMouseOut={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 6px 20px rgba(233,30,140,0.35)' }}
       >
         Talk to a cloud architect
       </button>

@@ -6,115 +6,109 @@ import L from 'leaflet'
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconUrl:       'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl:     'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
 const OFFICE = { lat: 6.8815788, lng: 79.8587631 }
+
+const INFO = [
+  { icon: '📍', label: 'Address',  value: '2 Mary\'s Road, Galle Road, Colombo 00400, Sri Lanka' },
+  { icon: '🕐', label: 'Hours',    value: 'Mon – Fri, 8:30 AM – 5:30 PM (IST)' },
+  { icon: '📞', label: 'Phone',    value: '+94 11 250 5000' },
+  { icon: '✉️', label: 'Email',    value: 'info@zillione.com' },
+]
 
 export default function LocationPanel() {
   const [userLocation, setUserLocation] = useState(null)
   const [locationError, setLocationError] = useState(null)
 
   useEffect(() => {
-    if (!navigator.geolocation) {
-      setLocationError('Geolocation not supported by your browser')
-      return
-    }
+    if (!navigator.geolocation) { setLocationError('Geolocation not supported'); return }
     navigator.geolocation.getCurrentPosition(
-      (pos) => setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => setLocationError('Location access denied')
+      pos => setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      ()  => setLocationError('Location access denied')
     )
   }, [])
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      gap: '16px', 
-      padding: '24px 28px',
-      boxSizing: 'border-box',
-      width: '100%'
-    }}>
-      <div style={{ marginBottom: '4px' }}>
-        <h3 style={{ 
-          margin: 0, 
-          fontFamily: 'Outfit, sans-serif', 
-          fontSize: '22px', 
-          fontWeight: 600,
-          color: 'var(--text)'
-        }}>
-          ZILLIONe Technologies
-        </h3>
-        <p style={{ margin: '6px 0', opacity: 0.8, fontSize: '15px', color: 'var(--text-muted)' }}>
-          2 Mary’s Road, Galle Road, Colombo 04, Sri Lanka
-        </p>
+    <div style={{ display:'flex', flexDirection:'column', gap:'0' }}>
+
+      <div style={{ padding:'20px 24px', background:'radial-gradient(ellipse at 50% 0%,rgba(233,30,140,0.08),transparent 70%)', borderBottom:'1px solid rgba(233,30,140,0.08)' }}>
+        <div style={{ display:'inline-flex', alignItems:'center', background:'rgba(233,30,140,0.1)', color:'#E91E8C', border:'1px solid rgba(233,30,140,0.2)', borderRadius:'20px', padding:'3px 10px', fontSize:'10px', fontWeight:600, letterSpacing:'0.05em', textTransform:'uppercase', marginBottom:'8px' }}>
+          ZILLIONe HQ
+        </div>
+        <h3 style={{ margin:'0 0 4px', fontFamily:'Outfit,sans-serif', fontSize:'20px', fontWeight:700, color:'#F8FAFC' }}>ZILLIONe Technologies</h3>
+        <p style={{ margin:0, fontSize:'13px', color:'#8B9AB4' }}>Colombo, Sri Lanka</p>
+
         {locationError && (
-          <p style={{ color: '#fb923c', fontSize: '14px', margin: '8px 0', fontWeight: 500 }}>
+          <p style={{ margin:'8px 0 0', color:'#fb923c', fontSize:'12.5px', display:'flex', alignItems:'center', gap:'5px' }}>
             ⚠️ {locationError}
           </p>
         )}
         {userLocation && (
-          <p style={{ color: '#4ade80', fontSize: '14px', margin: '8px 0', fontWeight: 500 }}>
-            📍 Showing your current location
+          <p style={{ margin:'8px 0 0', color:'#4ade80', fontSize:'12.5px', display:'flex', alignItems:'center', gap:'5px' }}>
+            📍 Showing your location
           </p>
         )}
       </div>
 
-      <div style={{ 
-        border: '1px solid var(--border)', 
-        borderRadius: '12px', 
-        overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
-      }}>
-        <MapContainer
-          center={[OFFICE.lat, OFFICE.lng]}
-          zoom={14}
-          style={{ height: '320px', width: '100%' }}
-        >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; OpenStreetMap contributors'
-        />
-        <Marker position={[OFFICE.lat, OFFICE.lng]}>
-          <Popup>
-            <strong>ZILLIONe Technologies</strong><br />
-            2 Mary’s Road, Galle Road<br />
-            Colombo 04, Sri Lanka
-          </Popup>
-        </Marker>
-        {userLocation && (
-          <Circle
-            center={[userLocation.lat, userLocation.lng]}
-            radius={200}
-            pathOptions={{ color: 'var(--accent)', fillColor: 'var(--accent)', fillOpacity: 0.4 }}
-          />
-        )}
-      </MapContainer>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px', padding:'16px 20px' }}>
+        {INFO.map(({ icon, label, value }) => (
+          <div
+            key={label}
+            style={{ padding:'10px 12px', background:'rgba(233,30,140,0.04)', border:'1px solid rgba(233,30,140,0.1)', borderRadius:'12px' }}
+          >
+            <div style={{ fontSize:'16px', marginBottom:'4px' }}>{icon}</div>
+            <div style={{ fontSize:'9.5px', color:'#8B9AB4', textTransform:'uppercase', letterSpacing:'0.07em', fontWeight:600, marginBottom:'3px' }}>{label}</div>
+            <div style={{ fontSize:'11.5px', color:'#C8D0DC', lineHeight:1.4 }}>{value}</div>
+          </div>
+        ))}
       </div>
 
-      <a
-        href={`https://www.google.com/maps/dir/?api=1&destination=${OFFICE.lat},${OFFICE.lng}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: 'block',
-          textAlign: 'center',
-          padding: '14px 16px',
-          background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
-          color: 'white',
-          borderRadius: '12px',
-          textDecoration: 'none',
-          fontSize: '15px',
-          fontWeight: 600,
-          boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)',
-          transition: 'transform 0.2s',
-        }}
-        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'}
-        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        Get Directions in Google Maps
-      </a>
+      <div style={{ margin:'0 20px', borderRadius:'14px', overflow:'hidden', border:'1px solid rgba(233,30,140,0.12)', boxShadow:'0 4px 24px rgba(0,0,0,0.3)' }}>
+        <MapContainer center={[OFFICE.lat, OFFICE.lng]} zoom={14} style={{ height:'260px', width:'100%' }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap contributors' />
+          <Marker position={[OFFICE.lat, OFFICE.lng]}>
+            <Popup>
+              <strong>ZILLIONe Technologies</strong><br />
+              2 Mary's Road, Galle Road<br />
+              Colombo 04, Sri Lanka
+            </Popup>
+          </Marker>
+          {userLocation && (
+            <Circle
+              center={[userLocation.lat, userLocation.lng]}
+              radius={200}
+              pathOptions={{ color:'#E91E8C', fillColor:'#E91E8C', fillOpacity:0.3 }}
+            />
+          )}
+        </MapContainer>
+      </div>
+
+      <div style={{ padding:'16px 20px 22px', display:'flex', flexDirection:'column', gap:'8px' }}>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${OFFICE.lat},${OFFICE.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', padding:'13px', background:'linear-gradient(135deg,#E91E8C,#9333EA)', color:'white', borderRadius:'12px', textDecoration:'none', fontSize:'13.5px', fontWeight:600, fontFamily:'Outfit,sans-serif', boxShadow:'0 6px 20px rgba(233,30,140,0.35)', transition:'transform 0.2s, box-shadow 0.2s', letterSpacing:'0.02em' }}
+          onMouseOver={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 28px rgba(233,30,140,0.5)' }}
+          onMouseOut={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 6px 20px rgba(233,30,140,0.35)' }}
+        >
+          📍 Get Directions in Google Maps
+        </a>
+
+        <a
+          href="https://www.zillione.com/contact"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'11px', background:'transparent', color:'#E91E8C', border:'1px solid rgba(233,30,140,0.3)', borderRadius:'12px', textDecoration:'none', fontSize:'13px', fontWeight:500, fontFamily:'DM Sans,sans-serif', transition:'all 0.2s' }}
+          onMouseOver={e => { e.currentTarget.style.background='rgba(233,30,140,0.08)'; e.currentTarget.style.borderColor='rgba(233,30,140,0.5)' }}
+          onMouseOut={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.borderColor='rgba(233,30,140,0.3)' }}
+        >
+          Contact us online
+        </a>
+      </div>
     </div>
   )
 }
