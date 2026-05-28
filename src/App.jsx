@@ -13,12 +13,16 @@ function getTime() {
 }
 
 const SUGGESTED = [
-  "Custom Business Data Solutions from ZILLIONe?",
-  "SAGE Inventory Control Solutions by ZILLIONe?",
-  "what are zilllione's products?",
-  "Bots and Agents?",
-  "Microsoft 365 for security?",
-  "what are zilllione's services?"
+  "Cybersecurity Solutions",
+  "Power BI Dashboards & Analytics",
+  "Cloud Infrastructure & Azure",
+  "Microsoft Dynamics 365",
+  "SAGE 300 ERP",
+  "AI Bots & Agents",
+  "Microsoft 365 & Collaboration",
+  "Custom Software Development",
+  "Jabra Audio & Video Devices",
+  "Speak with a Human Agent",
 ]
 
 export default function App() {
@@ -143,10 +147,16 @@ export default function App() {
                    <img src={botAvatar} alt="Bot Avatar" />
                 </div>
                 <p><strong>Hi there!</strong> How can I help you today?</p>
-                <div className="suggested-questions">
-                  {SUGGESTED.map(q => (
-                    <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
-                  ))}
+                <div className="suggested-questions" style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: '10px',
+                    width: '100%',
+                    maxWidth: '420px'
+                  }}>
+                    {SUGGESTED.map(q => (
+                      <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
+                    ))}
                 </div>
               </div>
             )}

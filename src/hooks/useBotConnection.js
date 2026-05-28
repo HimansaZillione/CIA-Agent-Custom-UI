@@ -25,6 +25,12 @@ function playSound(type) {
     }
   } catch {}
 }
+function stripCitations(text) {
+  return text
+    .replace(/\[\d+\]: cite:\d+ "[^"]*"\n?/g, '')
+    .replace(/\[(\d+)\]/g, '')
+    .trim()
+}
 
 export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpenPurchase }) {
   const [messages, setMessages]       = useState([])
@@ -118,7 +124,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
           playSound('receive')
 
           replies.forEach(r => {
-            let text = r.text ?? ''
+            let text = stripCitations(r.text ?? '')
 
             // ── Text signal detection ──────────────────────────────────────
             if (text.includes('[OPEN_HRM]'))      { text = text.replace('[OPEN_HRM]', '').trim();      setTimeout(onOpenHRM, 400) }

@@ -321,7 +321,7 @@ header {
 .empty-state p strong { font-weight: 600; margin-right: 4px; }
 .empty-state span { font-size: 12px; opacity: 0.6; }
 
-.suggested-questions {
+/* .suggested-questions {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -329,7 +329,8 @@ header {
   width: 100%;
   max-width: 340px;
   margin-top: 10px;
-}
+} */
+.suggested-questions { gap: 10px; width: 100%; max-width: 420px; }
 .suggested-btn {
   width: 100%;
   padding: 12px 24px;
