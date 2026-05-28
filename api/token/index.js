@@ -1,8 +1,8 @@
 const fetch = require('node-fetch')
 
 const DIRECTLINE_BASE  = 'https://directline.botframework.com/v3/directline'
-const KEY_VAULT_NAME   = 'CIA-Agent-KV'
-const SECRET_NAME      = 'DIRECTLINE-SECRET'
+const KEY_VAULT_NAME   = 'prod-cia'
+const SECRET_NAME      = 'customer-inquiry-agent-websecurity-secret-1'
 
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
