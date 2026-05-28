@@ -65,7 +65,7 @@ export default function CyberSecurityCatalogue({ onCta, onOpenForm }) {
               cursor: 'pointer',
               fontSize: '13px',
               fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+              boxShadow: '0 4px 12px rgba(233, 30, 140, 0.35)',
               transition: 'all 0.2s',
             }}
           >
@@ -89,8 +89,8 @@ export default function CyberSecurityCatalogue({ onCta, onOpenForm }) {
               alignItems: 'center',
               gap: '12px',
               padding: '10px 12px',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(233,30,140,0.04)',
+              border: '1px solid rgba(233,30,140,0.12)',
               borderRadius: '12px',
               cursor: 'pointer',
               color: 'inherit',
@@ -99,8 +99,8 @@ export default function CyberSecurityCatalogue({ onCta, onOpenForm }) {
               boxSizing: 'border-box',
               transition: 'transform 0.2s, background 0.2s'
             }}
-            onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
-            onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+            onMouseOver={e => e.currentTarget.style.background = 'rgba(233,30,140,0.08)'}
+            onMouseOut={e => e.currentTarget.style.background = 'rgba(233,30,140,0.04)'}
           >
             <img
               src={product.image}
@@ -127,7 +127,7 @@ export default function CyberSecurityCatalogue({ onCta, onOpenForm }) {
           cursor: 'pointer',
           fontSize: '14px',
           fontWeight: 600,
-          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+          boxShadow: '0 4px 12px rgba(233, 30, 140, 0.35)',
           transition: 'transform 0.2s'
         }}
         onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'}

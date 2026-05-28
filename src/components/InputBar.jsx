@@ -1,58 +1,63 @@
-import { useState, useRef } from 'react'
+import { marked } from 'marked'
 
-export default function InputBar({ onSend, disabled }) {
-  const [text, setText] = useState('')
-  const textareaRef = useRef(null)
+marked.setOptions({ breaks: true, gfm: true })
 
-  const handleSend = () => {
-    const trimmed = text.trim()
-    if (!trimmed || disabled) return
-    onSend(trimmed)
-    setText('')
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-    }
-  }
+// ZILLIONe brand "Z" avatar for bot messages
+function BotAvatar() {
+  return (
+    <div
+      className="ca-avatar"
+      style={{
+        background: 'linear-gradient(135deg, #E91E8C, #9333EA)',
+        border: 'none',
+        fontSize: '12px',
+        fontFamily: 'Outfit, sans-serif',
+        fontWeight: 700,
+        color: '#fff',
+        letterSpacing: '0.02em',
+        boxShadow: '0 0 10px rgba(233, 30, 140, 0.3)',
+        flexShrink: 0,
+      }}
+    >
+      Z
+    </div>
+  )
+}
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
-    }
-  }
+function UserAvatar() {
+  return (
+    <div
+      className="ca-avatar"
+      style={{
+        background: 'var(--surface2)',
+        border: '1px solid var(--border-sub)',
+        fontSize: '13px',
+        flexShrink: 0,
+      }}
+    >
+      👤
+    </div>
+  )
+}
 
-  const handleInput = (e) => {
-    setText(e.target.value)
-    // Auto-grow
-    e.target.style.height = 'auto'
-    e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'
-  }
+export default function TextBubble({ role, text }) {
+  if (!text?.trim()) return null
+
+  const isBot = role === 'bot'
 
   return (
-    <div className="ca-input-area">
-      <textarea
-        ref={textareaRef}
-        className="ca-input"
-        rows={1}
-        placeholder="Type your message…"
-        value={text}
-        onInput={handleInput}
-        onChange={e => setText(e.target.value)}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-      />
-      <button
-        className="ca-send-btn"
-        onClick={handleSend}
-        disabled={disabled || !text.trim()}
-        aria-label="Send"
+    <div className={`ca-msg-row ${isBot ? 'ca-msg-row--bot' : 'ca-msg-row--user'}`}>
+      {isBot ? <BotAvatar /> : <UserAvatar />}
+
+      <div
+        className={`ca-bubble ${isBot ? 'ca-bubble--bot' : 'ca-bubble--user'}`}
+        {...(isBot
+          ? { dangerouslySetInnerHTML: { __html: marked.parse(text) } }
+          : {}
+        )}
       >
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-          stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-      </button>
+        {!isBot && text}
+      </div>
     </div>
   )
 }

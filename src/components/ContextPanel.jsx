@@ -18,12 +18,15 @@ function ProductView({ tag, onCta, onOpenForm }) {
   if (!p) return <div className="ctx-empty">Product not found.</div>
   return (
     <div className="ctx-product">
-      <img 
-        src={src} 
-        alt={p.label} 
-        className="ctx-product-img" 
-        onError={() => setSrc(p.imageFallback)} 
-      />
+      <div className="ctx-product-hero">
+            <img
+              src={src}
+              alt={p.label}
+              className="ctx-product-img"
+              onError={() => setSrc(p.imageFallback)}
+            />
+            <div className="ctx-product-img-fade" />
+          </div>
       <div className="ctx-product-body">
         <h2 className="ctx-product-name">{p.label}</h2>
         <p className="ctx-product-tagline">{p.tagline}</p>
@@ -161,6 +164,7 @@ export default function ContextPanel({ panel, onClose, onReopen, onOpenForm, onS
     [PANEL.PRODUCT]: '📦 Product Details',
     [PANEL.FORM]:    '📋 Contact Us',
     [PANEL.INFO]:    'ℹ️ More Info',
+    [PANEL.MAP]:     '🗺️ Location Map'
   }[mode] ?? 'Details'
 
   return (

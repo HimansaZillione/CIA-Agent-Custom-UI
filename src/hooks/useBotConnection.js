@@ -128,7 +128,10 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
 
             // ── Text signal detection ──────────────────────────────────────
             if (text.includes('[OPEN_HRM]'))      { text = text.replace('[OPEN_HRM]', '').trim();      setTimeout(onOpenHRM, 400) }
-            if (text.includes('[OPEN_MAP]'))      { text = text.replace('[OPEN_MAP]', '').trim();      setTimeout(onOpenMap, 400) }
+            if (text.includes('[OPEN_MAP]')) {
+                text = text.replace('[OPEN_MAP]', '').trim()
+                setTimeout(() => onSignal('SHOW_PRODUCT', { tag: 'location' }, []), 400)
+              }
             if (text.includes('[OPEN_PURCHASE]')) { text = text.replace('[OPEN_PURCHASE]', '').trim(); setTimeout(onOpenPurchase, 400) }
 
             // ── [SHOW_FORM] — open sidebar with local card, suppress bot card ──

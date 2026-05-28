@@ -15,6 +15,7 @@ export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSugge
           {mode === SIDEBAR_MODES.SHOW_PRODUCT && '📦 Product Details'}
           {mode === SIDEBAR_MODES.SHOW_FORM    && '📋 Contact Us'}
           {mode === SIDEBAR_MODES.SHOW_INFO    && 'ℹ️ More Info'}
+          {mode === SIDEBAR_MODES.SHOW_MAP    && '🗺️ Location Map'}
           {!mode && 'Details'}
         </span>
         <button className="ca-sidebar__close" onClick={onClose} aria-label="Close sidebar">
