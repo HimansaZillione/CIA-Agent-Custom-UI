@@ -7,7 +7,7 @@ const SECRET_NAME      = 'DIRECTLINE-SECRET'
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:4173',
-  'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net'
+  'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net',
 ]
 
 // ── Rate limiter ──────────────────────────────────────────────────────────────
@@ -25,15 +25,13 @@ function isRateLimited(ip) {
 }
 
 // ── Secret fetcher ────────────────────────────────────────────────────────────
-// Local dev: reads from local.settings.json env var directly
-// Production: reads from Key Vault via Managed Identity
 async function getSecret() {
-  // Local dev fallback
+  // Local dev fallback — reads from local.settings.json
   if (process.env.DIRECTLINE_SECRET) {
     return process.env.DIRECTLINE_SECRET
   }
 
-  // Step 1 — get Managed Identity token for Key Vault
+  // Production — Managed Identity fetches from Key Vault
   const tokenRes = await fetch(
     'http://169.254.169.254/metadata/identity/oauth2/token' +
     '?api-version=2018-02-01&resource=https://vault.azure.net',
@@ -42,7 +40,6 @@ async function getSecret() {
   if (!tokenRes.ok) throw new Error('Failed to get Managed Identity token')
   const { access_token } = await tokenRes.json()
 
-  // Step 2 — fetch secret value from Key Vault
   const secretRes = await fetch(
     `https://${KEY_VAULT_NAME}.vault.azure.net/secrets/${SECRET_NAME}?api-version=7.4`,
     { headers: { Authorization: `Bearer ${access_token}` } }
@@ -62,13 +59,11 @@ module.exports = async function (context, req) {
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 
-  // Preflight
   if (req.method === 'OPTIONS') {
     context.res = { status: 204, headers: corsHeaders, body: '' }
     return
   }
 
-  // Rate limit
   const clientIp = req.headers['x-forwarded-for'] || req.headers['client-ip'] || 'unknown'
   if (isRateLimited(clientIp)) {
     context.res = {
