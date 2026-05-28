@@ -26,18 +26,22 @@ function isRateLimited(ip) {
 
 // ── Secret fetcher ────────────────────────────────────────────────────────────
 async function getSecret() {
-  // Local dev fallback — reads from local.settings.json
+  // Local dev fallback
   if (process.env.DIRECTLINE_SECRET) {
     return process.env.DIRECTLINE_SECRET
   }
 
-  // Production — Managed Identity fetches from Key Vault
+  // SWA Managed Identity — uses IDENTITY_ENDPOINT, not IMDS
+  const identityEndpoint = process.env.IDENTITY_ENDPOINT
+  const identityHeader   = process.env.IDENTITY_HEADER
+
+  if (!identityEndpoint) throw new Error('IDENTITY_ENDPOINT not set — Managed Identity not configured')
+
   const tokenRes = await fetch(
-    'http://169.254.169.254/metadata/identity/oauth2/token' +
-    '?api-version=2018-02-01&resource=https://vault.azure.net',
-    { headers: { Metadata: 'true' } }
+    `${identityEndpoint}?api-version=2019-08-01&resource=https://vault.azure.net`,
+    { headers: { 'X-IDENTITY-HEADER': identityHeader } }
   )
-  if (!tokenRes.ok) throw new Error('Failed to get Managed Identity token')
+  if (!tokenRes.ok) throw new Error(`Managed Identity token fetch failed: ${tokenRes.status}`)
   const { access_token } = await tokenRes.json()
 
   const secretRes = await fetch(
