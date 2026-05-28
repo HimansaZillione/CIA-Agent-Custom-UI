@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react'
 import { TOKEN_URL, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
 import { PANEL } from './useContextPanel'
 import escalateCard from '../config/escalateCard'
-import detectProduct from '../utils/detectProduct'
+
 
 
 function playSound(type) {
@@ -156,11 +156,14 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
             const isFormOnly = r.channelData?.sidebarAction === PANEL.FORM && !text.trim()
 
             if (!isFormOnly && (text.trim() || inlineCard)) {
-              addMsg({ role: 'bot', text, card: inlineCard, suggestedActions: r.suggestedActions ?? null })
-              const tag = detectProduct(text)
-              if (tag) {
+              // Detect [SHOW_PRODUCT:tag] signal from Product Sidebar Classifier topic
+              const match = text.match(/\[SHOW_PRODUCT:(\w+)\]/)
+              if (match) {
+                text = text.replace(match[0], '').trim()
+                const tag = match[1]
                 setTimeout(() => onSignal('SHOW_PRODUCT', { tag }, []), 300)
               }
+              addMsg({ role: 'bot', text, card: inlineCard, suggestedActions: r.suggestedActions ?? null })
             }
 
             if (r.suggestedActions?.actions?.length && !text.trim() && !inlineCard) {
