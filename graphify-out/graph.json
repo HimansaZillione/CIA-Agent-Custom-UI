@@ -1,0 +1,3005 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "community": 5,
+      "norm_label": "package.json",
+      "id": "package_json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "community": 5,
+      "norm_label": "name",
+      "id": "cia_agent_custom_ui_package_name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "community": 5,
+      "norm_label": "version",
+      "id": "cia_agent_custom_ui_package_version"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "community": 5,
+      "norm_label": "type",
+      "id": "cia_agent_custom_ui_package_type"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "community": 5,
+      "norm_label": "scripts",
+      "id": "cia_agent_custom_ui_package_scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "community": 5,
+      "norm_label": "dev",
+      "id": "cia_agent_custom_ui_package_scripts_dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "community": 5,
+      "norm_label": "build",
+      "id": "cia_agent_custom_ui_package_scripts_build"
+    },
+    {
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "community": 5,
+      "norm_label": "preview",
+      "id": "cia_agent_custom_ui_package_scripts_preview"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "community": 1,
+      "norm_label": "dependencies",
+      "id": "cia_agent_custom_ui_package_dependencies"
+    },
+    {
+      "label": "leaflet",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "community": 1,
+      "norm_label": "leaflet",
+      "id": "cia_agent_custom_ui_package_dependencies_leaflet"
+    },
+    {
+      "label": "marked",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "community": 1,
+      "norm_label": "marked",
+      "id": "cia_agent_custom_ui_package_dependencies_marked"
+    },
+    {
+      "label": "react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "community": 1,
+      "norm_label": "react",
+      "id": "cia_agent_custom_ui_package_dependencies_react"
+    },
+    {
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "community": 1,
+      "norm_label": "react-dom",
+      "id": "cia_agent_custom_ui_package_dependencies_react_dom"
+    },
+    {
+      "label": "react-leaflet",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "community": 1,
+      "norm_label": "react-leaflet",
+      "id": "cia_agent_custom_ui_package_dependencies_react_leaflet"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "community": 5,
+      "norm_label": "devdependencies",
+      "id": "cia_agent_custom_ui_package_devdependencies"
+    },
+    {
+      "label": "@vitejs/plugin-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "community": 5,
+      "norm_label": "@vitejs/plugin-react",
+      "id": "cia_agent_custom_ui_package_devdependencies_vitejs_plugin_react"
+    },
+    {
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "community": 5,
+      "norm_label": "vite",
+      "id": "cia_agent_custom_ui_package_devdependencies_vite"
+    },
+    {
+      "label": "staticwebapp.config.json",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L1",
+      "community": 3,
+      "norm_label": "staticwebapp.config.json",
+      "id": "staticwebapp_config_json"
+    },
+    {
+      "label": "routes",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L2",
+      "community": 3,
+      "norm_label": "routes",
+      "id": "cia_agent_custom_ui_staticwebapp_config_routes"
+    },
+    {
+      "label": "navigationFallback",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L8",
+      "community": 3,
+      "norm_label": "navigationfallback",
+      "id": "cia_agent_custom_ui_staticwebapp_config_navigationfallback"
+    },
+    {
+      "label": "exclude",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L10",
+      "community": 3,
+      "norm_label": "exclude",
+      "id": "cia_agent_custom_ui_staticwebapp_config_navigationfallback_exclude"
+    },
+    {
+      "label": "responseOverrides",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L12",
+      "community": 3,
+      "norm_label": "responseoverrides",
+      "id": "cia_agent_custom_ui_staticwebapp_config_responseoverrides"
+    },
+    {
+      "label": "404",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L13",
+      "community": 3,
+      "norm_label": "404",
+      "id": "cia_agent_custom_ui_staticwebapp_config_responseoverrides_404"
+    },
+    {
+      "label": "rewrite",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L14",
+      "community": 3,
+      "norm_label": "rewrite",
+      "id": "cia_agent_custom_ui_staticwebapp_config_404_rewrite"
+    },
+    {
+      "label": "globalHeaders",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L17",
+      "community": 3,
+      "norm_label": "globalheaders",
+      "id": "cia_agent_custom_ui_staticwebapp_config_globalheaders"
+    },
+    {
+      "label": "X-Content-Type-Options",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L18",
+      "community": 3,
+      "norm_label": "x-content-type-options",
+      "id": "cia_agent_custom_ui_staticwebapp_config_globalheaders_x_content_type_options"
+    },
+    {
+      "label": "X-XSS-Protection",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L19",
+      "community": 3,
+      "norm_label": "x-xss-protection",
+      "id": "cia_agent_custom_ui_staticwebapp_config_globalheaders_x_xss_protection"
+    },
+    {
+      "label": "Referrer-Policy",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L20",
+      "community": 3,
+      "norm_label": "referrer-policy",
+      "id": "cia_agent_custom_ui_staticwebapp_config_globalheaders_referrer_policy"
+    },
+    {
+      "label": "Content-Security-Policy",
+      "file_type": "code",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L21",
+      "community": 3,
+      "norm_label": "content-security-policy",
+      "id": "cia_agent_custom_ui_staticwebapp_config_globalheaders_content_security_policy"
+    },
+    {
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "community": 18,
+      "norm_label": "vite.config.js",
+      "id": "vite_config_js"
+    },
+    {
+      "label": "host.json",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L1",
+      "community": 9,
+      "norm_label": "host.json",
+      "id": "api_host_json"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L2",
+      "community": 9,
+      "norm_label": "version",
+      "id": "api_host_version"
+    },
+    {
+      "label": "logging",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L3",
+      "community": 9,
+      "norm_label": "logging",
+      "id": "api_host_logging"
+    },
+    {
+      "label": "applicationInsights",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L4",
+      "community": 9,
+      "norm_label": "applicationinsights",
+      "id": "api_host_logging_applicationinsights"
+    },
+    {
+      "label": "samplingSettings",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L5",
+      "community": 9,
+      "norm_label": "samplingsettings",
+      "id": "api_host_applicationinsights_samplingsettings"
+    },
+    {
+      "label": "isEnabled",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L6",
+      "community": 9,
+      "norm_label": "isenabled",
+      "id": "api_host_samplingsettings_isenabled"
+    },
+    {
+      "label": "excludedTypes",
+      "file_type": "code",
+      "source_file": "api/host.json",
+      "source_location": "L7",
+      "community": 9,
+      "norm_label": "excludedtypes",
+      "id": "api_host_samplingsettings_excludedtypes"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L1",
+      "community": 4,
+      "norm_label": "package.json",
+      "id": "api_package_json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L2",
+      "community": 4,
+      "norm_label": "name",
+      "id": "api_package_name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L3",
+      "community": 4,
+      "norm_label": "version",
+      "id": "api_package_version"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L4",
+      "community": 4,
+      "norm_label": "description",
+      "id": "api_package_description"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L5",
+      "community": 4,
+      "norm_label": "main",
+      "id": "api_package_main"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L6",
+      "community": 4,
+      "norm_label": "scripts",
+      "id": "api_package_scripts"
+    },
+    {
+      "label": "start",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L7",
+      "community": 4,
+      "norm_label": "start",
+      "id": "api_package_scripts_start"
+    },
+    {
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L9",
+      "community": 4,
+      "norm_label": "dependencies",
+      "id": "api_package_dependencies"
+    },
+    {
+      "label": "node-fetch",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L10",
+      "community": 4,
+      "norm_label": "node-fetch",
+      "id": "api_package_dependencies_node_fetch"
+    },
+    {
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L12",
+      "community": 4,
+      "norm_label": "engines",
+      "id": "api_package_engines"
+    },
+    {
+      "label": "node",
+      "file_type": "code",
+      "source_file": "api/package.json",
+      "source_location": "L13",
+      "community": 4,
+      "norm_label": "node",
+      "id": "api_package_engines_node"
+    },
+    {
+      "label": "function.json",
+      "file_type": "code",
+      "source_file": "api/token/function.json",
+      "source_location": "L1",
+      "community": 17,
+      "norm_label": "function.json",
+      "id": "api_token_function_json"
+    },
+    {
+      "label": "bindings",
+      "file_type": "code",
+      "source_file": "api/token/function.json",
+      "source_location": "L2",
+      "community": 17,
+      "norm_label": "bindings",
+      "id": "token_function_bindings"
+    },
+    {
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L1",
+      "community": 10,
+      "norm_label": "index.js",
+      "id": "api_token_index_js"
+    },
+    {
+      "label": "fetch",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L1",
+      "community": 10,
+      "norm_label": "fetch",
+      "id": "token_index_fetch"
+    },
+    {
+      "label": "ALLOWED_ORIGINS",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L5",
+      "community": 10,
+      "norm_label": "allowed_origins",
+      "id": "token_index_allowed_origins"
+    },
+    {
+      "label": "rateLimitMap",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L12",
+      "community": 10,
+      "norm_label": "ratelimitmap",
+      "id": "token_index_ratelimitmap"
+    },
+    {
+      "label": "isRateLimited()",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L13",
+      "community": 10,
+      "norm_label": "isratelimited()",
+      "id": "token_index_isratelimited"
+    },
+    {
+      "label": "corsHeaders",
+      "file_type": "code",
+      "source_file": "api/token/index.js",
+      "source_location": "L29",
+      "community": 10,
+      "norm_label": "corsheaders",
+      "id": "token_index_corsheaders"
+    },
+    {
+      "label": "embed.js",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L1",
+      "community": 8,
+      "norm_label": "embed.js",
+      "id": "public_embed_js"
+    },
+    {
+      "label": "BRAND",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L3",
+      "community": 8,
+      "norm_label": "brand",
+      "id": "public_embed_brand"
+    },
+    {
+      "label": "style",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L51",
+      "community": 8,
+      "norm_label": "style",
+      "id": "public_embed_style"
+    },
+    {
+      "label": "overlay",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L55",
+      "community": 8,
+      "norm_label": "overlay",
+      "id": "public_embed_overlay"
+    },
+    {
+      "label": "panel",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L59",
+      "community": 8,
+      "norm_label": "panel",
+      "id": "public_embed_panel"
+    },
+    {
+      "label": "launcher",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L66",
+      "community": 8,
+      "norm_label": "launcher",
+      "id": "public_embed_launcher"
+    },
+    {
+      "label": "open()",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L81",
+      "community": 8,
+      "norm_label": "open()",
+      "id": "public_embed_open"
+    },
+    {
+      "label": "close()",
+      "file_type": "code",
+      "source_file": "public/embed.js",
+      "source_location": "L90",
+      "community": 8,
+      "norm_label": "close()",
+      "id": "public_embed_close"
+    },
+    {
+      "label": "App.jsx",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "app.jsx",
+      "id": "src_app_jsx"
+    },
+    {
+      "label": "getTime()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L11",
+      "community": 0,
+      "norm_label": "gettime()",
+      "id": "src_app_gettime"
+    },
+    {
+      "label": "SUGGESTED",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L15",
+      "community": 0,
+      "norm_label": "suggested",
+      "id": "src_app_suggested"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L28",
+      "community": 0,
+      "norm_label": "app()",
+      "id": "src_app_app"
+    },
+    {
+      "label": "AdaptiveCard.jsx",
+      "file_type": "code",
+      "source_file": "src/components/AdaptiveCard.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "adaptivecard.jsx",
+      "id": "src_components_adaptivecard_jsx"
+    },
+    {
+      "label": "ChatPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ChatPanel.jsx",
+      "source_location": "L1",
+      "community": 12,
+      "norm_label": "chatpanel.jsx",
+      "id": "src_components_chatpanel_jsx"
+    },
+    {
+      "label": "ChatPanel()",
+      "file_type": "code",
+      "source_file": "src/components/ChatPanel.jsx",
+      "source_location": "L4",
+      "community": 12,
+      "norm_label": "chatpanel()",
+      "id": "components_chatpanel_chatpanel"
+    },
+    {
+      "label": "ChatWidget.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "chatwidget.jsx",
+      "id": "src_components_chatwidget_jsx"
+    },
+    {
+      "label": "CloudCatalogue.jsx",
+      "file_type": "code",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L1",
+      "community": 13,
+      "norm_label": "cloudcatalogue.jsx",
+      "id": "src_components_cloudcatalogue_jsx"
+    },
+    {
+      "label": "S",
+      "file_type": "code",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L4",
+      "community": 13,
+      "norm_label": "s",
+      "id": "components_cloudcatalogue_s"
+    },
+    {
+      "label": "SpecItem()",
+      "file_type": "code",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L9",
+      "community": 13,
+      "norm_label": "specitem()",
+      "id": "components_cloudcatalogue_specitem"
+    },
+    {
+      "label": "ContextPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "contextpanel.jsx",
+      "id": "src_components_contextpanel_jsx"
+    },
+    {
+      "label": "ProductView()",
+      "file_type": "code",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L11",
+      "community": 2,
+      "norm_label": "productview()",
+      "id": "components_contextpanel_productview"
+    },
+    {
+      "label": "FormView()",
+      "file_type": "code",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L102",
+      "community": 2,
+      "norm_label": "formview()",
+      "id": "components_contextpanel_formview"
+    },
+    {
+      "label": "InfoView()",
+      "file_type": "code",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L184",
+      "community": 2,
+      "norm_label": "infoview()",
+      "id": "components_contextpanel_infoview"
+    },
+    {
+      "label": "CyberSecurityCatalogue.jsx",
+      "file_type": "code",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L1",
+      "community": 14,
+      "norm_label": "cybersecuritycatalogue.jsx",
+      "id": "src_components_cybersecuritycatalogue_jsx"
+    },
+    {
+      "label": "S",
+      "file_type": "code",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L4",
+      "community": 14,
+      "norm_label": "s",
+      "id": "components_cybersecuritycatalogue_s"
+    },
+    {
+      "label": "SpecItem()",
+      "file_type": "code",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L9",
+      "community": 14,
+      "norm_label": "specitem()",
+      "id": "components_cybersecuritycatalogue_specitem"
+    },
+    {
+      "label": "DashboardCatalogue.jsx",
+      "file_type": "code",
+      "source_file": "src/components/DashboardCatalogue.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "dashboardcatalogue.jsx",
+      "id": "src_components_dashboardcatalogue_jsx"
+    },
+    {
+      "label": "GamesPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/GamesPanel.jsx",
+      "source_location": "L1",
+      "community": 19,
+      "norm_label": "gamespanel.jsx",
+      "id": "src_components_gamespanel_jsx"
+    },
+    {
+      "label": "InputBar.jsx",
+      "file_type": "code",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L1",
+      "community": 12,
+      "norm_label": "inputbar.jsx",
+      "id": "src_components_inputbar_jsx"
+    },
+    {
+      "label": "BotAvatar()",
+      "file_type": "code",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L6",
+      "community": 12,
+      "norm_label": "botavatar()",
+      "id": "components_inputbar_botavatar"
+    },
+    {
+      "label": "UserAvatar()",
+      "file_type": "code",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L27",
+      "community": 12,
+      "norm_label": "useravatar()",
+      "id": "components_inputbar_useravatar"
+    },
+    {
+      "label": "TextBubble()",
+      "file_type": "code",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L43",
+      "community": 12,
+      "norm_label": "textbubble()",
+      "id": "components_inputbar_textbubble"
+    },
+    {
+      "label": "JabraCatalogue.jsx",
+      "file_type": "code",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "jabracatalogue.jsx",
+      "id": "src_components_jabracatalogue_jsx"
+    },
+    {
+      "label": "S",
+      "file_type": "code",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L4",
+      "community": 6,
+      "norm_label": "s",
+      "id": "components_jabracatalogue_s"
+    },
+    {
+      "label": "SpecItem()",
+      "file_type": "code",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L9",
+      "community": 6,
+      "norm_label": "specitem()",
+      "id": "components_jabracatalogue_specitem"
+    },
+    {
+      "label": "LauncherButton.jsx",
+      "file_type": "code",
+      "source_file": "src/components/LauncherButton.jsx",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "launcherbutton.jsx",
+      "id": "src_components_launcherbutton_jsx"
+    },
+    {
+      "label": "LocationPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/LocationPanel.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "locationpanel.jsx",
+      "id": "src_components_locationpanel_jsx"
+    },
+    {
+      "label": "OFFICE",
+      "file_type": "code",
+      "source_file": "src/components/LocationPanel.jsx",
+      "source_location": "L13",
+      "community": 2,
+      "norm_label": "office",
+      "id": "components_locationpanel_office"
+    },
+    {
+      "label": "INFO",
+      "file_type": "code",
+      "source_file": "src/components/LocationPanel.jsx",
+      "source_location": "L15",
+      "community": 2,
+      "norm_label": "info",
+      "id": "components_locationpanel_info"
+    },
+    {
+      "label": "StreamingBubble.jsx",
+      "file_type": "code",
+      "source_file": "src/components/StreamingBubble.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "streamingbubble.jsx",
+      "id": "src_components_streamingbubble_jsx"
+    },
+    {
+      "label": "StreamingBubble()",
+      "file_type": "code",
+      "source_file": "src/components/StreamingBubble.jsx",
+      "source_location": "L6",
+      "community": 1,
+      "norm_label": "streamingbubble()",
+      "id": "components_streamingbubble_streamingbubble"
+    },
+    {
+      "label": "TextBubble.jsx",
+      "file_type": "code",
+      "source_file": "src/components/TextBubble.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "textbubble.jsx",
+      "id": "src_components_textbubble_jsx"
+    },
+    {
+      "label": "TextBubble()",
+      "file_type": "code",
+      "source_file": "src/components/TextBubble.jsx",
+      "source_location": "L6",
+      "community": 1,
+      "norm_label": "textbubble()",
+      "id": "components_textbubble_textbubble"
+    },
+    {
+      "label": "Transcript.jsx",
+      "file_type": "code",
+      "source_file": "src/components/Transcript.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "transcript.jsx",
+      "id": "src_components_transcript_jsx"
+    },
+    {
+      "label": "botConfig.js",
+      "file_type": "code",
+      "source_file": "src/config/botConfig.js",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "botconfig.js",
+      "id": "src_config_botconfig_js"
+    },
+    {
+      "label": "cloudProducts.js",
+      "file_type": "code",
+      "source_file": "src/config/cloudProducts.js",
+      "source_location": "L1",
+      "community": 13,
+      "norm_label": "cloudproducts.js",
+      "id": "src_config_cloudproducts_js"
+    },
+    {
+      "label": "cyberSecurityProducts.js",
+      "file_type": "code",
+      "source_file": "src/config/cyberSecurityProducts.js",
+      "source_location": "L1",
+      "community": 14,
+      "norm_label": "cybersecurityproducts.js",
+      "id": "src_config_cybersecurityproducts_js"
+    },
+    {
+      "label": "dashboardProducts.js",
+      "file_type": "code",
+      "source_file": "src/config/dashboardProducts.js",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "dashboardproducts.js",
+      "id": "src_config_dashboardproducts_js"
+    },
+    {
+      "label": "escalateCard.js",
+      "file_type": "code",
+      "source_file": "src/config/escalateCard.js",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "escalatecard.js",
+      "id": "src_config_escalatecard_js"
+    },
+    {
+      "label": "escalateCard",
+      "file_type": "code",
+      "source_file": "src/config/escalateCard.js",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "escalatecard",
+      "id": "config_escalatecard_escalatecard"
+    },
+    {
+      "label": "jabraProducts.js",
+      "file_type": "code",
+      "source_file": "src/config/jabraProducts.js",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "jabraproducts.js",
+      "id": "src_config_jabraproducts_js"
+    },
+    {
+      "label": "products.js",
+      "file_type": "code",
+      "source_file": "src/config/products.js",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "products.js",
+      "id": "src_config_products_js"
+    },
+    {
+      "label": "products",
+      "file_type": "code",
+      "source_file": "src/config/products.js",
+      "source_location": "L11",
+      "community": 2,
+      "norm_label": "products",
+      "id": "config_products_products"
+    },
+    {
+      "label": "useBotConnection.js",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "usebotconnection.js",
+      "id": "src_hooks_usebotconnection_js"
+    },
+    {
+      "label": "playSound()",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L8",
+      "community": 0,
+      "norm_label": "playsound()",
+      "id": "hooks_usebotconnection_playsound"
+    },
+    {
+      "label": "stripCitations()",
+      "file_type": "code",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L28",
+      "community": 0,
+      "norm_label": "stripcitations()",
+      "id": "hooks_usebotconnection_stripcitations"
+    },
+    {
+      "label": "useContextPanel.js",
+      "file_type": "code",
+      "source_file": "src/hooks/useContextPanel.js",
+      "source_location": "L1",
+      "community": 0,
+      "norm_label": "usecontextpanel.js",
+      "id": "src_hooks_usecontextpanel_js"
+    },
+    {
+      "label": "PANEL",
+      "file_type": "code",
+      "source_file": "src/hooks/useContextPanel.js",
+      "source_location": "L4",
+      "community": 0,
+      "norm_label": "panel",
+      "id": "hooks_usecontextpanel_panel"
+    },
+    {
+      "label": "useSidebar.js",
+      "file_type": "code",
+      "source_file": "src/hooks/useSidebar.js",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "usesidebar.js",
+      "id": "src_hooks_usesidebar_js"
+    },
+    {
+      "label": "SIDEBAR_MODES",
+      "file_type": "code",
+      "source_file": "src/hooks/useSidebar.js",
+      "source_location": "L4",
+      "community": 6,
+      "norm_label": "sidebar_modes",
+      "id": "hooks_usesidebar_sidebar_modes"
+    },
+    {
+      "label": "ContextSidebar.jsx",
+      "file_type": "code",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "contextsidebar.jsx",
+      "id": "src_sidebar_contextsidebar_jsx"
+    },
+    {
+      "label": "EscalateFormPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/sidebar/EscalateFormPanel.jsx",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "escalateformpanel.jsx",
+      "id": "src_sidebar_escalateformpanel_jsx"
+    },
+    {
+      "label": "FallbackForm()",
+      "file_type": "code",
+      "source_file": "src/sidebar/EscalateFormPanel.jsx",
+      "source_location": "L4",
+      "community": 1,
+      "norm_label": "fallbackform()",
+      "id": "sidebar_escalateformpanel_fallbackform"
+    },
+    {
+      "label": "InfoPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/sidebar/InfoPanel.jsx",
+      "source_location": "L1",
+      "community": 6,
+      "norm_label": "infopanel.jsx",
+      "id": "src_sidebar_infopanel_jsx"
+    },
+    {
+      "label": "ProductPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/sidebar/ProductPanel.jsx",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "productpanel.jsx",
+      "id": "src_sidebar_productpanel_jsx"
+    },
+    {
+      "label": "detectProduct.js",
+      "file_type": "code",
+      "source_file": "src/utils/detectProduct.js",
+      "source_location": "L1",
+      "community": 2,
+      "norm_label": "detectproduct.js",
+      "id": "src_utils_detectproduct_js"
+    },
+    {
+      "label": "index.html",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 0,
+      "norm_label": "index.html",
+      "id": "index_html"
+    },
+    {
+      "label": "index1.html",
+      "file_type": "code",
+      "source_file": "index1.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 16,
+      "norm_label": "index1.html",
+      "id": "index1_html"
+    },
+    {
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "src/main.jsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 0,
+      "norm_label": "main.jsx",
+      "id": "main_jsx"
+    },
+    {
+      "label": "Local Development.md",
+      "file_type": "document",
+      "source_file": "Local Development.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 0,
+      "norm_label": "local development.md",
+      "id": "local_development_md"
+    },
+    {
+      "label": ".github/copilot-instructions.md",
+      "file_type": "document",
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 15,
+      "norm_label": ".github/copilot-instructions.md",
+      "id": "copilot_instructions_md"
+    },
+    {
+      "label": "Azure Static Web Apps CI/CD",
+      "file_type": "code",
+      "source_file": ".github/workflows/azure-static-web-apps-agreeable-sea-0ba7bfe00.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 0,
+      "norm_label": "azure static web apps ci/cd",
+      "id": "azure_static_web_apps_workflow"
+    },
+    {
+      "label": "bot_avatar.png",
+      "file_type": "image",
+      "source_file": "src/assets/bot_avatar.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 16,
+      "norm_label": "bot_avatar.png",
+      "id": "bot_avatar_png"
+    },
+    {
+      "label": "cloud.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/cloud.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 20,
+      "norm_label": "cloud.png",
+      "id": "cloud_png"
+    },
+    {
+      "label": "cybersecurity.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/cybersecurity.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 21,
+      "norm_label": "cybersecurity.png",
+      "id": "cybersecurity_png"
+    },
+    {
+      "label": "dashboard.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 22,
+      "norm_label": "dashboard.png",
+      "id": "dashboard_png"
+    },
+    {
+      "label": "dynamics.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/dynamics.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 23,
+      "norm_label": "dynamics.png",
+      "id": "dynamics_png"
+    },
+    {
+      "label": "insight-bot.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/insight-bot.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 24,
+      "norm_label": "insight-bot.png",
+      "id": "insight_bot_png"
+    },
+    {
+      "label": "jabra.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 25,
+      "norm_label": "jabra.png",
+      "id": "jabra_png"
+    },
+    {
+      "label": "sage.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/sage.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 26,
+      "norm_label": "sage.png",
+      "id": "sage_png"
+    },
+    {
+      "label": "software.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/software.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 27,
+      "norm_label": "software.png",
+      "id": "software_png"
+    },
+    {
+      "label": "teams.png",
+      "file_type": "image",
+      "source_file": "src/assets/products/teams.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 28,
+      "norm_label": "teams.png",
+      "id": "teams_png"
+    },
+    {
+      "label": "Graphify Semantic Extraction",
+      "file_type": "concept",
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 15,
+      "norm_label": "graphify semantic extraction",
+      "id": "graphify_concept"
+    },
+    {
+      "label": "Cashflow Forecast Dashboard",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard/cashflow-forecast.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "cashflow forecast dashboard",
+      "id": "cashflow_forecast_png"
+    },
+    {
+      "label": "Group Goal Dashboard",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard/group-goal.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "group goal dashboard",
+      "id": "group_goal_png"
+    },
+    {
+      "label": "Revenue Dashboard",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard/revenue.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "revenue dashboard",
+      "id": "revenue_png"
+    },
+    {
+      "label": "SBU Insights Dashboard",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard/sbu-insights.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "sbu insights dashboard",
+      "id": "sbu_insights_png"
+    },
+    {
+      "label": "Strategic Performance Dashboard",
+      "file_type": "image",
+      "source_file": "src/assets/products/dashboard/strategic-performance.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "strategic performance dashboard",
+      "id": "strategic_performance_png"
+    },
+    {
+      "label": "Jabra Engage 40",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/engage-40.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra engage 40",
+      "id": "engage_40_png"
+    },
+    {
+      "label": "Jabra Engage 50 II",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/engage-50-ii.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra engage 50 ii",
+      "id": "engage_50_ii_png"
+    },
+    {
+      "label": "Jabra Evolve2 Buds",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/evolve2-buds.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra evolve2 buds",
+      "id": "evolve2_buds_png"
+    },
+    {
+      "label": "Jabra PanaCast 50 Room System",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/panacast-50-room-system.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra panacast 50 room system",
+      "id": "panacast_50_room_system_png"
+    },
+    {
+      "label": "Jabra PanaCast 50 Video Bar",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/panacast-50-video-bar.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra panacast 50 video bar",
+      "id": "panacast_50_video_bar_png"
+    },
+    {
+      "label": "Jabra PanaCast 50",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/panacast-50.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra panacast 50",
+      "id": "panacast_50_png"
+    },
+    {
+      "label": "Jabra Speak2 75",
+      "file_type": "image",
+      "source_file": "src/assets/products/jabra/speak2-75.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra speak2 75",
+      "id": "speak2_75_png"
+    },
+    {
+      "label": "Dashboard Product Assets",
+      "file_type": "concept",
+      "source_file": null,
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 11,
+      "norm_label": "dashboard product assets",
+      "id": "dashboard_assets"
+    },
+    {
+      "label": "Jabra Product Assets",
+      "file_type": "concept",
+      "source_file": null,
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 7,
+      "norm_label": "jabra product assets",
+      "id": "jabra_assets"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_dependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_devdependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_type"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_json",
+      "target": "cia_agent_custom_ui_package_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_scripts",
+      "target": "cia_agent_custom_ui_package_scripts_build"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_scripts",
+      "target": "cia_agent_custom_ui_package_scripts_dev"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_scripts",
+      "target": "cia_agent_custom_ui_package_scripts_preview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "cia_agent_custom_ui_package_dependencies_leaflet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "cia_agent_custom_ui_package_dependencies_marked"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "cia_agent_custom_ui_package_dependencies_react"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "cia_agent_custom_ui_package_dependencies_react_dom"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "cia_agent_custom_ui_package_dependencies_react_leaflet"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_dependencies",
+      "target": "src_components_adaptivecard_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_devdependencies",
+      "target": "cia_agent_custom_ui_package_devdependencies_vite"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_package_devdependencies",
+      "target": "cia_agent_custom_ui_package_devdependencies_vitejs_plugin_react"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "staticwebapp_config_json",
+      "target": "cia_agent_custom_ui_staticwebapp_config_globalheaders"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "staticwebapp_config_json",
+      "target": "cia_agent_custom_ui_staticwebapp_config_navigationfallback"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "staticwebapp_config_json",
+      "target": "cia_agent_custom_ui_staticwebapp_config_responseoverrides"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "staticwebapp_config_json",
+      "target": "cia_agent_custom_ui_staticwebapp_config_routes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_navigationfallback",
+      "target": "cia_agent_custom_ui_staticwebapp_config_404_rewrite"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_navigationfallback",
+      "target": "cia_agent_custom_ui_staticwebapp_config_navigationfallback_exclude"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_responseoverrides",
+      "target": "cia_agent_custom_ui_staticwebapp_config_responseoverrides_404"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_responseoverrides_404",
+      "target": "cia_agent_custom_ui_staticwebapp_config_404_rewrite"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_globalheaders",
+      "target": "cia_agent_custom_ui_staticwebapp_config_globalheaders_content_security_policy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_globalheaders",
+      "target": "cia_agent_custom_ui_staticwebapp_config_globalheaders_referrer_policy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_globalheaders",
+      "target": "cia_agent_custom_ui_staticwebapp_config_globalheaders_x_content_type_options"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "staticwebapp.config.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cia_agent_custom_ui_staticwebapp_config_globalheaders",
+      "target": "cia_agent_custom_ui_staticwebapp_config_globalheaders_x_xss_protection"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_json",
+      "target": "api_host_logging"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_json",
+      "target": "api_host_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_logging",
+      "target": "api_host_logging_applicationinsights"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_logging_applicationinsights",
+      "target": "api_host_applicationinsights_samplingsettings"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_applicationinsights_samplingsettings",
+      "target": "api_host_samplingsettings_excludedtypes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/host.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_host_applicationinsights_samplingsettings",
+      "target": "api_host_samplingsettings_isenabled"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_dependencies"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_description"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_engines"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_main"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_json",
+      "target": "api_package_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_scripts",
+      "target": "api_package_scripts_start"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_dependencies",
+      "target": "api_package_dependencies_node_fetch"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_package_engines",
+      "target": "api_package_engines_node"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/function.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_function_json",
+      "target": "token_function_bindings"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/index.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_index_js",
+      "target": "token_index_allowed_origins"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/index.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_index_js",
+      "target": "token_index_corsheaders"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/index.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_index_js",
+      "target": "token_index_fetch"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/index.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_index_js",
+      "target": "token_index_isratelimited"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "api/token/index.js",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_token_index_js",
+      "target": "token_index_ratelimitmap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_brand"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L90",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_close"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_launcher"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_open"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L55",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_overlay"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_panel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "public/embed.js",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "public_embed_js",
+      "target": "public_embed_style"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "main_jsx",
+      "target": "src_app_jsx"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "hooks_usecontextpanel_panel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_app_app"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_app_gettime"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_app_suggested"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_components_contextpanel_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_components_streamingbubble_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_hooks_usebotconnection_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_jsx",
+      "target": "src_hooks_usecontextpanel_js"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.jsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "src_app_app",
+      "target": "src_hooks_usebotconnection_js"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.jsx",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "src_app_app",
+      "target": "src_hooks_usecontextpanel_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_components_adaptivecard_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Transcript.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_transcript_jsx",
+      "target": "src_components_adaptivecard_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/EscalateFormPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_escalateformpanel_jsx",
+      "target": "src_components_adaptivecard_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatPanel.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatpanel_jsx",
+      "target": "components_chatpanel_chatpanel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatpanel_jsx",
+      "target": "src_components_inputbar_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatPanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatpanel_jsx",
+      "target": "src_components_transcript_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatwidget_jsx",
+      "target": "src_components_chatpanel_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatwidget_jsx",
+      "target": "src_components_launcherbutton_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_components_chatwidget_jsx",
+      "target": "src_hooks_usebotconnection_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_components_chatwidget_jsx",
+      "target": "src_hooks_usesidebar_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatWidget.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_chatwidget_jsx",
+      "target": "src_sidebar_contextsidebar_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cloudcatalogue_jsx",
+      "target": "components_cloudcatalogue_s"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cloudcatalogue_jsx",
+      "target": "components_cloudcatalogue_specitem"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CloudCatalogue.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cloudcatalogue_jsx",
+      "target": "src_config_cloudproducts_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "components_contextpanel_formview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L184",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "components_contextpanel_infoview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "components_contextpanel_productview"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "hooks_usecontextpanel_panel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_components_dashboardcatalogue_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_components_jabracatalogue_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_components_locationpanel_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_config_products_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ContextPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_contextpanel_jsx",
+      "target": "src_hooks_usecontextpanel_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cybersecuritycatalogue_jsx",
+      "target": "components_cybersecuritycatalogue_s"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cybersecuritycatalogue_jsx",
+      "target": "components_cybersecuritycatalogue_specitem"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/CyberSecurityCatalogue.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_cybersecuritycatalogue_jsx",
+      "target": "src_config_cybersecurityproducts_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/DashboardCatalogue.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_dashboardcatalogue_jsx",
+      "target": "src_config_dashboardproducts_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_inputbar_jsx",
+      "target": "components_inputbar_botavatar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_inputbar_jsx",
+      "target": "components_inputbar_textbubble"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/InputBar.jsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_inputbar_jsx",
+      "target": "components_inputbar_useravatar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_jabracatalogue_jsx",
+      "target": "components_jabracatalogue_s"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_jabracatalogue_jsx",
+      "target": "components_jabracatalogue_specitem"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/JabraCatalogue.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_jabracatalogue_jsx",
+      "target": "src_config_jabraproducts_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "src_components_jabracatalogue_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LocationPanel.jsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_locationpanel_jsx",
+      "target": "components_locationpanel_info"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LocationPanel.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_locationpanel_jsx",
+      "target": "components_locationpanel_office"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/StreamingBubble.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_streamingbubble_jsx",
+      "target": "components_streamingbubble_streamingbubble"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/TextBubble.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_textbubble_jsx",
+      "target": "src_components_streamingbubble_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/TextBubble.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_textbubble_jsx",
+      "target": "components_textbubble_textbubble"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Transcript.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_transcript_jsx",
+      "target": "src_components_textbubble_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "src_config_botconfig_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/config/escalateCard.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_config_escalatecard_js",
+      "target": "config_escalatecard_escalatecard"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "src_config_escalatecard_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useContextPanel.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usecontextpanel_js",
+      "target": "src_config_escalatecard_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/config/products.js",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_config_products_js",
+      "target": "config_products_products"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ProductPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_productpanel_jsx",
+      "target": "src_config_products_js"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/detectProduct.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_utils_detectproduct_js",
+      "target": "src_config_products_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "hooks_usebotconnection_playsound"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "hooks_usebotconnection_stripcitations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "hooks_usecontextpanel_panel"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useBotConnection.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usebotconnection_js",
+      "target": "src_hooks_usecontextpanel_js"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useContextPanel.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usecontextpanel_js",
+      "target": "hooks_usecontextpanel_panel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useSidebar.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_usesidebar_js",
+      "target": "hooks_usesidebar_sidebar_modes"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "src_hooks_usesidebar_js"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "hooks_usesidebar_sidebar_modes"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "src_sidebar_escalateformpanel_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "src_sidebar_infopanel_jsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/ContextSidebar.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_contextsidebar_jsx",
+      "target": "src_sidebar_productpanel_jsx"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sidebar/EscalateFormPanel.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_sidebar_escalateformpanel_jsx",
+      "target": "sidebar_escalateformpanel_fallbackform"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": ".github/workflows/azure-static-web-apps-agreeable-sea-0ba7bfe00.yml",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "azure_static_web_apps_workflow",
+      "target": "index_html"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "index_html",
+      "target": "main_jsx"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Local Development.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "local_development_md",
+      "target": "index_html"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "index1.html",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "index1_html",
+      "target": "bot_avatar_png"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "copilot_instructions_md",
+      "target": "graphify_concept"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/dashboard/cashflow-forecast.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "cashflow_forecast_png",
+      "target": "dashboard_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/dashboard/group-goal.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "group_goal_png",
+      "target": "dashboard_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/dashboard/revenue.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "revenue_png",
+      "target": "dashboard_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/dashboard/sbu-insights.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "sbu_insights_png",
+      "target": "dashboard_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/dashboard/strategic-performance.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "strategic_performance_png",
+      "target": "dashboard_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/engage-40.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "engage_40_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/engage-50-ii.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "engage_50_ii_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/evolve2-buds.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "evolve2_buds_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/panacast-50-room-system.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "panacast_50_room_system_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/panacast-50-video-bar.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "panacast_50_video_bar_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/panacast-50.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "panacast_50_png",
+      "target": "jabra_assets"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "src/assets/products/jabra/speak2-75.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "speak2_75_png",
+      "target": "jabra_assets"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "d0674423eac9c8867e8889db475c942570c48fe1"
+}
