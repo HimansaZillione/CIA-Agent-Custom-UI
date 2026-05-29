@@ -29,6 +29,7 @@
       box-shadow: 0 14px 32px rgba(233,30,140,0.6);
     }
     #zn-launcher:active { transform: scale(0.96); }
+
     .zn-dot {
       position: absolute;
       top: 8px; right: 10px;
@@ -42,42 +43,46 @@
       0%,100% { transform: scale(1); opacity: 1; }
       50%      { transform: scale(1.35); opacity: 0.7; }
     }
+
+    /* dim overlay behind the panel */
     #zn-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.45);
       z-index: 2147483641;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.25s ease;
-      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
-    #zn-overlay.zn-open { opacity: 1; pointer-events: all; }
-    #zn-popup {
+    #zn-overlay.zn-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* side panel — full height, slides + fades */
+    #zn-panel {
       position: fixed;
-      bottom: 90px; right: 28px;
-      width: 420px; height: 680px;
+      top: 0; right: 0;
+      width: 420px;
+      height: 100%;
       z-index: 2147483642;
-      border-radius: 20px;
-      overflow: hidden;
       border: none;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(233,30,140,0.2);
-      opacity: 0; pointer-events: none;
-      transform: scale(0.92) translateY(20px);
-      transform-origin: bottom right;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.55), -1px 0 0 rgba(233,30,140,0.2);
+      /* closed state */
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100%);
       transition:
-        opacity 0.3s cubic-bezier(0.4,0,0.2,1),
-        transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        opacity 0.35s cubic-bezier(0.4,0,0.2,1),
+        transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
-    #zn-popup.zn-open {
-      opacity: 1; pointer-events: all;
-      transform: scale(1) translateY(0);
+    #zn-panel.zn-open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
     }
+
     @media (max-width: 500px) {
-      #zn-popup {
-        width: 100vw; height: 100dvh;
-        bottom: 0; right: 0;
-        border-radius: 0;
-        transform-origin: bottom center;
-      }
+      #zn-panel { width: 100vw; }
       #zn-launcher { bottom: 18px; right: 18px; }
     }
   `
@@ -90,11 +95,11 @@
   overlay.id = 'zn-overlay'
   document.body.appendChild(overlay)
 
-  const popup = document.createElement('iframe')
-  popup.id    = 'zn-popup'
-  popup.title = 'ZILLIONe Digital Assistant'
-  popup.allow = 'microphone; geolocation'
-  document.body.appendChild(popup)
+  const panel = document.createElement('iframe')
+  panel.id    = 'zn-panel'
+  panel.title = 'ZILLIONe Digital Assistant'
+  panel.allow = 'microphone; geolocation'
+  document.body.appendChild(panel)
 
   const launcher = document.createElement('button')
   launcher.id = 'zn-launcher'
@@ -112,9 +117,9 @@
   let isOpen = false, hasLoaded = false
 
   function open() {
-    if (!hasLoaded) { popup.src = BOT_URL; hasLoaded = true }
+    if (!hasLoaded) { panel.src = BOT_URL; hasLoaded = true }
     isOpen = true
-    popup.classList.add('zn-open')
+    panel.classList.add('zn-open')
     overlay.classList.add('zn-open')
     launcher.querySelector('#zn-label').textContent = 'Close'
     launcher.querySelector('.zn-dot').style.display = 'none'
@@ -122,7 +127,7 @@
 
   function close() {
     isOpen = false
-    popup.classList.remove('zn-open')
+    panel.classList.remove('zn-open')
     overlay.classList.remove('zn-open')
     launcher.querySelector('#zn-label').textContent = 'Ask ZILLIONe'
     launcher.querySelector('.zn-dot').style.display = 'block'
