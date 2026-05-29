@@ -74,7 +74,7 @@
 
   const panel = document.createElement('iframe')
   panel.id    = 'zn-panel'
-  panel.title = 'ZILLIONe Digital Assistant'
+  panel.title = 'AskZillione'
   panel.allow = 'microphone; geolocation'
   document.body.appendChild(panel)
 

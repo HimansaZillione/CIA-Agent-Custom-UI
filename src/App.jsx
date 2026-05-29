@@ -156,11 +156,11 @@ export default function App() {
                 </div> */}
 
                 <div className="welcome-brand">
-                  <h2>ZILLIONe</h2>
-                  <p>Digital Intelligence Platform</p>
+                  <h2>AskZILLIONe</h2>
+                  
                 </div>
 
-                <p><strong>Hi there!</strong> How can I help you today?</p>
+                <p><strong>Hi there!</strong> Select a topic to explore or type in your query.</p>
 
                 <div className="welcome-suggestions">
                         {SUGGESTED.map(q => (
