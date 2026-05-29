@@ -44,9 +44,9 @@
       50%      { transform: scale(1.35); opacity: 0.7; }
     }
 
-    /* dim overlay behind the panel */
     #zn-overlay {
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: rgba(0,0,0,0.45);
       z-index: 2147483641;
       opacity: 0;
@@ -58,16 +58,17 @@
       pointer-events: all;
     }
 
-    /* side panel — full height, slides + fades */
     #zn-panel {
       position: fixed;
-      top: 0; right: 0;
-      width: 480px;
-      height: 100%;
+      top: 0;
+      right: 0;
+      width: 460px !important;
+      height: 100vh !important;
+      max-width: 100vw;
       z-index: 2147483642;
       border: none;
-      box-shadow: -8px 0 40px rgba(0,0,0,0.55), -1px 0 0 rgba(233,30,140,0.2);
-      /* closed state */
+      box-shadow: -8px 0 40px rgba(0,0,0,0.55);
+      /* closed — fully invisible and off screen */
       opacity: 0;
       pointer-events: none;
       transform: translateX(100%);
@@ -82,8 +83,13 @@
     }
 
     @media (max-width: 500px) {
-      #zn-panel { width: 100vw; }
-      #zn-launcher { bottom: 18px; right: 18px; }
+      #zn-panel {
+        width: 100vw !important;
+      }
+      #zn-launcher {
+        bottom: 18px;
+        right: 18px;
+      }
     }
   `
 
@@ -96,9 +102,12 @@
   document.body.appendChild(overlay)
 
   const panel = document.createElement('iframe')
-  panel.id    = 'zn-panel'
-  panel.title = 'ZILLIONe Digital Assistant'
-  panel.allow = 'microphone; geolocation'
+  panel.id     = 'zn-panel'
+  panel.title  = 'ZILLIONe Digital Assistant'
+  panel.allow  = 'microphone; geolocation'
+  panel.width  = '460'
+  panel.height = '100%'
+  panel.style.cssText = 'width:460px!important;height:100vh!important;max-width:100vw;border:none;'
   document.body.appendChild(panel)
 
   const launcher = document.createElement('button')
