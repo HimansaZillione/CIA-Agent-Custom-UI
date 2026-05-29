@@ -151,9 +151,9 @@ export default function App() {
             {/* Empty / welcome state */}
             {allMessages.length === 0 && (
               <div className="empty-state">
-                <div className="bot-avatar-large">
+                {/* <div className="bot-avatar-large">
                   <img src={botAvatar} alt="ZILLIONe Agent" />
-                </div>
+                </div> */}
 
                 <div className="welcome-brand">
                   <h2>ZILLIONe</h2>
