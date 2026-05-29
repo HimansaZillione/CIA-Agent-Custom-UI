@@ -62,7 +62,7 @@
     #zn-panel {
       position: fixed;
       top: 0; right: 0;
-      width: 420px;
+      width: 480px;
       height: 100%;
       z-index: 2147483642;
       border: none;

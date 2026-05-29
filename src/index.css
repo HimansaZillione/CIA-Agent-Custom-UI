@@ -86,6 +86,15 @@ body {
 }
 body.sidebar-open { padding-right: 700px; }
 
+.welcome-suggestions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 16px;
+}
+
 /* ─────────────────────────────────────────────────────────
    ANIMATED GRID BACKGROUND
 ───────────────────────────────────────────────────────── */
@@ -386,8 +395,8 @@ header::after {
 .empty-state {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 14px; color: var(--text-muted);
-  padding: 40px 20px;
+  gap: 10px; color: var(--text-muted);
+  padding: 28px 16px;
 }
 
 .bot-avatar-large img {

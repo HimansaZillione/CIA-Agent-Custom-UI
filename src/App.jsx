@@ -162,21 +162,13 @@ export default function App() {
 
                 <p><strong>Hi there!</strong> How can I help you today?</p>
 
-                <div
-                  className="suggested-questions"
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '10px',
-                    width: '100%',
-                    maxWidth: '440px',
-                    marginTop: '4px',
-                  }}
-                >
-                  {SUGGESTED.map(q => (
-                    <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
-                  ))}
-                </div>
+                <div className="welcome-suggestions">
+                        {SUGGESTED.map(q => (
+                          <button key={q} className="suggested-btn" onClick={() => send(q)}>
+                            {q}
+                          </button>
+                        ))}
+                      </div>
               </div>
             )}
 
