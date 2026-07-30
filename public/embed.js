@@ -40,7 +40,7 @@
     #zn-panel {
       position: fixed;
       top: 0; right: 0;
-      width: 50vw;
+      width: 75vw;
       height: 100vh;
       z-index: 2147483642;
       border: none;
@@ -59,7 +59,7 @@
     }
 
     @media (max-width: 900px) {
-      #zn-panel { width: 70vw; }
+      #zn-panel { width: 88vw; }
     }
     @media (max-width: 600px) {
       #zn-panel { width: 100vw; }
