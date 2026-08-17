@@ -1,15 +1,31 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { marked } from 'marked'
-import useBotConnection from './hooks/useBotConnection'
-import useContextPanel, { PANEL } from './hooks/useContextPanel'
-import ContextPanel from './components/ContextPanel'
-import botAvatar from './assets/bot_avatar.png'
-import StreamingBubble from './components/StreamingBubble'
+
+import useBotConnection          from './hooks/useBotConnection'
+import useSidebar                from './hooks/useSidebar'
+import { SIDEBAR_MODES }         from './hooks/useSidebar'
+import ContextSidebar            from './sidebar/ContextSidebar'
+import MediaDrawer               from './components/MediaDrawer'
+import StreamingBubble           from './components/StreamingBubble'
+import { fetchProductMedia }     from './services/mediaService'
+import { buildKeywordMap, detectProduct } from './utils/detectProduct'
+import botAvatar                 from './assets/bot_avatar.png'
+import escalateCard              from './config/escalateCard'
 
 marked.setOptions({ breaks: true, gfm: true })
 
-function getTime() {
-  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
+// ── Silently preload all images + video thumbnails into browser cache ────────
+function preloadMedia(items) {
+  items.forEach(item => {
+    if (item.mediaType === 'image' && item.url) {
+      const img = new Image()
+      img.src = item.url
+    }
+    if (item.mediaType === 'video' && item.thumbnailUrl) {
+      const img = new Image()
+      img.src = item.thumbnailUrl
+    }
+  })
 }
 
 const SUGGESTED = [
@@ -26,84 +42,120 @@ const SUGGESTED = [
 ]
 
 export default function App() {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
 
+  // ── Theme ─────────────────────────────────────────────────────────────────
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
   useEffect(() => {
-    if (theme === 'light') document.documentElement.classList.add('light-mode')
-    else document.documentElement.classList.remove('light-mode')
+    document.documentElement.classList.toggle('light-mode', theme === 'light')
     localStorage.setItem('theme', theme)
   }, [theme])
+
+  // ── Sidebar (form / info / map) ───────────────────────────────────────────
+  const { sidebar, openSidebar, closeSidebar, handleSidebarSignal } = useSidebar()
+
+  const openEscalation = useCallback(() => {
+    openSidebar(SIDEBAR_MODES.SHOW_FORM, { cardJson: escalateCard })
+  }, [openSidebar])
+
+  // ── Media drawer ──────────────────────────────────────────────────────────
+  const [allMedia,        setAllMedia]        = useState([])
+  const [activeProduct,   setActiveProduct]   = useState(null)
+  const [mediaDrawerOpen, setMediaDrawerOpen] = useState(false)
+
+  const keywordMap = useMemo(() => buildKeywordMap(allMedia), [allMedia])
+
+  useEffect(() => {
+    fetchProductMedia()
+      .then(data => {
+        const active = data.filter(i => i.isActive)
+        setAllMedia(active)
+        preloadMedia(active)   // ← images load into cache immediately on app start
+      })
+      .catch(err => console.error('[media] fetch failed', err))
+  }, [])
+
+  const updateActiveProduct = useCallback((text) => {
+    if (!text?.trim() || !keywordMap) return
+    const detected = detectProduct(text, keywordMap)
+    if (detected) {
+      setActiveProduct(detected)
+      setMediaDrawerOpen(true)
+    }
+  }, [keywordMap])
+
+  // ── Bot connection ────────────────────────────────────────────────────────
+  
+  const onSignal = useCallback((action, payload, attachments) => {
+  if (action === 'SHOW_PRODUCT') {
+    const { tag } = payload
+
+    // 1. Exact productSlug match (e.g. "evolve-2")
+    let match = allMedia.find(i => i.productSlug === tag)
+
+    // 2. deviceType match (e.g. "earbuds", "headset")
+    if (!match) match = allMedia.find(i => i.deviceType === tag)
+
+    // 3. Category match (e.g. "jabra")
+    if (!match) match = allMedia.find(i => i.category === tag)
+
+    // 4. Family match (e.g. "panacast")
+    if (!match) match = allMedia.find(i => i.family === tag)
+
+    if (match) {
+      setActiveProduct({
+        productSlug: match.productSlug,
+        family:      match.family,
+        category:    match.category,
+      })
+      setMediaDrawerOpen(true)
+    }
+    return
+  }
+  handleSidebarSignal(action, payload, attachments)
+}, [handleSidebarSignal, allMedia])
 
   const openHRM = useCallback(() => {
     window.open('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', '_blank', 'width=1400,height=900')
   }, [])
 
-  const [mapOpen, setMapOpen] = useState(false)
-  const mapIframeRef = useRef(null)
   const openMap = useCallback(() => {
-    if (mapIframeRef.current) mapIframeRef.current.src = 'https://www.openstreetmap.org/export/embed.html?bbox=79.8,6.8,80.0,7.0&layer=mapnik'
-    setMapOpen(true)
-  }, [])
-  const closeMap = useCallback(() => {
-    setMapOpen(false)
-    setTimeout(() => { if (mapIframeRef.current) mapIframeRef.current.src = '' }, 400)
-  }, [])
-
-  const [purchaseOpen, setPurchaseOpen] = useState(false)
-  const [pf, setPf] = useState({ name: '', email: '', product: '', quantity: '' })
-  const [pfSending, setPfSending] = useState(false)
-  const openPurchase = useCallback(() => setPurchaseOpen(true), [])
-  const closePurchase = useCallback(() => {
-    setPurchaseOpen(false)
-    setPf({ name: '', email: '', product: '', quantity: '' })
-  }, [])
-
-  const [extraMsgs, setExtraMsgs] = useState([])
-  const addDirectMessage = useCallback((role, text) => {
-    setExtraMsgs(prev => [...prev, { id: Date.now(), role, text, ts: getTime() }])
-  }, [])
-
-  async function submitPurchase() {
-    if (!pf.name || !pf.email || !pf.product || !pf.quantity) { alert('Please fill in all fields.'); return }
-    setPfSending(true)
-    closePurchase()
-    addDirectMessage('bot', `✅ **Order Placed!**\n\nThank you **${pf.name}**! Your order for **${pf.quantity}x ${pf.product}** has been submitted.`)
-    setPfSending(false)
-  }
-
-  const { panel, closePanel, reopenPanel, handleSignal } = useContextPanel()
-
-  const openEscalation = useCallback(() => {
-    handleSignal(PANEL.FORM, { tag: 'escalate' })
-  }, [handleSignal])
+    openSidebar(SIDEBAR_MODES.SHOW_MAP)
+  }, [openSidebar])
 
   const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
-    onSignal: handleSignal,
-    onOpenHRM: openHRM,
-    onOpenMap: openMap,
-    onOpenPurchase: openPurchase,
+    onSignal,
+    onOpenHRM:      openHRM,
+    onOpenMap:      openMap,
+    onOpenPurchase: () => {},
   })
 
   useEffect(() => { init() }, [init])
 
   useEffect(() => {
-    document.body.classList.toggle('sidebar-open', panel.open)
-  }, [panel.open])
+    const lastBot = [...messages].reverse().find(m => m.role === 'bot' && m.text)
+    if (lastBot) updateActiveProduct(lastBot.text)
+  }, [messages, updateActiveProduct])
 
-  const allMessages = [...messages, ...extraMsgs].sort((a, b) => a.id - b.id)
+  useEffect(() => {
+    document.body.classList.toggle('sidebar-open', sidebar.open)
+  }, [sidebar.open])
 
-  const inputRef = useRef(null)
+  // ── Chat helpers ──────────────────────────────────────────────────────────
+  const inputRef   = useRef(null)
   const chatboxRef = useRef(null)
 
   const send = useCallback((text) => {
     if (!text?.trim()) return
     sendMessage(text)
-    if (inputRef.current) { inputRef.current.value = ''; inputRef.current.style.height = 'auto' }
+    if (inputRef.current) {
+      inputRef.current.value = ''
+      inputRef.current.style.height = 'auto'
+    }
   }, [sendMessage])
 
   useEffect(() => {
     if (chatboxRef.current) chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
-  }, [allMessages, isTyping])
+  }, [messages, isTyping])
 
   function CopyBtn({ text }) {
     const [copied, setCopied] = useState(false)
@@ -124,7 +176,6 @@ export default function App() {
         <div className="avatar">
           <img src={botAvatar} alt="ZILLIONe Agent" className="bot-avatar-holographic" />
         </div>
-
         <div className="header-brand">
           <h1>ZILLION<span>e</span> Digital Assistant</h1>
           <div className="status">
@@ -132,48 +183,32 @@ export default function App() {
             {isConnected ? 'Online · Ready to help' : 'Connecting…'}
           </div>
         </div>
-
-        <button
-          id="themeToggle"
-          onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
-          title="Toggle theme"
-        >
+        <button id="themeToggle" onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} title="Toggle theme">
           {theme === 'dark' ? '🌙' : '☀️'}
         </button>
         <button id="reloadBtn" onClick={() => location.reload()}>↺ Reload</button>
       </header>
 
-      {/* ── Main ── */}
+      {/* ── Main layout ── */}
       <div className="main">
-        <div className="chat-panel">
+
+        {/* Chat — shrinks when drawer opens */}
+        <div className={`chat-panel ${mediaDrawerOpen && activeProduct ? 'chat-panel--shrunk' : ''}`}>
           <div id="chatbox" ref={chatboxRef}>
 
-            {/* Empty / welcome state */}
-            {allMessages.length === 0 && (
+            {messages.length === 0 && (
               <div className="empty-state">
-                {/* <div className="bot-avatar-large">
-                  <img src={botAvatar} alt="ZILLIONe Agent" />
-                </div> */}
-
-                <div className="welcome-brand">
-                  <h2>AskZILLIONe</h2>
-                  
-                </div>
-
+                <div className="welcome-brand"><h2>AskZILLIONe</h2></div>
                 <p><strong>Hi there!</strong> Select a topic to explore or type in your query.</p>
-
                 <div className="welcome-suggestions">
-                        {SUGGESTED.map(q => (
-                          <button key={q} className="suggested-btn" onClick={() => send(q)}>
-                            {q}
-                          </button>
-                        ))}
-                      </div>
+                  {SUGGESTED.map(q => (
+                    <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
+                  ))}
+                </div>
               </div>
             )}
 
-            {/* Messages */}
-            {allMessages.map(msg => {
+            {messages.map(msg => {
               const isBot = msg.role === 'bot'
               if (!msg.text?.trim() && !msg.card && !msg.suggestedActions) return null
               return (
@@ -187,9 +222,8 @@ export default function App() {
                       </div>
                       <div className="msg-content">
                         {isBot
-                            ? <StreamingBubble text={msg.text} className="bubble" />
-                            : <div className="bubble">{msg.text}</div>
-                          }
+                          ? <StreamingBubble text={msg.text} className="bubble" />
+                          : <div className="bubble">{msg.text}</div>}
                         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                           {isBot && <CopyBtn text={msg.text} />}
                           <div className="msg-timestamp">{msg.ts}</div>
@@ -197,16 +231,12 @@ export default function App() {
                       </div>
                     </div>
                   )}
-
                   {msg.suggestedActions?.actions?.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: '0 0 0 40px' }}>
                       {msg.suggestedActions.actions.map((a, i) => (
-                        <button
-                          key={i}
-                          className="suggested-btn"
+                        <button key={i} className="suggested-btn"
                           style={{ maxWidth: 'none', padding: '7px 14px', width: 'auto' }}
-                          onClick={() => send(a.value ?? a.title)}
-                        >
+                          onClick={() => send(a.value ?? a.title)}>
                           {a.title}
                         </button>
                       ))}
@@ -216,7 +246,6 @@ export default function App() {
               )
             })}
 
-            {/* Typing indicator */}
             {isTyping && (
               <div className="msg-row bot">
                 <div className="msg-icon">
@@ -229,7 +258,6 @@ export default function App() {
             )}
           </div>
 
-          {/* Input bar */}
           <div className="input-area">
             <textarea
               ref={inputRef}
@@ -256,74 +284,25 @@ export default function App() {
             </button>
           </div>
         </div>
+
+        {/* Media drawer */}
+        {activeProduct && (
+          <MediaDrawer
+            activeProduct={activeProduct}
+            allMedia={allMedia}
+            open={mediaDrawerOpen}
+            onToggle={() => setMediaDrawerOpen(v => !v)}
+          />
+        )}
+
       </div>
 
-      {/* ── Context Panel ── */}
-      <ContextPanel
-        panel={panel}
-        onClose={closePanel}
-        onReopen={reopenPanel}
-        onOpenForm={openEscalation}
-        onSubmit={submitCard}
-        onCta={send}
+      {/* ── Context Sidebar ── */}
+      <ContextSidebar
+        sidebar={sidebar}
+        onClose={closeSidebar}
+        onSubmitCard={submitCard}
       />
-
-      {/* ── Map Panel ── */}
-      <div className={`map-overlay${mapOpen ? ' open' : ''}`} onClick={closeMap} />
-      <div className={`map-panel${mapOpen ? ' open' : ''}`}>
-        <div className="map-header">
-          <h3>📍 ZILLIONe Office Location</h3>
-          <button className="map-close" onClick={closeMap}>✕</button>
-        </div>
-        <iframe ref={mapIframeRef} className="map-iframe" src="" allow="fullscreen" />
-      </div>
-
-      {/* ── Purchase Form ── */}
-      <div className={`purchase-overlay${purchaseOpen ? ' open' : ''}`}>
-        <div className="purchase-form-box">
-          <h2>🛒 Place an Order</h2>
-          <p>Fill in your details and we'll process your order right away.</p>
-
-          {[
-            ['Full Name', 'text', 'Jane Smith', 'name'],
-            ['Email Address', 'email', 'jane@company.com', 'email'],
-          ].map(([label, type, ph, key]) => (
-            <div className="form-group" key={key}>
-              <label>{label}</label>
-              <input
-                type={type} placeholder={ph} value={pf[key]}
-                onChange={e => setPf(v => ({ ...v, [key]: e.target.value }))}
-              />
-            </div>
-          ))}
-
-          <div className="form-group">
-            <label>Product</label>
-            <select value={pf.product} onChange={e => setPf(v => ({ ...v, product: e.target.value }))}>
-              <option value="">Select a product…</option>
-              {['Economy Class Ticket', 'Business Class Ticket', 'First Class Ticket', 'Travel Insurance'].map(o => (
-                <option key={o} value={o}>{o}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Quantity</label>
-            <input
-              type="number" placeholder="1" min="1" max="10"
-              value={pf.quantity}
-              onChange={e => setPf(v => ({ ...v, quantity: e.target.value }))}
-            />
-          </div>
-
-          <div className="form-actions">
-            <button className="form-cancel" onClick={closePurchase}>Cancel</button>
-            <button className="form-submit" disabled={pfSending} onClick={submitPurchase}>
-              {pfSending ? 'Sending…' : '✓ Place Order'}
-            </button>
-          </div>
-        </div>
-      </div>
     </>
   )
 }

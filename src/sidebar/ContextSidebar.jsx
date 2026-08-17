@@ -1,21 +1,19 @@
 import { SIDEBAR_MODES } from '../hooks/useSidebar'
-import ProductPanel from './ProductPanel'
 import EscalateFormPanel from './EscalateFormPanel'
-import InfoPanel from './InfoPanel'
-import JabraCatalogue from '../components/JabraCatalogue'
+import InfoPanel         from './InfoPanel'
+import LocationPanel     from './LocationPanel'
 
-export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSuggestion }) {
+export default function ContextSidebar({ sidebar, onClose, onSubmitCard }) {
   const { open, mode, payload } = sidebar
 
   return (
     <div className={`ca-sidebar ${open ? 'ca-sidebar--open' : ''}`}>
-      {/* Header */}
+
       <div className="ca-sidebar__header">
         <span className="ca-sidebar__title">
-          {mode === SIDEBAR_MODES.SHOW_PRODUCT && '📦 Product Details'}
-          {mode === SIDEBAR_MODES.SHOW_FORM    && '📋 Contact Us'}
-          {mode === SIDEBAR_MODES.SHOW_INFO    && 'ℹ️ More Info'}
-          {mode === SIDEBAR_MODES.SHOW_MAP    && '🗺️ Location Map'}
+          {mode === SIDEBAR_MODES.SHOW_FORM && '📋 Contact Us'}
+          {mode === SIDEBAR_MODES.SHOW_INFO && 'ℹ️ More Info'}
+          {mode === SIDEBAR_MODES.SHOW_MAP  && '🗺️ Location Map'}
           {!mode && 'Details'}
         </span>
         <button className="ca-sidebar__close" onClick={onClose} aria-label="Close sidebar">
@@ -27,12 +25,7 @@ export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSugge
         </button>
       </div>
 
-      {/* Panel content — swaps based on mode */}
       <div className="ca-sidebar__body">
-        {mode === SIDEBAR_MODES.SHOW_PRODUCT && payload && (
-          <ProductPanel tag={payload.tag} onSuggestion={onSuggestion} />
-        )}
-
         {mode === SIDEBAR_MODES.SHOW_FORM && (
           <EscalateFormPanel
             cardJson={payload?.cardJson}
@@ -40,19 +33,14 @@ export default function ContextSidebar({ sidebar, onClose, onSubmitCard, onSugge
             onClose={onClose}
           />
         )}
-
         {mode === SIDEBAR_MODES.SHOW_INFO && payload && (
           <InfoPanel content={payload.content} />
         )}
-
-        <div style={{
-          marginTop: '24px',
-          paddingTop: '16px',
-          borderTop: '1px solid rgba(255,255,255,0.1)'
-        }}>
-          <JabraCatalogue />
-        </div>
+        {mode === SIDEBAR_MODES.SHOW_MAP && (
+          <LocationPanel />
+        )}
       </div>
+
     </div>
   )
 }

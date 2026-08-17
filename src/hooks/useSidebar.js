@@ -1,17 +1,17 @@
 import { useState, useCallback } from 'react'
 
-// Sidebar modes — must match what Copilot Studio sends in channelData.sidebarAction
 export const SIDEBAR_MODES = {
   SHOW_PRODUCT: 'SHOW_PRODUCT',
   SHOW_FORM:    'SHOW_FORM',
   SHOW_INFO:    'SHOW_INFO',
+  SHOW_MAP:     'SHOW_MAP',
 }
 
 export default function useSidebar() {
   const [sidebar, setSidebarState] = useState({
-    open: false,
-    mode: null,    // one of SIDEBAR_MODES
-    payload: null, // { tag } for product, { cardJson } for form, { content } for info
+    open:    false,
+    mode:    null,
+    payload: null,
   })
 
   const openSidebar = useCallback((mode, payload = null) => {
@@ -22,17 +22,16 @@ export default function useSidebar() {
     setSidebarState(prev => ({ ...prev, open: false }))
   }, [])
 
-  // Called by useBotConnection when it parses channelData from a bot reply
-  const handleSidebarSignal = useCallback((channelData, attachments) => {
-    const { sidebarAction, payload = {} } = channelData
+  // Called by useBotConnection when it parses signals from bot replies
+  // SHOW_PRODUCT no longer opens the sidebar — it's handled by MediaPanel
+  const handleSidebarSignal = useCallback((action, payload = {}, attachments = []) => {
 
-    if (sidebarAction === SIDEBAR_MODES.SHOW_PRODUCT) {
-      openSidebar(SIDEBAR_MODES.SHOW_PRODUCT, payload)
+    if (action === SIDEBAR_MODES.SHOW_MAP) {
+      openSidebar(SIDEBAR_MODES.SHOW_MAP)
       return
     }
 
-    if (sidebarAction === SIDEBAR_MODES.SHOW_FORM) {
-      // The adaptive card may be attached directly on the same activity
+    if (action === SIDEBAR_MODES.SHOW_FORM) {
       const cardAttachment = attachments?.find(
         a => a.contentType === 'application/vnd.microsoft.card.adaptive'
       )
@@ -43,9 +42,12 @@ export default function useSidebar() {
       return
     }
 
-    if (sidebarAction === SIDEBAR_MODES.SHOW_INFO) {
+    if (action === SIDEBAR_MODES.SHOW_INFO) {
       openSidebar(SIDEBAR_MODES.SHOW_INFO, payload)
+      return
     }
+
+    // SHOW_PRODUCT — sidebar stays closed, MediaPanel handles this via activeProduct
   }, [openSidebar])
 
   return { sidebar, openSidebar, closeSidebar, handleSidebarSignal }

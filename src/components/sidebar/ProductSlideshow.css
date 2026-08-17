@@ -1,0 +1,101 @@
+.product-slideshow {
+  margin-bottom: 16px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+.product-slideshow--active {
+  background: rgba(79, 142, 247, 0.07);
+}
+
+.product-slideshow--compact {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+}
+
+.product-slideshow__name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 6px 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-slideshow--active .product-slideshow__name {
+  color: #4f8ef7;
+}
+
+/* ── Stage ────────────────────────────────────────────── */
+.product-slideshow__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Fade wrapper ─────────────────────────────────────── */
+.product-slideshow__fade {
+  flex: 1;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.product-slideshow__fade--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Arrows ───────────────────────────────────────────── */
+.product-slideshow__arrow {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  padding: 0;
+  z-index: 1;
+}
+
+.product-slideshow__arrow:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ── Dots ─────────────────────────────────────────────── */
+.product-slideshow__dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.product-slideshow__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.product-slideshow__dot--active {
+  background: #4f8ef7;
+  transform: scale(1.3);
+}

@@ -1,50 +1,79 @@
-import products from '../config/products'
+// detectProduct.js
+// Detects which product the bot is talking about from message text.
+// Returns { productSlug, family, category } matching a manifest entry,
+// or null if no product detected.
+//
+// Fully data-driven — no hardcoded product lists.
+// Adding a new product = add to manifest only. No code change here.
 
-export default function detectProduct(text) {
-  if (!text) return null
-  const lower = text.toLowerCase()
+// ─── Generic words that need extra confidence ─────────────────────────────
+const GENERIC_WORDS = ['cloud', 'security', 'hosting', 'analytics', 'infrastructure']
 
-  // Match whole words only
-  function countWholeWordMatches(kw) {
-    const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const regex = new RegExp(`\\b${escaped}\\b`, 'gi')
-    const matches = lower.match(regex)
-    return matches ? matches.length : 0
-  }
+// ─── Build keyword map from manifest ─────────────────────────────────────
+// Called once when manifest loads. Returns:
+// { [keyword]: { productSlug, family, category } }
+export function buildKeywordMap(manifest) {
+  const map = {}
 
-  // Generic words that need extra confidence to trigger
-  const genericWords = ['cloud', 'security', 'hosting', 'analytics', 'infrastructure']
+  manifest.forEach(item => {
+    if (!item.isActive) return
 
-  let bestMatch = { tag: null, score: 0 }
+    // Derive keywords from name, productSlug, and family
+    // e.g. "Panacast 50" → ['panacast 50', 'panacast', '50']
+    //      "evolve-2"    → ['evolve 2', 'evolve']
+    const terms = [
+      item.name.toLowerCase(),
+      item.productSlug.replace(/-/g, ' '),
+      item.family.toLowerCase(),
+      item.category.toLowerCase(),
+      // individual words from name
+      ...item.name.toLowerCase().split(/\s+/).filter(w => w.length > 2),
+    ]
 
-  for (const [tag, product] of Object.entries(products)) {
-    let score = 0
-    let genericHits = 0
-    let specificHits = 0
-
-    product.keywords.forEach(kw => {
-      const count = countWholeWordMatches(kw)
-      if (count > 0) {
-        if (genericWords.includes(kw)) {
-          genericHits += count
-        } else {
-          // Specific keywords like 'jabra', 'cyberark', 'sentinel', 'power bi' score higher
-          specificHits += count * 3
+    terms.forEach(term => {
+      if (!map[term]) {
+        map[term] = {
+          productSlug: item.productSlug,
+          family:      item.family,
+          category:    item.category,
         }
       }
     })
+  })
 
-    // Only count generic hits if there are multiple OR a specific hit also exists
-    if (specificHits > 0) {
-      score = specificHits + genericHits
-    } else if (genericHits >= 2) {
-      score = genericHits
-    }
+  return map
+}
 
-    if (score > bestMatch.score) {
-      bestMatch = { tag, score }
+// ─── Main detector ────────────────────────────────────────────────────────
+// keywordMap: built from buildKeywordMap(manifest)
+// text: bot message text to scan
+// Returns: { productSlug, family, category } | null
+export function detectProduct(text, keywordMap) {
+  if (!text || !keywordMap) return null
+  const lower = text.toLowerCase()
+
+  function countWholeWordMatches(kw) {
+    const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const regex = new RegExp(`\\b${escaped}\\b`, 'gi')
+    return (lower.match(regex) ?? []).length
+  }
+
+  let bestMatch  = null
+  let bestScore  = 0
+
+  for (const [keyword, productInfo] of Object.entries(keywordMap)) {
+    const count = countWholeWordMatches(keyword)
+    if (count === 0) continue
+
+    const isGeneric = GENERIC_WORDS.includes(keyword)
+    // Specific keywords score 3x; generic only count if multiple hits
+    const score = isGeneric ? (count >= 2 ? count : 0) : count * 3
+
+    if (score > bestScore) {
+      bestScore  = score
+      bestMatch  = productInfo
     }
   }
 
-  return bestMatch.tag
+  return bestMatch  // { productSlug, family, category } | null
 }
