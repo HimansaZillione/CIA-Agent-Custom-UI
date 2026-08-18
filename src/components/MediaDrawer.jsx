@@ -1,6 +1,5 @@
 // MediaDrawer.jsx
-// Slides in from the right when a product is detected.
-// Toggle arrow sits on the left edge of the drawer.
+// Always shows a 28px toggle strip — visible even when closed
 import { useMemo }       from 'react'
 import ProductSlideshow  from './sidebar/ProductSlideshow'
 import './MediaDrawer.css'
@@ -35,7 +34,7 @@ export default function MediaDrawer({ activeProduct, allMedia = [], open, onTogg
 
     const { productSlug, family, category } = activeProduct
 
-    const activeItems    = active
+    const activeItems = active
       .filter(i => i.productSlug === productSlug)
       .sort((a, b) => {
         if (a.mediaType !== b.mediaType) return a.mediaType === 'image' ? -1 : 1
@@ -57,16 +56,16 @@ export default function MediaDrawer({ activeProduct, allMedia = [], open, onTogg
   return (
     <div className={`media-drawer ${open ? 'media-drawer--open' : ''}`}>
 
-      {/* Toggle arrow — on left edge of drawer */}
+      {/* Toggle strip — always visible, full height */}
       <button
         className="media-drawer__toggle"
         onClick={onToggle}
         aria-label={open ? 'Close media panel' : 'Open media panel'}
       >
-        {open ? '›' : '‹'}
+        <span className="media-drawer__toggle-icon">‹</span>
       </button>
 
-      {/* Content */}
+      {/* Content — sits right of the 28px strip */}
       <div className="media-drawer__content">
         {!layout ? (
           <div className="media-drawer__empty">

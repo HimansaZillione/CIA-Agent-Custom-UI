@@ -1260,21 +1260,22 @@ header::after {
 /* Add these to your existing index.css */
 
 /* ── Main layout — flex row ─────────────────────────────────────────────── */
+
 .main {
   display: flex;
   flex-direction: row;
   overflow: hidden;
 }
 
-/* ── Chat panel transitions when drawer opens ────────────────────────────── */
 .chat-panel {
   flex: 1;
   min-width: 0;
-  transition: flex 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
 }
 
+/* Shrinks when drawer is open — the 28px strip doesn't count */
 .chat-panel--shrunk {
-  flex: 0 0 55%;
+  flex: 0 0 calc(55% - 28px);
 }
