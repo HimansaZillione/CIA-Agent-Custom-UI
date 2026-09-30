@@ -80,3 +80,55 @@ export const RAIL_ICONS = {
   shield:    IconShield,
   headset:   IconHeadset,
 }
+
+// ── Home-screen intent icons ──────────────────────────────────────────────
+export const IconCompass = () => (
+  <svg {...base}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" />
+  </svg>
+)
+
+export const IconScale = () => (
+  <svg {...base}>
+    <path d="M12 4v16M8 20h8M5 7h14" />
+    <path d="M5 7l-2.5 6a3 3 0 0 0 5 0L5 7zM19 7l-2.5 6a3 3 0 0 0 5 0L19 7z" />
+  </svg>
+)
+
+export const IconDollar = () => (
+  <svg {...base}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M14.8 9.2c-.4-.9-1.5-1.5-2.8-1.5-1.6 0-2.8.9-2.8 2.1 0 2.8 5.6 1.4 5.6 4.3 0 1.2-1.2 2.1-2.8 2.1-1.4 0-2.5-.6-2.9-1.6M12 6v1.7M12 16.3V18" />
+  </svg>
+)
+
+export const IconHelp = () => (
+  <svg {...base}>
+    <path d="M12 21a9 9 0 1 0-8.1-5.1L3 21l5.1-.9A9 9 0 0 0 12 21z" />
+    <path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.1-2.4 3.4M12 16.6h.01" />
+  </svg>
+)
+
+export const IconCalendar = () => (
+  <svg {...base}>
+    <rect x="3.5" y="5" width="17" height="15.5" rx="2" />
+    <path d="M3.5 10h17M8 3v4M16 3v4" />
+    <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
+  </svg>
+)
+
+export const IconChevronRight = () => (
+  <svg {...base} strokeWidth={2}>
+    <path d="M9 6l6 6-6 6" />
+  </svg>
+)
+
+export const INTENT_ICONS = {
+  compass:  IconCompass,
+  scale:    IconScale,
+  dollar:   IconDollar,
+  help:     IconHelp,
+  calendar: IconCalendar,
+  headset:  IconHeadset,
+}

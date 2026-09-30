@@ -1,68 +1,32 @@
 // LeftRail.jsx — category icons down the left edge.
-// Clicking a category opens a small flyout of its topics (Stage 2 replaces this
-// with the full Browse Solutions panel). The person icon is the human channel.
+// Clicking a category opens the Browse Solutions column with that category expanded
+// (clicking it again closes the column). The person icon is the human channel.
 //
-// Active-state rule: magenta ring = the category being discussed,
-// teal ring = the human/contact channel (teal is the human colour everywhere).
-import { useState, useEffect, useRef } from 'react'
+// States: magenta ring = the category being discussed · soft highlight = the category
+// expanded in the Browse column · teal ring = the human/contact channel.
 import { TOPIC_CATEGORIES } from '../../config/topics'
 import { RAIL_ICONS, IconUser } from './icons'
 
-export default function LeftRail({ activeId, onSelectTopic, onContact }) {
-  const [openId, setOpenId] = useState(null)
-  const railRef = useRef(null)
-
-  // Close the flyout on outside click / Escape
-  useEffect(() => {
-    if (!openId) return
-    const onDown = e => { if (!railRef.current?.contains(e.target)) setOpenId(null) }
-    const onKey  = e => { if (e.key === 'Escape') setOpenId(null) }
-    document.addEventListener('mousedown', onDown)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('mousedown', onDown)
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [openId])
-
+export default function LeftRail({ activeId, browseOpenId, onCategory, onContact }) {
   return (
-    <nav className="az-rail" ref={railRef} aria-label="Browse topics">
+    <nav className="az-rail" aria-label="Browse topics">
       <div className="az-rail__group">
         {TOPIC_CATEGORIES.map(cat => {
           const Icon     = RAIL_ICONS[cat.icon]
           const isActive = activeId === cat.id
-          const isOpen   = openId === cat.id
+          const isOpen   = browseOpenId === cat.id
           return (
-            <div className="az-rail__item" key={cat.id}>
-              <button
-                type="button"
-                className={`az-rail__btn${isActive ? ' az-rail__btn--active' : ''}${isOpen ? ' az-rail__btn--open' : ''}`}
-                aria-label={cat.label}
-                aria-expanded={isOpen}
-                aria-haspopup="menu"
-                title={cat.label}
-                onClick={() => setOpenId(isOpen ? null : cat.id)}
-              >
-                <Icon />
-              </button>
-
-              {isOpen && (
-                <div className="az-rail__flyout" role="menu" aria-label={cat.label}>
-                  <p className="az-rail__flyout-title">{cat.label}</p>
-                  {cat.topics.map(topic => (
-                    <button
-                      key={topic}
-                      type="button"
-                      role="menuitem"
-                      className="az-rail__flyout-item"
-                      onClick={() => { setOpenId(null); onSelectTopic(topic, cat.id) }}
-                    >
-                      {topic}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button
+              key={cat.id}
+              type="button"
+              className={`az-rail__btn${isActive ? ' az-rail__btn--active' : ''}${isOpen ? ' az-rail__btn--open' : ''}`}
+              aria-label={cat.label}
+              aria-pressed={isOpen}
+              title={cat.label}
+              onClick={() => onCategory(cat.id)}
+            >
+              <Icon />
+            </button>
           )
         })}
       </div>
@@ -72,7 +36,7 @@ export default function LeftRail({ activeId, onSelectTopic, onContact }) {
         className={`az-rail__btn az-rail__btn--contact${activeId === 'contact' ? ' az-rail__btn--active' : ''}`}
         aria-label="Talk to our team"
         title="Talk to our team"
-        onClick={() => { setOpenId(null); onContact() }}
+        onClick={onContact}
       >
         <IconUser />
       </button>

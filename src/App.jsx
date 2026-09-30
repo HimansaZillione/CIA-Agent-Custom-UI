@@ -5,13 +5,15 @@ import useBotConnection               from './hooks/useBotConnection'
 import usePanel, { PANEL_MODES }      from './hooks/usePanel'
 import Header                         from './components/shell/Header'
 import LeftRail                       from './components/shell/LeftRail'
+import BrowsePanel                    from './components/shell/BrowsePanel'
+import HomeScreen                     from './components/shell/HomeScreen'
 import RightPanel                     from './panel/RightPanel'
 import StreamingBubble                from './components/StreamingBubble'
 import { IconSend }                   from './components/shell/icons'
 import { fetchProductMedia }          from './services/mediaService'
 import { buildKeywordMap, detectProduct } from './utils/detectProduct'
 import { postToHost }                 from './utils/embedBridge'
-import { SUGGESTED, HUMAN_AGENT_PHRASE, categoryForTopic } from './config/topics'
+import { HUMAN_AGENT_PHRASE, categoryForTopic } from './config/topics'
 import botAvatar                      from './assets/bot_avatar.png'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -118,16 +120,26 @@ export default function App() {
   const chatboxRef = useRef(null)
   const [activeCategory, setActiveCategory] = useState(null)
 
+  // ── Browse Solutions column ───────────────────────────────────────────────
+  // Open by default on the home screen when there's room; closes when the
+  // conversation starts so the chat gets the width. The rail reopens it.
+  const [browse, setBrowse] = useState(() => ({
+    open:     window.innerWidth >= 1100,
+    expanded: 'microsoft',
+  }))
+  const isNarrow = () => window.innerWidth <= 760
+
   const send = useCallback((text) => {
     if (!text?.trim()) return
     const cat = categoryForTopic(text)
     if (cat) setActiveCategory(cat)
+    if (messages.length === 0 || isNarrow()) setBrowse(b => ({ ...b, open: false }))
     sendMessage(text)
     if (inputRef.current) {
       inputRef.current.value = ''
       inputRef.current.style.height = 'auto'
     }
-  }, [sendMessage])
+  }, [sendMessage, messages.length])
 
   useEffect(() => {
     if (chatboxRef.current) chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
@@ -137,7 +149,16 @@ export default function App() {
   const railActiveId =
     panel.open && panel.mode === PANEL_MODES.SHOW_FORM ? 'contact' : activeCategory
 
-  const handleRailTopic = useCallback((topic, categoryId) => {
+  // Rail icon: open Browse with that category expanded; same icon again closes it.
+  const handleRailCategory = useCallback((id) => {
+    setBrowse(b => (b.open && b.expanded === id ? { ...b, open: false } : { open: true, expanded: id }))
+  }, [])
+
+  const toggleBrowseCategory = useCallback((id) => {
+    setBrowse(b => ({ ...b, expanded: b.expanded === id ? null : id }))
+  }, [])
+
+  const handleBrowseTopic = useCallback((topic, categoryId) => {
     setActiveCategory(categoryId)
     send(topic)
   }, [send])
@@ -164,8 +185,19 @@ export default function App() {
       <div className="az-body">
         <LeftRail
           activeId={railActiveId}
-          onSelectTopic={handleRailTopic}
+          browseOpenId={browse.open ? browse.expanded : null}
+          onCategory={handleRailCategory}
           onContact={handleContact}
+        />
+
+        <BrowsePanel
+          open={browse.open}
+          expandedId={browse.expanded}
+          activeCategory={activeCategory}
+          onToggleCategory={toggleBrowseCategory}
+          onSelectTopic={handleBrowseTopic}
+          onContact={() => { if (isNarrow()) setBrowse(b => ({ ...b, open: false })); handleContact() }}
+          onClose={() => setBrowse(b => ({ ...b, open: false }))}
         />
 
         {/* ── Chat column ── */}
@@ -173,15 +205,7 @@ export default function App() {
           <div id="chatbox" ref={chatboxRef}>
 
             {messages.length === 0 && (
-              <div className="empty-state">
-                <div className="welcome-brand"><h2>AskZILLIONe</h2></div>
-                <p><strong>Hi there!</strong> Select a topic to explore or type in your query.</p>
-                <div className="welcome-suggestions">
-                  {SUGGESTED.map(q => (
-                    <button key={q} type="button" className="suggested-btn" onClick={() => send(q)}>{q}</button>
-                  ))}
-                </div>
-              </div>
+              <HomeScreen onSelect={send} disabled={!isConnected} />
             )}
 
             {messages.map(msg => {

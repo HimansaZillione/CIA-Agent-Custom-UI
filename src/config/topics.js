@@ -1,20 +1,6 @@
 // topics.js
 // Topic phrases the UI can send. Each phrase must match a trigger phrase in Copilot Studio.
 
-// Welcome-screen list (same order and wording as before).
-export const SUGGESTED = [
-  'Cybersecurity Solutions',
-  'Power BI Dashboards & Analytics',
-  'Cloud Infrastructure & Azure',
-  'Microsoft Dynamics 365',
-  'SAGE 300 ERP',
-  'AI Bots & Agents',
-  'Microsoft 365 & Collaboration',
-  'Custom Software Development',
-  'Jabra Audio & Video Devices',
-  'Speak with a Human Agent',
-]
-
 export const HUMAN_AGENT_PHRASE = 'Speak with a Human Agent'
 
 // Left-rail categories. `icon` keys map to RAIL_ICONS in components/shell/icons.jsx.
@@ -49,3 +35,15 @@ export function categoryForTopic(text) {
   const cat = TOPIC_CATEGORIES.find(c => c.topics.some(p => p.toLowerCase() === t))
   return cat?.id ?? null
 }
+
+// Home-screen intent cards. `message` is what gets sent to the bot.
+// "Book a call" reuses the escalation phrase so it works with today's topics;
+// the other messages need trigger phrases (or generative answers) in Copilot Studio.
+export const HOME_INTENTS = [
+  { id: 'choose',   icon: 'compass',  label: 'Help me choose the right solution for my business', message: 'Help me choose the right solution for my business' },
+  { id: 'compare',  icon: 'scale',    label: 'Compare two solutions',                            message: 'Compare two solutions' },
+  { id: 'cost',     icon: 'dollar',   label: 'What does a project like this typically cost?',    message: 'What does a project like this typically cost?' },
+  { id: 'problem',  icon: 'help',     label: "I have a problem and I'm not sure what I need",   message: "I have a problem and I'm not sure what I need" },
+  { id: 'call',     icon: 'calendar', label: 'Book a call with a consultant',                    message: HUMAN_AGENT_PHRASE },
+  { id: 'support',  icon: 'headset',  label: "I'm an existing customer and need support",       message: "I'm an existing customer and need support" },
+]
