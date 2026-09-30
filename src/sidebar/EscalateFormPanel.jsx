@@ -120,12 +120,14 @@ The AI Agent explained that they had set up an escalation to the WhatsApp option
 
   return (
     <div className="ctx-escalate-panel">
-      <p className="ctx-form-intro">
-        Fill in the form below and a team member will get back to you.
-      </p>
-
+      {/* FallbackForm renders its own intro line — only add one for the card version */}
       {cardJson
-        ? <AdaptiveCardRenderer cardJson={cardJson} onSubmit={handleSubmit} />
+        ? <>
+            <p className="ctx-form-intro">
+              Fill in the form below and a team member will get back to you.
+            </p>
+            <AdaptiveCardRenderer cardJson={cardJson} onSubmit={handleSubmit} />
+          </>
         : <FallbackForm onSubmit={handleSubmit} />
       }
     </div>

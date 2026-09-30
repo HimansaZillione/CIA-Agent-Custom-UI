@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import { TOKEN_URL, DIRECTLINE_BASE, POLL_INTERVAL, EMPTY_STREAK, POLL_TIMEOUT } from '../config/botConfig'
-import { SIDEBAR_MODES } from './useSidebar'
+import { PANEL_MODES } from './usePanel'
 import escalateCard from '../config/escalateCard'
 
 function playSound(type) {
@@ -119,7 +119,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
 
             if (text.includes('[OPEN_MAP]')) {
               text = text.replace('[OPEN_MAP]', '').trim()
-              setTimeout(() => onSignal(SIDEBAR_MODES.SHOW_MAP, {}, []), 400)
+              setTimeout(() => onSignal(PANEL_MODES.SHOW_MAP, {}, []), 400)
             }
 
             if (text.includes('[OPEN_PURCHASE]')) {
@@ -132,7 +132,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
               text = text.replace('[SHOW_FORM]', '').trim()
               suppressNextCard.current = true
               setTimeout(() => {
-                onSignal(SIDEBAR_MODES.SHOW_FORM, { cardJson: escalateCard }, [])
+                onSignal(PANEL_MODES.SHOW_FORM, { cardJson: escalateCard }, [])
               }, 400)
               if (!text) return
             }
@@ -155,11 +155,11 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
               ? (r.attachments?.find(a => a.contentType === 'application/vnd.microsoft.card.adaptive')?.content ?? null)
               : null
 
-            const isFormOnly = r.channelData?.sidebarAction === SIDEBAR_MODES.SHOW_FORM && !text.trim()
+            const isFormOnly = r.channelData?.sidebarAction === PANEL_MODES.SHOW_FORM && !text.trim()
 
             if (!isFormOnly && (text.trim() || inlineCard)) {
               // ── [SHOW_PRODUCT:tag] signal ─────────────────────────────
-              const match = text.match(/\[SHOW_PRODUCT:(\w+)\]/)
+              const match = text.match(/\[SHOW_PRODUCT:([\w-]+)\]/)
               if (match) {
                 text = text.replace(match[0], '').trim()
                 const tag = match[1]

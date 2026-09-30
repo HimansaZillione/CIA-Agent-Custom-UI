@@ -50,8 +50,11 @@
       transform: translateX(100%);
       transition:
         opacity 0.35s cubic-bezier(0.4,0,0.2,1),
-        transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
+        width 0.4s cubic-bezier(0.2,0.8,0.2,1);
     }
+    /* Collapsed: narrow column; the app switches to its overlay layout */
+    #zn-panel.zn-collapsed { width: min(480px, 100vw); }
     #zn-panel.zn-open {
       opacity: 1;
       pointer-events: all;
@@ -109,6 +112,17 @@
     launcher.querySelector('#zn-label').textContent = 'Ask ZILLIONe'
     launcher.querySelector('.zn-dot').style.display = 'block'
   }
+
+  // Messages from the app inside the iframe (Header: Collapse / ✕)
+  const BOT_ORIGIN = new URL(BOT_URL).origin
+  window.addEventListener('message', e => {
+    if (e.origin !== BOT_ORIGIN || e.source !== panel.contentWindow) return
+    const msg = e.data
+    if (!msg || msg.source !== 'askzillione') return
+    if (msg.type === 'close')    close()
+    if (msg.type === 'collapse') panel.classList.add('zn-collapsed')
+    if (msg.type === 'expand')   panel.classList.remove('zn-collapsed')
+  })
 
   launcher.addEventListener('click', () => isOpen ? close() : open())
   overlay.addEventListener('click', close)

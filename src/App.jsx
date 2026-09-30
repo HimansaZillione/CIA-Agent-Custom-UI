@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { marked } from 'marked'
 
-import useBotConnection          from './hooks/useBotConnection'
-import useSidebar                from './hooks/useSidebar'
-import { SIDEBAR_MODES }         from './hooks/useSidebar'
-import ContextSidebar            from './sidebar/ContextSidebar'
-import MediaDrawer               from './components/MediaDrawer'
-import StreamingBubble           from './components/StreamingBubble'
-import { fetchProductMedia }     from './services/mediaService'
+import useBotConnection               from './hooks/useBotConnection'
+import usePanel, { PANEL_MODES }      from './hooks/usePanel'
+import Header                         from './components/shell/Header'
+import LeftRail                       from './components/shell/LeftRail'
+import RightPanel                     from './panel/RightPanel'
+import StreamingBubble                from './components/StreamingBubble'
+import { IconSend }                   from './components/shell/icons'
+import { fetchProductMedia }          from './services/mediaService'
 import { buildKeywordMap, detectProduct } from './utils/detectProduct'
-import botAvatar                 from './assets/bot_avatar.png'
-import escalateCard              from './config/escalateCard'
+import { postToHost }                 from './utils/embedBridge'
+import { SUGGESTED, HUMAN_AGENT_PHRASE, categoryForTopic } from './config/topics'
+import botAvatar                      from './assets/bot_avatar.png'
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -28,40 +30,37 @@ function preloadMedia(items) {
   })
 }
 
-const SUGGESTED = [
-  "Cybersecurity Solutions",
-  "Power BI Dashboards & Analytics",
-  "Cloud Infrastructure & Azure",
-  "Microsoft Dynamics 365",
-  "SAGE 300 ERP",
-  "AI Bots & Agents",
-  "Microsoft 365 & Collaboration",
-  "Custom Software Development",
-  "Jabra Audio & Video Devices",
-  "Speak with a Human Agent",
-]
+// Resolve a [SHOW_PRODUCT:tag] tag against the manifest:
+// productSlug → deviceType → category → family
+function findMediaByTag(allMedia, tag) {
+  return allMedia.find(i => i.productSlug === tag)
+      ?? allMedia.find(i => i.deviceType  === tag)
+      ?? allMedia.find(i => i.category    === tag)
+      ?? allMedia.find(i => i.family      === tag)
+      ?? null
+}
+
+function CopyBtn({ text }) {
+  const [copied, setCopied] = useState(false)
+  return (
+    <button
+      type="button"
+      className={`copy-btn${copied ? ' copied' : ''}`}
+      aria-label="Copy message"
+      onClick={() => navigator.clipboard.writeText(text).then(() => {
+        setCopied(true); setTimeout(() => setCopied(false), 2000)
+      })}
+    >{copied ? '✓' : '📋'}</button>
+  )
+}
 
 export default function App() {
 
-  // ── Theme ─────────────────────────────────────────────────────────────────
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
-  useEffect(() => {
-    document.documentElement.classList.toggle('light-mode', theme === 'light')
-    localStorage.setItem('theme', theme)
-  }, [theme])
+  // ── Right panel (product media / form / map / info) ───────────────────────
+  const { panel, closePanel, reopenPanel, togglePanel, showProduct, handleSignal } = usePanel()
 
-  // ── Sidebar (form / info / map) ───────────────────────────────────────────
-  const { sidebar, openSidebar, closeSidebar, handleSidebarSignal } = useSidebar()
-
-  const openEscalation = useCallback(() => {
-    openSidebar(SIDEBAR_MODES.SHOW_FORM, { cardJson: escalateCard })
-  }, [openSidebar])
-
-  // ── Media drawer ──────────────────────────────────────────────────────────
-  const [allMedia,        setAllMedia]        = useState([])
-  const [activeProduct,   setActiveProduct]   = useState(null)
-  const [mediaDrawerOpen, setMediaDrawerOpen] = useState(false)
-
+  // ── Media manifest ────────────────────────────────────────────────────────
+  const [allMedia, setAllMedia] = useState([])
   const keywordMap = useMemo(() => buildKeywordMap(allMedia), [allMedia])
 
   useEffect(() => {
@@ -69,58 +68,31 @@ export default function App() {
       .then(data => {
         const active = data.filter(i => i.isActive)
         setAllMedia(active)
-        preloadMedia(active)   // ← images load into cache immediately on app start
+        preloadMedia(active)
       })
       .catch(err => console.error('[media] fetch failed', err))
   }, [])
 
-  const updateActiveProduct = useCallback((text) => {
-    if (!text?.trim() || !keywordMap) return
-    const detected = detectProduct(text, keywordMap)
-    if (detected) {
-      setActiveProduct(detected)
-      setMediaDrawerOpen(true)
-    }
-  }, [keywordMap])
-
-  // ── Bot connection ────────────────────────────────────────────────────────
-  
+  // ── Bot signals ───────────────────────────────────────────────────────────
   const onSignal = useCallback((action, payload, attachments) => {
-  if (action === 'SHOW_PRODUCT') {
-    const { tag } = payload
-
-    // 1. Exact productSlug match (e.g. "evolve-2")
-    let match = allMedia.find(i => i.productSlug === tag)
-
-    // 2. deviceType match (e.g. "earbuds", "headset")
-    if (!match) match = allMedia.find(i => i.deviceType === tag)
-
-    // 3. Category match (e.g. "jabra")
-    if (!match) match = allMedia.find(i => i.category === tag)
-
-    // 4. Family match (e.g. "panacast")
-    if (!match) match = allMedia.find(i => i.family === tag)
-
-    if (match) {
-      setActiveProduct({
-        productSlug: match.productSlug,
-        family:      match.family,
-        category:    match.category,
-      })
-      setMediaDrawerOpen(true)
+    if (action === PANEL_MODES.SHOW_PRODUCT) {
+      const match = findMediaByTag(allMedia, payload?.tag)
+      if (match) {
+        showProduct(
+          { productSlug: match.productSlug, family: match.family, category: match.category },
+          { auto: false }
+        )
+      }
+      return
     }
-    return
-  }
-  handleSidebarSignal(action, payload, attachments)
-}, [handleSidebarSignal, allMedia])
+    handleSignal(action, payload, attachments)
+  }, [allMedia, showProduct, handleSignal])
 
   const openHRM = useCallback(() => {
     window.open('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', '_blank', 'width=1400,height=900')
   }, [])
 
-  const openMap = useCallback(() => {
-    openSidebar(SIDEBAR_MODES.SHOW_MAP)
-  }, [openSidebar])
+  const openMap = useCallback(() => onSignal(PANEL_MODES.SHOW_MAP, {}, []), [onSignal])
 
   const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
     onSignal,
@@ -131,21 +103,25 @@ export default function App() {
 
   useEffect(() => { init() }, [init])
 
+  // Keyword fallback: scan each NEW bot message once for a product mention.
+  const lastScannedId = useRef(null)
   useEffect(() => {
     const lastBot = [...messages].reverse().find(m => m.role === 'bot' && m.text)
-    if (lastBot) updateActiveProduct(lastBot.text)
-  }, [messages, updateActiveProduct])
-
-  useEffect(() => {
-    document.body.classList.toggle('sidebar-open', sidebar.open)
-  }, [sidebar.open])
+    if (!lastBot || lastBot.id === lastScannedId.current) return
+    lastScannedId.current = lastBot.id
+    const detected = detectProduct(lastBot.text, keywordMap)
+    if (detected) showProduct(detected, { auto: true })
+  }, [messages, keywordMap, showProduct])
 
   // ── Chat helpers ──────────────────────────────────────────────────────────
   const inputRef   = useRef(null)
   const chatboxRef = useRef(null)
+  const [activeCategory, setActiveCategory] = useState(null)
 
   const send = useCallback((text) => {
     if (!text?.trim()) return
+    const cat = categoryForTopic(text)
+    if (cat) setActiveCategory(cat)
     sendMessage(text)
     if (inputRef.current) {
       inputRef.current.value = ''
@@ -157,43 +133,43 @@ export default function App() {
     if (chatboxRef.current) chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
   }, [messages, isTyping])
 
-  function CopyBtn({ text }) {
-    const [copied, setCopied] = useState(false)
-    return (
-      <button
-        className={`copy-btn${copied ? ' copied' : ''}`}
-        onClick={() => navigator.clipboard.writeText(text).then(() => {
-          setCopied(true); setTimeout(() => setCopied(false), 2000)
-        })}
-      >{copied ? '✓' : '📋'}</button>
-    )
-  }
+  // ── Left rail ─────────────────────────────────────────────────────────────
+  const railActiveId =
+    panel.open && panel.mode === PANEL_MODES.SHOW_FORM ? 'contact' : activeCategory
+
+  const handleRailTopic = useCallback((topic, categoryId) => {
+    setActiveCategory(categoryId)
+    send(topic)
+  }, [send])
+
+  // Person icon: if a contact form already exists this session, bring it back
+  // (keeps typed values / submitted state); otherwise start the escalation topic.
+  const handleContact = useCallback(() => {
+    if (panel.mode === PANEL_MODES.SHOW_FORM) reopenPanel()
+    else send(HUMAN_AGENT_PHRASE)
+  }, [panel.mode, reopenPanel, send])
+
+  // ── Collapse (only meaningful inside the website iframe) ──────────────────
+  const [collapsed, setCollapsed] = useState(false)
+  const toggleCollapse = useCallback(() => {
+    const next = !collapsed
+    setCollapsed(next)
+    postToHost(next ? 'collapse' : 'expand')
+  }, [collapsed])
 
   return (
-    <>
-      {/* ── Header ── */}
-      <header>
-        <div className="avatar">
-          <img src={botAvatar} alt="ZILLIONe Agent" className="bot-avatar-holographic" />
-        </div>
-        <div className="header-brand">
-          <h1>ZILLION<span>e</span> Digital Assistant</h1>
-          <div className="status">
-            <div className={`status-dot${isConnected ? '' : ' status-dot--off'}`} />
-            {isConnected ? 'Online · Ready to help' : 'Connecting…'}
-          </div>
-        </div>
-        <button id="themeToggle" onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} title="Toggle theme">
-          {theme === 'dark' ? '🌙' : '☀️'}
-        </button>
-        <button id="reloadBtn" onClick={() => location.reload()}>↺ Reload</button>
-      </header>
+    <div className="az-app">
+      <Header isConnected={isConnected} collapsed={collapsed} onToggleCollapse={toggleCollapse} />
 
-      {/* ── Main layout ── */}
-      <div className="main">
+      <div className="az-body">
+        <LeftRail
+          activeId={railActiveId}
+          onSelectTopic={handleRailTopic}
+          onContact={handleContact}
+        />
 
-        {/* Chat — shrinks when drawer opens */}
-        <div className={`chat-panel ${mediaDrawerOpen && activeProduct ? 'chat-panel--shrunk' : ''}`}>
+        {/* ── Chat column ── */}
+        <div className="chat-panel az-chat">
           <div id="chatbox" ref={chatboxRef}>
 
             {messages.length === 0 && (
@@ -202,7 +178,7 @@ export default function App() {
                 <p><strong>Hi there!</strong> Select a topic to explore or type in your query.</p>
                 <div className="welcome-suggestions">
                   {SUGGESTED.map(q => (
-                    <button key={q} className="suggested-btn" onClick={() => send(q)}>{q}</button>
+                    <button key={q} type="button" className="suggested-btn" onClick={() => send(q)}>{q}</button>
                   ))}
                 </div>
               </div>
@@ -232,10 +208,9 @@ export default function App() {
                     </div>
                   )}
                   {msg.suggestedActions?.actions?.length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: '0 0 0 40px' }}>
+                    <div className="az-quick-replies">
                       {msg.suggestedActions.actions.map((a, i) => (
-                        <button key={i} className="suggested-btn"
-                          style={{ maxWidth: 'none', padding: '7px 14px', width: 'auto' }}
+                        <button key={i} type="button" className="az-quick-reply"
                           onClick={() => send(a.value ?? a.title)}>
                           {a.title}
                         </button>
@@ -263,7 +238,8 @@ export default function App() {
               ref={inputRef}
               id="userInput"
               rows={1}
-              placeholder="Ask me about ZILLIONe's solutions…"
+              aria-label="Message"
+              placeholder="Describe your challenge or question…"
               onInput={e => {
                 e.target.style.height = 'auto'
                 e.target.style.height = Math.min(e.target.scrollHeight, 110) + 'px'
@@ -275,34 +251,21 @@ export default function App() {
                 }
               }}
             />
-            <button id="sendBtn" onClick={() => send(inputRef.current?.value)}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"
-                strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
+            <button id="sendBtn" type="button" aria-label="Send" onClick={() => send(inputRef.current?.value)}>
+              <IconSend />
             </button>
           </div>
         </div>
 
-        {/* Media drawer */}
-        {activeProduct && (
-          <MediaDrawer
-            activeProduct={activeProduct}
-            allMedia={allMedia}
-            open={mediaDrawerOpen}
-            onToggle={() => setMediaDrawerOpen(v => !v)}
-          />
-        )}
-
+        {/* ── Single context panel ── */}
+        <RightPanel
+          panel={panel}
+          onClose={closePanel}
+          onToggle={togglePanel}
+          allMedia={allMedia}
+          onSubmitCard={submitCard}
+        />
       </div>
-
-      {/* ── Context Sidebar ── */}
-      <ContextSidebar
-        sidebar={sidebar}
-        onClose={closeSidebar}
-        onSubmitCard={submitCard}
-      />
-    </>
+    </div>
   )
 }
