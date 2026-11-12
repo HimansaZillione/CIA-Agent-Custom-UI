@@ -19,8 +19,8 @@ export const PANEL_MODES = {
 export default function usePanel() {
   const [panel, setPanel] = useState({ open: false, mode: null, payload: null })
 
-  // Product the visitor closed the panel on — keyword auto-detection won't reopen it.
-  const dismissedSlug = useRef(null)
+  // Selection the visitor closed the panel on — keyword auto-detection won't reopen it.
+  const dismissedKey = useRef(null)
 
   const openPanel = useCallback((mode, payload = null) => {
     setPanel({ open: true, mode, payload })
@@ -29,7 +29,7 @@ export default function usePanel() {
   const closePanel = useCallback(() => {
     setPanel(prev => {
       if (prev.mode === PANEL_MODES.SHOW_PRODUCT) {
-        dismissedSlug.current = prev.payload?.product?.productSlug ?? null
+        dismissedKey.current = prev.payload?.product?.key ?? null
       }
       return { ...prev, open: false }
     })
@@ -45,25 +45,25 @@ export default function usePanel() {
     setPanel(prev => {
       if (!prev.mode) return prev
       if (prev.open && prev.mode === PANEL_MODES.SHOW_PRODUCT) {
-        dismissedSlug.current = prev.payload?.product?.productSlug ?? null
+        dismissedKey.current = prev.payload?.product?.key ?? null
       }
       return { ...prev, open: !prev.open }
     })
   }, [])
 
-  // product: { productSlug, family, category }
+  // product: a selection from utils/resolveProductTag.js — { scope, key, ... }
   // auto:    true when it came from keyword detection rather than an explicit bot signal
   const showProduct = useCallback((product, { auto = false } = {}) => {
-    if (!product?.productSlug) return
+    if (!product?.key) return
     setPanel(prev => {
       // Never replace an open contact form — a half-filled form must not be lost.
       if (prev.open && prev.mode === PANEL_MODES.SHOW_FORM) return prev
       // Respect the visitor closing the panel on this product.
-      if (auto && dismissedSlug.current === product.productSlug) return prev
-      // Already showing this product — keep state (don't reset the slideshow).
+      if (auto && dismissedKey.current === product.key) return prev
+      // Already showing this selection — keep state (don't reset the slideshows).
       if (prev.open && prev.mode === PANEL_MODES.SHOW_PRODUCT &&
-          prev.payload?.product?.productSlug === product.productSlug) return prev
-      if (!auto) dismissedSlug.current = null
+          prev.payload?.product?.key === product.key) return prev
+      if (!auto) dismissedKey.current = null
       return { open: true, mode: PANEL_MODES.SHOW_PRODUCT, payload: { product } }
     })
   }, [])

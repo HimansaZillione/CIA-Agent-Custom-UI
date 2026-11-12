@@ -13,6 +13,7 @@ import { IconSend }                   from './components/shell/icons'
 import { fetchProductMedia }          from './services/mediaService'
 import { buildKeywordMap, detectProduct } from './utils/detectProduct'
 import { postToHost }                 from './utils/embedBridge'
+import { resolveProductTag, productSelection } from './utils/resolveProductTag'
 import { HUMAN_AGENT_PHRASE, categoryForTopic } from './config/topics'
 import botAvatar                      from './assets/bot_avatar.png'
 
@@ -30,16 +31,6 @@ function preloadMedia(items) {
       img.src = item.thumbnailUrl
     }
   })
-}
-
-// Resolve a [SHOW_PRODUCT:tag] tag against the manifest:
-// productSlug → deviceType → category → family
-function findMediaByTag(allMedia, tag) {
-  return allMedia.find(i => i.productSlug === tag)
-      ?? allMedia.find(i => i.deviceType  === tag)
-      ?? allMedia.find(i => i.category    === tag)
-      ?? allMedia.find(i => i.family      === tag)
-      ?? null
 }
 
 function CopyBtn({ text }) {
@@ -78,13 +69,9 @@ export default function App() {
   // ── Bot signals ───────────────────────────────────────────────────────────
   const onSignal = useCallback((action, payload, attachments) => {
     if (action === PANEL_MODES.SHOW_PRODUCT) {
-      const match = findMediaByTag(allMedia, payload?.tag)
-      if (match) {
-        showProduct(
-          { productSlug: match.productSlug, family: match.family, category: match.category },
-          { auto: false }
-        )
-      }
+      // Tags with no media (e.g. "cloud" today) resolve to null → panel stays as it is.
+      const selection = resolveProductTag(allMedia, payload?.tag)
+      if (selection) showProduct(selection, { auto: false })
       return
     }
     handleSignal(action, payload, attachments)
@@ -112,7 +99,7 @@ export default function App() {
     if (!lastBot || lastBot.id === lastScannedId.current) return
     lastScannedId.current = lastBot.id
     const detected = detectProduct(lastBot.text, keywordMap)
-    if (detected) showProduct(detected, { auto: true })
+    if (detected) showProduct(productSelection(detected), { auto: true })
   }, [messages, keywordMap, showProduct])
 
   // ── Chat helpers ──────────────────────────────────────────────────────────
@@ -169,6 +156,13 @@ export default function App() {
     if (panel.mode === PANEL_MODES.SHOW_FORM) reopenPanel()
     else send(HUMAN_AGENT_PHRASE)
   }, [panel.mode, reopenPanel, send])
+
+  // "Ask about this" on a product in the panel. On narrow layouts the panel covers
+  // the chat, so close it to let the visitor see the answer (the strip reopens it).
+  const handleAsk = useCallback((name) => {
+    send(`Tell me about ${name}`)
+    if (isNarrow()) closePanel()
+  }, [send, closePanel])
 
   // ── Collapse (only meaningful inside the website iframe) ──────────────────
   const [collapsed, setCollapsed] = useState(false)
@@ -286,6 +280,7 @@ export default function App() {
           panel={panel}
           onClose={closePanel}
           onToggle={togglePanel}
+          onAsk={handleAsk}
           allMedia={allMedia}
           onSubmitCard={submitCard}
         />

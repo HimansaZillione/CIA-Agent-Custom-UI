@@ -22,14 +22,14 @@ const TITLES = {
   [PANEL_MODES.SHOW_INFO]:    'More info',
 }
 
-export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard }) {
+export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard, onAsk }) {
   const { open, mode, payload } = panel
   const title = TITLES[mode] ?? 'Details'
 
   function renderView() {
     switch (mode) {
       case PANEL_MODES.SHOW_PRODUCT:
-        return <ProductMediaView product={payload?.product} allMedia={allMedia} />
+        return <ProductMediaView product={payload?.product} allMedia={allMedia} onAsk={onAsk} />
       case PANEL_MODES.SHOW_FORM:
         return <EscalateFormPanel cardJson={payload?.cardJson} onSubmit={onSubmitCard} onClose={onClose} />
       case PANEL_MODES.SHOW_MAP:

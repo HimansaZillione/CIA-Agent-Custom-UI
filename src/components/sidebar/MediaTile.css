@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   background: #1a1a2e;
   cursor: pointer;
@@ -10,12 +10,11 @@
 }
 
 .media-tile:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
 }
 
 .media-tile--active {
-  box-shadow: 0 0 0 2px #4f8ef7, 0 4px 20px rgba(79, 142, 247, 0.3);
+  box-shadow: 0 0 0 2px var(--magenta, #E91E8C), 0 6px 24px rgba(233, 30, 140, 0.25);
 }
 
 .media-tile__image {

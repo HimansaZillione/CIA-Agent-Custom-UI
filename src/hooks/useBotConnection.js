@@ -159,7 +159,8 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
 
             if (!isFormOnly && (text.trim() || inlineCard)) {
               // ── [SHOW_PRODUCT:tag] signal ─────────────────────────────
-              const match = text.match(/\[SHOW_PRODUCT:([\w-]+)\]/)
+              // Any text up to "]" — slugs or display names; resolveProductTag() normalises it
+              const match = text.match(/\[SHOW_PRODUCT:([^\]]+)\]/)
               if (match) {
                 text = text.replace(match[0], '').trim()
                 const tag = match[1]

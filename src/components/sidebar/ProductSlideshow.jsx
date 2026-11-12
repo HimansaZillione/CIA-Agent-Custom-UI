@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import MediaTile from './MediaTile'
 import './ProductSlideshow.css'
 
-export default function ProductSlideshow({ slug, name, items, isActiveProduct = false, compact = false }) {
+export default function ProductSlideshow({ slug, name, items, isActiveProduct = false, compact = false, onAsk }) {
   const [index,   setIndex]   = useState(0)
   const [visible, setVisible] = useState(true)  // drives fade
 
@@ -56,6 +56,12 @@ export default function ProductSlideshow({ slug, name, items, isActiveProduct = 
             />
           ))}
         </div>
+      )}
+
+      {onAsk && (
+        <button type="button" className="product-slideshow__ask" onClick={onAsk}>
+          Ask about this
+        </button>
       )}
     </div>
   )
