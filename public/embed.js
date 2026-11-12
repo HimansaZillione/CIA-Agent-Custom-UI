@@ -1,5 +1,5 @@
 (function () {
-  const BOT_URL = 'https://agreeable-sea-0ba7bfe00.7.azurestaticapps.net/'
+  const BOT_URL = 'https://kind-tree-0e710f80f.5.azurestaticapps.net/'
 
   const style = document.createElement('style')
   style.textContent = `
