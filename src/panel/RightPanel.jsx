@@ -23,7 +23,7 @@ const TITLES = {
 }
 
 // showcaseTitle: heading for the product-media view, from the UI Config topic.
-export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard, showcaseTitle }) {
+export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard, showcaseTitle, whatsappUrl }) {
   const { open, mode, payload } = panel
   const title = (mode === PANEL_MODES.SHOW_PRODUCT && showcaseTitle) || (TITLES[mode] ?? 'Details')
 
@@ -32,7 +32,7 @@ export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmi
       case PANEL_MODES.SHOW_PRODUCT:
         return <ProductMediaView product={payload?.product} allMedia={allMedia} />
       case PANEL_MODES.SHOW_FORM:
-        return <EscalateFormPanel cardJson={payload?.cardJson} onSubmit={onSubmitCard} onClose={onClose} />
+        return <EscalateFormPanel cardJson={payload?.cardJson} onSubmit={onSubmitCard} onClose={onClose} whatsappUrl={whatsappUrl} />
       case PANEL_MODES.SHOW_MAP:
         return <LocationPanel />
       case PANEL_MODES.SHOW_INFO:

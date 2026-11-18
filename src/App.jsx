@@ -83,7 +83,7 @@ export default function App() {
 
   const openMap = useCallback(() => onSignal(PANEL_MODES.SHOW_MAP, {}, []), [onSignal])
 
-  const { messages, isTyping, isConnected, uiConfig, init, reset, sendMessage, submitCard } = useBotConnection({
+  const { messages, isTyping, isConnected, uiConfig, whatsappUrl, init, reset, sendMessage, submitCard } = useBotConnection({
     onSignal,
     onOpenHRM:      openHRM,
     onOpenMap:      openMap,
@@ -284,6 +284,7 @@ export default function App() {
           onClose={closePanel}
           onToggle={togglePanel}
           showcaseTitle={uiConfig?.showcase?.title}
+          whatsappUrl={whatsappUrl}
           allMedia={allMedia}
           onSubmitCard={submitCard}
         />

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdaptiveCardRenderer from '../components/AdaptiveCard'
 
 function FallbackForm({ onSubmit }) {
@@ -54,9 +54,22 @@ function FallbackForm({ onSubmit }) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function EscalateFormPanel({ cardJson, onSubmit, onClose }) {
+// How long to wait for the Escalate topic's routed WhatsApp link before falling
+// back to the general number. The routing flows usually finish well within this.
+const ROUTED_LINK_WAIT_MS = 30000
+const FALLBACK_WHATSAPP_NUMBER = '94742561609'
+
+export default function EscalateFormPanel({ cardJson, onSubmit, onClose, whatsappUrl }) {
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState(null)
+  const [waitedTooLong, setWaitedTooLong] = useState(false)
+
+  // After submitting, wait for the routed link; give up after ROUTED_LINK_WAIT_MS.
+  useEffect(() => {
+    if (!submitted || whatsappUrl) return
+    const t = setTimeout(() => setWaitedTooLong(true), ROUTED_LINK_WAIT_MS)
+    return () => clearTimeout(t)
+  }, [submitted, whatsappUrl])
 
   const handleSubmit = async (data) => {
     setFormData(data)
@@ -80,7 +93,10 @@ export default function EscalateFormPanel({ cardJson, onSubmit, onClose }) {
 - Mobile: ${mobile}
 
 The AI Agent explained that they had set up an escalation to the WhatsApp option so that I could continue the conversation with a live agent. My query was effectively escalated.`
-    const waUrl = `https://api.whatsapp.com/send?phone=94742561609&text=${encodeURIComponent(waMessage)}`
+    // Routed link from Power Automate (the PM for this enquiry) when it has arrived;
+    // the general number only if it doesn't come.
+    const fallbackUrl = `https://api.whatsapp.com/send?phone=${FALLBACK_WHATSAPP_NUMBER}&text=${encodeURIComponent(waMessage)}`
+    const waUrl = whatsappUrl || (waitedTooLong ? fallbackUrl : null)
 
     return (
       <div className="ctx-done">
@@ -90,30 +106,37 @@ The AI Agent explained that they had set up an escalation to the WhatsApp option
           Our team will be in touch shortly.
         </p>
 
-        <a 
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '12px 24px',
-            background: '#25D366',
-            color: 'white',
-            borderRadius: '10px',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: 600,
-            boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)',
-            transition: 'transform 0.2s'
-          }}
-          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          <span style={{ fontSize: '18px' }}>💬</span>
-          Chat on WhatsApp
-        </a>
+        {waUrl ? (
+          <a 
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '12px 24px',
+              background: '#25D366',
+              color: 'white',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              fontSize: '14px',
+              fontWeight: 600,
+              boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)',
+              transition: 'transform 0.2s'
+            }}
+            onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <span style={{ fontSize: '18px' }}>💬</span>
+            Chat on WhatsApp
+          </a>
+        ) : (
+          <div className="ctx-wa-preparing" role="status">
+            <span className="ctx-wa-spinner" aria-hidden="true" />
+            Preparing your WhatsApp link…
+          </div>
+        )}
       </div>
     )
   }

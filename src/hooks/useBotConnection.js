@@ -36,6 +36,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
   const [isTyping, setIsTyping]       = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   const [uiConfig, setUiConfig]       = useState(null)   // sent by the "UI Config" topic in Copilot Studio
+  const [whatsappUrl, setWhatsappUrl] = useState(null)   // routed PM link, sent by the Escalate topic
 
   const tokenRef         = useRef(null)
   const convIdRef        = useRef(null)
@@ -90,6 +91,10 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
             const value = typeof ev.value === 'string' ? JSON.parse(ev.value) : ev.value
             console.log('[uiConfig] received', value)
             setUiConfig(value)
+          }
+          if (ev.name === 'escalationResult') {
+            const value = typeof ev.value === 'string' ? JSON.parse(ev.value) : ev.value
+            if (value?.whatsappUrl) setWhatsappUrl(value.whatsappUrl)
           }
         })
         if (events.length > 0) { hasReply = true; emptyStreak = 0 }
@@ -213,6 +218,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     setMessages([])
     setIsTyping(false)
     setIsConnected(false)
+    setWhatsappUrl(null)
     transcriptRef.current    = ''
     watermark.current        = null
     convIdRef.current        = null
@@ -263,5 +269,5 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     } catch (e) { console.error('[bot] submitCard', e); setIsTyping(false) }
   }, [startPoll])
 
-  return { messages, isTyping, isConnected, uiConfig, init, reset, sendMessage, submitCard }
+  return { messages, isTyping, isConnected, uiConfig, whatsappUrl, init, reset, sendMessage, submitCard }
 }
