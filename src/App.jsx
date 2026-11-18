@@ -4,8 +4,8 @@ import { marked } from 'marked'
 import useBotConnection               from './hooks/useBotConnection'
 import usePanel, { PANEL_MODES }      from './hooks/usePanel'
 import Header                         from './components/shell/Header'
-import LeftRail                       from './components/shell/LeftRail'
-import BrowsePanel                    from './components/shell/BrowsePanel'
+import Sidebar                        from './components/shell/Sidebar'
+import GuidePage                      from './components/shell/GuidePage'
 import HomeScreen                     from './components/shell/HomeScreen'
 import RightPanel                     from './panel/RightPanel'
 import StreamingBubble                from './components/StreamingBubble'
@@ -14,7 +14,7 @@ import { fetchProductMedia }          from './services/mediaService'
 import { buildKeywordMap, detectProduct } from './utils/detectProduct'
 import { postToHost }                 from './utils/embedBridge'
 import { resolveProductTag, productSelection } from './utils/resolveProductTag'
-import { HUMAN_AGENT_PHRASE, categoryForTopic } from './config/topics'
+import { HUMAN_AGENT_PHRASE }         from './config/topics'
 import botAvatar                      from './assets/bot_avatar.png'
 
 marked.setOptions({ breaks: true, gfm: true })
@@ -50,7 +50,7 @@ function CopyBtn({ text }) {
 export default function App() {
 
   // ── Right panel (product media / form / map / info) ───────────────────────
-  const { panel, closePanel, reopenPanel, togglePanel, showProduct, handleSignal } = usePanel()
+  const { panel, closePanel, reopenPanel, resetPanel, togglePanel, showProduct, handleSignal } = usePanel()
 
   // ── Media manifest ────────────────────────────────────────────────────────
   const [allMedia, setAllMedia] = useState([])
@@ -83,7 +83,7 @@ export default function App() {
 
   const openMap = useCallback(() => onSignal(PANEL_MODES.SHOW_MAP, {}, []), [onSignal])
 
-  const { messages, isTyping, isConnected, init, sendMessage, submitCard } = useBotConnection({
+  const { messages, isTyping, isConnected, uiConfig, init, reset, sendMessage, submitCard } = useBotConnection({
     onSignal,
     onOpenHRM:      openHRM,
     onOpenMap:      openMap,
@@ -105,57 +105,65 @@ export default function App() {
   // ── Chat helpers ──────────────────────────────────────────────────────────
   const inputRef   = useRef(null)
   const chatboxRef = useRef(null)
-  const [activeCategory, setActiveCategory] = useState(null)
 
-  // ── Browse Solutions column ───────────────────────────────────────────────
-  // Open by default on the home screen when there's room; closes when the
-  // conversation starts so the chat gets the width. The rail reopens it.
-  const [browse, setBrowse] = useState(() => ({
-    open:     window.innerWidth >= 1100,
-    expanded: 'microsoft',
-  }))
+  // Centre view: the conversation, or a guide page picked from the sidebar.
+  //   { kind: 'chat' } · { kind: 'challenge', id } · { kind: 'solutions' }
+  const [view, setView] = useState({ kind: 'chat' })
+
+  // Window width → compact (icons-only) sidebar while the right panel is open
+  // and there isn't room for sidebar + chat + panel side by side.
+  const [width, setWidth] = useState(() => window.innerWidth)
+  useEffect(() => {
+    const onResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
   const isNarrow = () => window.innerWidth <= 760
+  const sidebarCompact = panel.open && width < 1400
 
   const send = useCallback((text) => {
     if (!text?.trim()) return
-    const cat = categoryForTopic(text)
-    if (cat) setActiveCategory(cat)
-    if (messages.length === 0 || isNarrow()) setBrowse(b => ({ ...b, open: false }))
+    setView({ kind: 'chat' })
     sendMessage(text)
     if (inputRef.current) {
       inputRef.current.value = ''
       inputRef.current.style.height = 'auto'
     }
-  }, [sendMessage, messages.length])
+  }, [sendMessage])
 
   useEffect(() => {
     if (chatboxRef.current) chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
-  }, [messages, isTyping])
+  }, [messages, isTyping, view])
 
-  // ── Left rail ─────────────────────────────────────────────────────────────
-  const railActiveId =
-    panel.open && panel.mode === PANEL_MODES.SHOW_FORM ? 'contact' : activeCategory
+  // ── Sidebar ───────────────────────────────────────────────────────────────
+  const sidebarActiveId =
+    view.kind === 'challenge' ? view.id :
+    view.kind === 'solutions' ? 'solutions' :
+    panel.open && panel.mode === PANEL_MODES.SHOW_FORM    ? 'contact' :
+    panel.open && panel.mode === PANEL_MODES.SHOW_PRODUCT ? 'examples' : null
 
-  // Rail icon: open Browse with that category expanded; same icon again closes it.
-  const handleRailCategory = useCallback((id) => {
-    setBrowse(b => (b.open && b.expanded === id ? { ...b, open: false } : { open: true, expanded: id }))
-  }, [])
+  const activeChallenge = view.kind === 'challenge'
+    ? uiConfig?.challenges?.find(c => c.id === view.id)
+    : null
 
-  const toggleBrowseCategory = useCallback((id) => {
-    setBrowse(b => ({ ...b, expanded: b.expanded === id ? null : id }))
-  }, [])
-
-  const handleBrowseTopic = useCallback((topic, categoryId) => {
-    setActiveCategory(categoryId)
-    send(topic)
-  }, [send])
-
-  // Person icon: if a contact form already exists this session, bring it back
+  // Person item: if a contact form already exists this session, bring it back
   // (keeps typed values / submitted state); otherwise start the escalation topic.
   const handleContact = useCallback(() => {
     if (panel.mode === PANEL_MODES.SHOW_FORM) reopenPanel()
-    else send(HUMAN_AGENT_PHRASE)
-  }, [panel.mode, reopenPanel, send])
+    else send(uiConfig?.contact?.message ?? HUMAN_AGENT_PHRASE)
+  }, [panel.mode, reopenPanel, send, uiConfig])
+
+  // Real examples: everything in the media manifest, grouped by family.
+  const handleExamples = useCallback(() => {
+    showProduct({ scope: 'group', key: 'all', field: 'isActive', value: true })
+  }, [showProduct])
+
+  const handleNewConversation = useCallback(() => {
+    resetPanel()
+    setView({ kind: 'chat' })
+    lastScannedId.current = null
+    reset()
+  }, [resetPanel, reset])
 
   // "Ask about this" on a product in the panel. On narrow layouts the panel covers
   // the chat, so close it to let the visitor see the answer (the strip reopens it).
@@ -177,27 +185,36 @@ export default function App() {
       <Header isConnected={isConnected} collapsed={collapsed} onToggleCollapse={toggleCollapse} />
 
       <div className="az-body">
-        <LeftRail
-          activeId={railActiveId}
-          browseOpenId={browse.open ? browse.expanded : null}
-          onCategory={handleRailCategory}
+        <Sidebar
+          config={uiConfig}
+          compact={sidebarCompact}
+          activeId={sidebarActiveId}
+          onNewConversation={handleNewConversation}
+          onChallenge={id => setView({ kind: 'challenge', id })}
+          onSolutions={() => setView({ kind: 'solutions' })}
+          onExamples={handleExamples}
           onContact={handleContact}
-        />
-
-        <BrowsePanel
-          open={browse.open}
-          expandedId={browse.expanded}
-          activeCategory={activeCategory}
-          onToggleCategory={toggleBrowseCategory}
-          onSelectTopic={handleBrowseTopic}
-          onContact={() => { if (isNarrow()) setBrowse(b => ({ ...b, open: false })); handleContact() }}
-          onClose={() => setBrowse(b => ({ ...b, open: false }))}
         />
 
         {/* ── Chat column ── */}
         <div className="chat-panel az-chat">
           <div id="chatbox" ref={chatboxRef}>
 
+            {view.kind !== 'chat' && (
+              <GuidePage
+                kind={view.kind}
+                challenge={activeChallenge}
+                solutions={uiConfig?.solutions}
+                backLabel={messages.length > 0 ? 'Back to conversation' : undefined}
+                onBack={() => setView({ kind: 'chat' })}
+                onSend={send}
+                disabled={!isConnected}
+              />
+            )}
+
+            {/* The conversation stays mounted while a guide page is shown, so
+                switching back keeps it exactly as it was (no re-typing). */}
+            <div className="az-conversation" hidden={view.kind !== 'chat'}>
             {messages.length === 0 && (
               <HomeScreen onSelect={send} disabled={!isConnected} />
             )}
@@ -216,7 +233,7 @@ export default function App() {
                       </div>
                       <div className="msg-content">
                         {isBot
-                          ? <StreamingBubble text={msg.text} className="bubble" />
+                          ? <StreamingBubble id={msg.id} text={msg.text} className="bubble" />
                           : <div className="bubble">{msg.text}</div>}
                         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                           {isBot && <CopyBtn text={msg.text} />}
@@ -249,6 +266,7 @@ export default function App() {
                 </div>
               </div>
             )}
+            </div>
           </div>
 
           <div className="input-area">

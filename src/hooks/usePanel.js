@@ -35,6 +35,12 @@ export default function usePanel() {
     })
   }, [])
 
+  // New conversation: forget everything the panel showed.
+  const resetPanel = useCallback(() => {
+    dismissedKey.current = null
+    setPanel({ open: false, mode: null, payload: null })
+  }, [])
+
   // Reopen with whatever was last shown (content is kept while closed).
   const reopenPanel = useCallback(() => {
     setPanel(prev => (prev.mode ? { ...prev, open: true } : prev))
@@ -94,5 +100,5 @@ export default function usePanel() {
     }
   }, [openPanel])
 
-  return { panel, openPanel, closePanel, reopenPanel, togglePanel, showProduct, handleSignal }
+  return { panel, openPanel, closePanel, reopenPanel, resetPanel, togglePanel, showProduct, handleSignal }
 }

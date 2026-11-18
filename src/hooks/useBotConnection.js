@@ -35,6 +35,7 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
   const [messages, setMessages]       = useState([])
   const [isTyping, setIsTyping]       = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+  const [uiConfig, setUiConfig]       = useState(null)   // sent by the "UI Config" topic in Copilot Studio
 
   const tokenRef         = useRef(null)
   const convIdRef        = useRef(null)
@@ -64,25 +65,6 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     pollTimer.current = null
   }, [])
 
-  // ── Init ──────────────────────────────────────────────────────────────────
-  const init = useCallback(async () => {
-    if (initialised.current) return
-    initialised.current = true
-    try {
-      const { token } = await (await fetch(TOKEN_URL)).json()
-      tokenRef.current = token
-      const { conversationId } = await (await fetch(`${DIRECTLINE_BASE}/conversations`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
-      })).json()
-      convIdRef.current = conversationId
-      setIsConnected(true)
-    } catch (e) {
-      console.error('[bot] init failed', e)
-      initialised.current = false
-    }
-  }, [])
-
   // ── Poll ──────────────────────────────────────────────────────────────────
   const startPoll = useCallback(() => {
     stopPoll()
@@ -98,6 +80,19 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
         )).json()
         watermark.current = data.watermark
         console.log('[poll] ALL activities:', JSON.stringify(data.activities ?? [], null, 2))
+
+        // ── Events from Copilot Studio ────────────────────────────────────
+        const events = (data.activities ?? []).filter(
+          a => a.type === 'event' && a.from?.id !== 'user'
+        )
+        events.forEach(ev => {
+          if (ev.name === 'uiConfig') {
+            const value = typeof ev.value === 'string' ? JSON.parse(ev.value) : ev.value
+            console.log('[uiConfig] received', value)
+            setUiConfig(value)
+          }
+        })
+        if (events.length > 0) { hasReply = true; emptyStreak = 0 }
 
         const replies = (data.activities ?? []).filter(
           a => a.type === 'message' && a.from?.id !== 'user'
@@ -182,6 +177,50 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     }, POLL_INTERVAL)
   }, [addMsg, onSignal, onOpenHRM, onOpenMap, onOpenPurchase, stopPoll])
 
+  // ── Init ──────────────────────────────────────────────────────────────────
+  // Connects, then asks Copilot Studio for the UI content (challenges, home screen,
+  // solution areas…). The "UI Config" topic answers with a `uiConfig` event.
+  const init = useCallback(async () => {
+    if (initialised.current) return
+    initialised.current = true
+    try {
+      const { token } = await (await fetch(TOKEN_URL)).json()
+      tokenRef.current = token
+      const { conversationId } = await (await fetch(`${DIRECTLINE_BASE}/conversations`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      })).json()
+      convIdRef.current = conversationId
+      setIsConnected(true)
+
+      await fetch(`${DIRECTLINE_BASE}/conversations/${conversationId}/activities`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'event', name: 'getUiConfig', from: { id: 'user' } })
+      })
+      startPoll()
+    } catch (e) {
+      console.error('[bot] init failed', e)
+      initialised.current = false
+    }
+  }, [startPoll])
+
+  // ── New conversation ─────────────────────────────────────────────────────
+  // Drops the current Direct Line conversation and starts a fresh one
+  // (which also asks for the UI config again).
+  const reset = useCallback(async () => {
+    stopPoll()
+    setMessages([])
+    setIsTyping(false)
+    setIsConnected(false)
+    transcriptRef.current    = ''
+    watermark.current        = null
+    convIdRef.current        = null
+    suppressNextCard.current = false
+    initialised.current      = false
+    await init()
+  }, [stopPoll, init])
+
   // ── Send ──────────────────────────────────────────────────────────────────
   const sendMessage = useCallback(async (text) => {
     if (!text.trim() || !convIdRef.current) return
@@ -224,5 +263,5 @@ export default function useBotConnection({ onSignal, onOpenHRM, onOpenMap, onOpe
     } catch (e) { console.error('[bot] submitCard', e); setIsTyping(false) }
   }, [startPoll])
 
-  return { messages, isTyping, isConnected, init, sendMessage, submitCard }
+  return { messages, isTyping, isConnected, uiConfig, init, reset, sendMessage, submitCard }
 }
