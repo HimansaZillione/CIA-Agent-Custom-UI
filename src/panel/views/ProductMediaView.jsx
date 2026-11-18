@@ -6,7 +6,6 @@
 //   group   → every product in that family / device type / category, side by side;
 //             split into family sections only when the group spans several families
 //
-// Every product gets an "Ask about this" button that sends a question to the bot.
 import { useMemo } from 'react'
 import ProductSlideshow from '../../components/sidebar/ProductSlideshow'
 

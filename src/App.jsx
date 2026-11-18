@@ -12,7 +12,7 @@ import StreamingBubble                from './components/StreamingBubble'
 import { IconSend }                   from './components/shell/icons'
 import { fetchProductMedia }          from './services/mediaService'
 import { buildKeywordMap, detectProduct } from './utils/detectProduct'
-import { postToHost }                 from './utils/embedBridge'
+import { postToHost, isEmbedded }     from './utils/embedBridge'
 import { resolveProductTag, productSelection } from './utils/resolveProductTag'
 import { HUMAN_AGENT_PHRASE }         from './config/topics'
 import botAvatar                      from './assets/bot_avatar.png'
@@ -118,7 +118,6 @@ export default function App() {
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
-  const isNarrow = () => window.innerWidth <= 760
   const sidebarCompact = panel.open && width < 1400
 
   const send = useCallback((text) => {
@@ -139,8 +138,7 @@ export default function App() {
   const sidebarActiveId =
     view.kind === 'challenge' ? view.id :
     view.kind === 'solutions' ? 'solutions' :
-    panel.open && panel.mode === PANEL_MODES.SHOW_FORM    ? 'contact' :
-    panel.open && panel.mode === PANEL_MODES.SHOW_PRODUCT ? 'examples' : null
+    panel.open && panel.mode === PANEL_MODES.SHOW_FORM    ? 'contact' : null
 
   const activeChallenge = view.kind === 'challenge'
     ? uiConfig?.challenges?.find(c => c.id === view.id)
@@ -153,24 +151,12 @@ export default function App() {
     else send(uiConfig?.contact?.message ?? HUMAN_AGENT_PHRASE)
   }, [panel.mode, reopenPanel, send, uiConfig])
 
-  // Real examples: everything in the media manifest, grouped by family.
-  const handleExamples = useCallback(() => {
-    showProduct({ scope: 'group', key: 'all', field: 'isActive', value: true })
-  }, [showProduct])
-
   const handleNewConversation = useCallback(() => {
     resetPanel()
     setView({ kind: 'chat' })
     lastScannedId.current = null
     reset()
   }, [resetPanel, reset])
-
-  // "Ask about this" on a product in the panel. On narrow layouts the panel covers
-  // the chat, so close it to let the visitor see the answer (the strip reopens it).
-  const handleAsk = useCallback((name) => {
-    send(`Tell me about ${name}`)
-    if (isNarrow()) closePanel()
-  }, [send, closePanel])
 
   // ── Collapse (only meaningful inside the website iframe) ──────────────────
   const [collapsed, setCollapsed] = useState(false)
@@ -182,22 +168,21 @@ export default function App() {
 
   return (
     <div className="az-app">
-      <Header isConnected={isConnected} collapsed={collapsed} onToggleCollapse={toggleCollapse} />
-
       <div className="az-body">
         <Sidebar
           config={uiConfig}
+          isConnected={isConnected}
           compact={sidebarCompact}
           activeId={sidebarActiveId}
           onNewConversation={handleNewConversation}
           onChallenge={id => setView({ kind: 'challenge', id })}
           onSolutions={() => setView({ kind: 'solutions' })}
-          onExamples={handleExamples}
           onContact={handleContact}
         />
 
         {/* ── Chat column ── */}
-        <div className="chat-panel az-chat">
+        <div className={`chat-panel az-chat${isEmbedded ? ' az-chat--embedded' : ''}`}>
+          <Header collapsed={collapsed} onToggleCollapse={toggleCollapse} />
           <div id="chatbox" ref={chatboxRef}>
 
             {view.kind !== 'chat' && (
@@ -216,7 +201,7 @@ export default function App() {
                 switching back keeps it exactly as it was (no re-typing). */}
             <div className="az-conversation" hidden={view.kind !== 'chat'}>
             {messages.length === 0 && (
-              <HomeScreen onSelect={send} disabled={!isConnected} />
+              <HomeScreen config={uiConfig} />
             )}
 
             {messages.map(msg => {
@@ -298,7 +283,7 @@ export default function App() {
           panel={panel}
           onClose={closePanel}
           onToggle={togglePanel}
-          onAsk={handleAsk}
+          showcaseTitle={uiConfig?.showcase?.title}
           allMedia={allMedia}
           onSubmitCard={submitCard}
         />

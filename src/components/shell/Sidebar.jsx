@@ -3,6 +3,7 @@
 // this component only knows how to draw it.
 //
 // compact = icons only (used when the right panel is open, or on narrow screens).
+import botAvatar from '../../assets/bot_avatar.png'
 import { uiIcon, IconPlus } from './icons'
 
 function Item({ icon, label, active, compact, onClick, variant }) {
@@ -23,10 +24,21 @@ function Item({ icon, label, active, compact, onClick, variant }) {
 }
 
 export default function Sidebar({
-  config, compact, activeId, onNewConversation, onChallenge, onSolutions, onExamples, onContact,
+  config, isConnected, compact, activeId, onNewConversation, onChallenge, onSolutions, onContact,
 }) {
   return (
     <nav className={`az-side${compact ? ' az-side--compact' : ''}`} aria-label="Ask ZILLIONe menu">
+      <div className="az-side__brand">
+        <img src={botAvatar} alt="" className="az-side__avatar bot-avatar-holographic" />
+        <div className="az-side__brand-text">
+          <h1 className="az-side__title">Ask ZILLIONe</h1>
+          <div className="az-side__status">
+            <span className={`az-status-dot${isConnected ? '' : ' az-status-dot--off'}`} />
+            {isConnected ? 'Online · Ready to help' : 'Connecting…'}
+          </div>
+        </div>
+      </div>
+
       <div className="az-side__scroll">
         <button
           type="button"
@@ -63,10 +75,6 @@ export default function Sidebar({
             {config.solutions && (
               <Item icon={config.solutions.icon} label={config.solutions.label} compact={compact}
                 active={activeId === 'solutions'} onClick={onSolutions} />
-            )}
-            {config.examples && (
-              <Item icon={config.examples.icon} label={config.examples.label} compact={compact}
-                active={activeId === 'examples'} onClick={onExamples} />
             )}
           </div>
         )}

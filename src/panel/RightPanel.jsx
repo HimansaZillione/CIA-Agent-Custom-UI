@@ -16,20 +16,21 @@ import LocationPanel     from '../sidebar/LocationPanel'
 import { IconClose }     from '../components/shell/icons'
 
 const TITLES = {
-  [PANEL_MODES.SHOW_PRODUCT]: 'Real examples',
+  [PANEL_MODES.SHOW_PRODUCT]: 'See it in action',
   [PANEL_MODES.SHOW_FORM]:    'Talk to our team',
   [PANEL_MODES.SHOW_MAP]:     'Visit us',
   [PANEL_MODES.SHOW_INFO]:    'More info',
 }
 
-export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard, onAsk }) {
+// showcaseTitle: heading for the product-media view, from the UI Config topic.
+export default function RightPanel({ panel, onClose, onToggle, allMedia, onSubmitCard, showcaseTitle }) {
   const { open, mode, payload } = panel
-  const title = TITLES[mode] ?? 'Details'
+  const title = (mode === PANEL_MODES.SHOW_PRODUCT && showcaseTitle) || (TITLES[mode] ?? 'Details')
 
   function renderView() {
     switch (mode) {
       case PANEL_MODES.SHOW_PRODUCT:
-        return <ProductMediaView product={payload?.product} allMedia={allMedia} onAsk={onAsk} />
+        return <ProductMediaView product={payload?.product} allMedia={allMedia} />
       case PANEL_MODES.SHOW_FORM:
         return <EscalateFormPanel cardJson={payload?.cardJson} onSubmit={onSubmitCard} onClose={onClose} />
       case PANEL_MODES.SHOW_MAP:
